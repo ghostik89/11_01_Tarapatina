@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.ArrayList;
 
@@ -46,4 +46,11 @@ public class Game {
 
 	}
 
+}
+
+
+enum GameState {
+	PLAYER_INSERTING_LETTER,
+	PLAYER_SELECTING_CHARS,
+	PLAYER_SUBMITTED_TURN
 }
