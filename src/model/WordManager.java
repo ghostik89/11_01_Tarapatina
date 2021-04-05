@@ -1,4 +1,6 @@
 package model;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.File;
@@ -6,9 +8,9 @@ import java.util.stream.Collectors;
 
 public class WordManager {
 
-	private ArrayList<String> dictionary = new ArrayList<>();
+	private final ArrayList<String> dictionary = new ArrayList<>();
 
-	private HashMap<String, Player> allSolvedWords = new HashMap<>();
+	private final HashMap<String, Player> allSolvedWords = new HashMap<>();
 
 	public WordManager() throws FileNotFoundException {
 		File myDict = new File("./dictionaries/russian_nouns.txt");
@@ -19,7 +21,7 @@ public class WordManager {
 		myReader.close();
 	}
 
-	public boolean hasWordInDictionary(String word) {
+	public boolean hasWordInDictionary(@NotNull String word) {
 		return dictionary.contains(word);
 	}
 
@@ -31,11 +33,11 @@ public class WordManager {
 		return allFoundedWords.get(random);
 	}
 
-	public void addWordToDictionary(String word) {
+	public void addWordToDictionary(@NotNull String word) {
 		this.dictionary.add(word);
 	}
 
-	public boolean addToSolvedWords(Player player, String word) {
+	public boolean addToSolvedWords(@NotNull Player player,@NotNull String word) {
 		boolean canAdd = this.allSolvedWords.get(word) == null;
 		if(canAdd)
 			this.allSolvedWords.put(word, player);
@@ -43,7 +45,11 @@ public class WordManager {
 		return canAdd;
 	}
 
-	public List<String> getAllSolvedWordsByPlayer(Player player) {
+	public void clearAll(){
+		this.allSolvedWords.clear();
+	}
+
+	public List<String> getAllSolvedWordsByPlayer(@NotNull Player player) {
 		return this.allSolvedWords.entrySet().stream()
 				.filter(stringPlayerEntry -> stringPlayerEntry.getValue().equals(player))
 				.map(Map.Entry::getKey)
