@@ -2,6 +2,7 @@ package model;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
 
@@ -11,7 +12,7 @@ public class Game {
 
 	private Player currentPlayer;
 
-	private ArrayList<Player> players;
+	private final ArrayList<Player> players = new ArrayList<>();
 
 	public Game(GameField field) throws FileNotFoundException {
 		Alphabet alphabet = new Alphabet("абвгдеёжзийклмнопрстуфхцчшщъыьэюя");
@@ -85,6 +86,9 @@ public class Game {
 		this.currentPlayer.getGameFiled().clearAll();
 	}
 
+	public List<Player> getPlayers() {
+		return new ArrayList<>(players);
+	}
 }
 
 
