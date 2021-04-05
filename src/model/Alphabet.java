@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Locale;
+
 public class Alphabet {
 
 	private String container;
@@ -16,5 +18,7 @@ public class Alphabet {
 		this.container = alphabet;
 	}
 
-	public boolean letterHasInAlphabet(char letter){return this.container.indexOf(letter) != -1;}
+	public boolean letterHasInAlphabet(char letter){
+		return this.container.toLowerCase(Locale.ROOT).indexOf(letter) != -1;
+	}
 }
