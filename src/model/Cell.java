@@ -1,5 +1,5 @@
 package model;
-
+import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,32 +10,44 @@ public class Cell {
 
 	private char letter;
 
-	private Point cellPosition;
+	private final Point cellPosition;
 
 	private int selectedIndex;
 
 	private static int index = 0;
 
-	// спросить как их инициализировать
-	private ArrayList<Cell> neighbors = new ArrayList<>();
+	private final ArrayList<Cell> neighbors = new ArrayList<>();
 
 
-	public Cell(Point point) {
+	public Cell(@NotNull Point point) {
 		this.cellPosition = point;
 		this.letter = '\0';
 	}
 
-	public void updateCellState() {
-		switch (this.cellState){
-			case CELL_IS_EMPTY -> this.cellState = CellState.CELL_WITH_SETTED_LETTER_AT_TURN;
-			case CELL_WITH_SETTED_LETTER_AT_TURN -> this.cellState = CellState.CELL_IS_SELECTED;
-			case CELL_IS_SELECTED -> this.cellState = CellState.CELL_IS_BUSY;
-			// fixme return to me
-			default -> this.cellState = CellState.CELL_IS_EMPTY;
-		}
+	public void setNeighbor(@NotNull Cell neighbor){
+		if(neighbor == this || this.neighbors.contains(neighbor))
+			throw new IllegalArgumentException();
+
+		this.neighbors.add(neighbor);
+		neighbor.setNeighbor(this);
 	}
 
-	//todo update method with returning new state
+	public void updateCellState() {
+		switch (this.cellState){
+			case CELL_WITH_SETTED_LETTER_AT_TURN -> {
+				this.cellState = CellState.CELL_IS_SELECTED;
+			}
+			case CELL_SELECTED_FOR_INSERTING -> {
+				this.cellState = CellState.CELL_WITH_SETTED_LETTER_AT_TURN;
+			}
+			case CELL_IS_EMPTY -> {
+				this.cellState = CellState.CELL_SELECTED_FOR_INSERTING;
+			}
+			default -> {
+				this.cellState = CellState.CELL_IS_BUSY;
+			}
+		}
+	}
 
 	public void setLetter(char letter) {
 		this.letter = letter;
@@ -45,8 +57,10 @@ public class Cell {
 		return this.cellPosition;
 	}
 
+	public static int incIndex(){return Cell.index++;}
+
 	public void setIndex() {
-		this.selectedIndex = Cell.index++;
+		this.selectedIndex = Cell.incIndex();
 	}
 
 	public int getSelectedIndex() {return this.selectedIndex;}
@@ -57,22 +71,19 @@ public class Cell {
 	}
 
 	public void revertCellState(){
-		switch (this.cellState){
-			case CELL_IS_SELECTED:
-				this.cellState = this.letter != '\0'? CellState.CELL_IS_BUSY : CellState.CELL_IS_EMPTY;
-				break;
-			case CELL_WITH_SETTED_LETTER_AT_TURN:
+		switch (this.cellState) {
+			case CELL_IS_SELECTED -> this.cellState = CellState.CELL_IS_BUSY;
+			case CELL_WITH_SETTED_LETTER_AT_TURN -> {
 				this.cellState = CellState.CELL_IS_EMPTY;
 				this.letter = '\0';
-				break;
-			default:
-				//do something
-
+			}
+			case CELL_IS_BUSY -> this.cellState = CellState.CELL_IS_SELECTED;
+			default -> this.cellState = CellState.CELL_IS_EMPTY;
 		}
 	}
 
-	public List getNeighbors() {
-		return new ArrayList(this.neighbors);
+	public List<Cell> getNeighbors() {
+		return new ArrayList<>(this.neighbors);
 	}
 
 	public boolean isNeighbor(Cell cell) {
@@ -87,9 +98,17 @@ public class Cell {
 		return this.cellState;
 	}
 
+	public char getLetter() {
+		return letter;
+	}
+
+	public static int getIndex() {
+		return index;
+	}
 }
 
 enum CellState {
+	CELL_SELECTED_FOR_INSERTING,
 	CELL_IS_EMPTY,
 	CELL_IS_SELECTED,
 	CELL_IS_BUSY,
