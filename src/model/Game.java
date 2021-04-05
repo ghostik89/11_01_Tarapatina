@@ -1,5 +1,7 @@
 package model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +16,12 @@ public class Game {
 
 	private final ArrayList<Player> players = new ArrayList<>();
 
-	public Game(GameField field) throws FileNotFoundException {
+	public Game(@NotNull GameField field, @NotNull String player1Name, @NotNull String player2Name)
+			throws FileNotFoundException {
 		Alphabet alphabet = new Alphabet("абвгдеёжзийклмнопрстуфхцчшщъыьэюя");
 		WordManager wordManager = new WordManager();
-		Player player1 = new Player(wordManager, "Player 1", alphabet, field);
-		Player player2 = new Player(wordManager, "Player 2", alphabet, field);
+		Player player1 = new Player(wordManager, player1Name, alphabet, field);
+		Player player2 = new Player(wordManager, player2Name, alphabet, field);
 
 		this.currentState = GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER;
 		this.players.add(player1);
