@@ -1,12 +1,14 @@
 package model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Locale;
 
 public class Alphabet {
 
 	private String container;
 
-	public Alphabet(String alphabet) {
+	public Alphabet(@NotNull String alphabet) {
 		this.container = alphabet;
 	}
 
