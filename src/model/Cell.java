@@ -19,19 +19,31 @@ public class Cell {
 	private final ArrayList<Cell> neighbors = new ArrayList<>();
 
 
+	/**Конструктор класса
+	 * @param point точка, в которой расположена ячейка
+	 * */
 	public Cell(@NotNull Point point) {
 		this.cellPosition = point;
 		this.letter = '\0';
 	}
 
+	/** Добавление соседа клетки
+	 * @param neighbor новый сосед
+	 * @throws IllegalArgumentException если данная ячейка не удовлетворяет условиям соседства
+	 * */
 	public void setNeighbor(@NotNull Cell neighbor){
-		if(neighbor == this || this.neighbors.contains(neighbor))
+		boolean isStranger = neighbor == this || this.neighbors.contains(neighbor) ||
+				(Math.abs(neighbor.cellPosition.x - this.cellPosition.x) != 1 &&
+						Math.abs(neighbor.cellPosition.y - this.cellPosition.y) != 1);
+		if(isStranger)
 			throw new IllegalArgumentException();
 
 		this.neighbors.add(neighbor);
-		neighbor.setNeighbor(this);
+		neighbor.neighbors.add(this);
 	}
 
+	/**Обновление состояния ячейки
+	 * */
 	public void updateCellState() {
 		switch (this.cellState){
 			case CELL_WITH_SETTED_LETTER_AT_TURN -> {
@@ -49,20 +61,30 @@ public class Cell {
 		}
 	}
 
+	/**Сеттер буквы
+	 * */
 	public void setLetter(char letter) {
 		this.letter = letter;
 	}
 
+	/**Геттер текущей позиции
+	 * */
 	public Point getCellPosition() {
 		return this.cellPosition;
 	}
 
+	/**Увеличить общий индекс клеток
+	 * */
 	public static int incIndex(){return Cell.index++;}
 
+	/** Сеттер нового индекса у клетки
+	 * */
 	public void setIndex() {
 		this.selectedIndex = Cell.incIndex();
 	}
 
+	/**Геттер текущего индекса
+	 * */
 	public int getSelectedIndex() {return this.selectedIndex;}
 
 	public void resetCell() {
@@ -70,6 +92,8 @@ public class Cell {
 		this.letter = '\0';
 	}
 
+	/**Откатить состояние у клетки
+	 * */
 	public void revertCellState(){
 		switch (this.cellState) {
 			case CELL_IS_SELECTED -> this.cellState = CellState.CELL_IS_BUSY;
@@ -105,12 +129,4 @@ public class Cell {
 	public static int getIndex() {
 		return index;
 	}
-}
-
-enum CellState {
-	CELL_SELECTED_FOR_INSERTING,
-	CELL_IS_EMPTY,
-	CELL_IS_SELECTED,
-	CELL_IS_BUSY,
-	CELL_WITH_SETTED_LETTER_AT_TURN
 }
