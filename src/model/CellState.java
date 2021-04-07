@@ -1,0 +1,9 @@
+package model;
+
+public enum CellState {
+    CELL_SELECTED_FOR_INSERTING,
+    CELL_IS_EMPTY,
+    CELL_IS_SELECTED,
+    CELL_IS_BUSY,
+    CELL_WITH_SETTED_LETTER_AT_TURN
+}
