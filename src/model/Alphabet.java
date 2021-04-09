@@ -10,9 +10,13 @@ public class Alphabet {
 
 	/**Конструктор класса
 	 * @param alphabet алфавит, который будет использоваться в игре
+	 *                 todo - ограничиение: алфавит - это один язык и только символы - done
 	 * */
 	public Alphabet(@NotNull String alphabet) {
-		this.container = alphabet;
+		if(alphabet.matches("^[a-zA-Z]+$|^[а-яА-Я]+$"))
+			this.container = alphabet;
+		else
+			throw new IllegalArgumentException();
 	}
 
 	/**Геттер алфавита
@@ -24,9 +28,13 @@ public class Alphabet {
 
 	/**Сеттер текущего алфавита
 	 * @param alphabet новый алфавит
+	 *                 todo добавить проверку на ограничение как в конструк. - done
 	 * */
 	public void setCurrentAlphabet(@NotNull String alphabet) {
-		this.container = alphabet;
+		if(alphabet.matches("^[a-zA-Z]+$|^[а-яА-Я]+$"))
+			this.container = alphabet;
+		else
+			throw new IllegalArgumentException();
 	}
 
 	/**Проверка на наличие символа в алфавите
