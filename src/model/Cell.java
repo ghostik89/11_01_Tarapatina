@@ -32,11 +32,15 @@ public class Cell {
 	 * @throws IllegalArgumentException если данная ячейка не удовлетворяет условиям соседства
 	 * */
 	public void setNeighbor(@NotNull Cell neighbor){
-		boolean isStranger = neighbor == this || this.neighbors.contains(neighbor) ||
+		boolean isStranger = neighbor == this ||
 				(Math.abs(neighbor.cellPosition.x - this.cellPosition.x) != 1 &&
 						Math.abs(neighbor.cellPosition.y - this.cellPosition.y) != 1);
 		if(isStranger)
 			throw new IllegalArgumentException();
+
+		if(this.neighbors.contains(neighbor))
+			throw new IllegalArgumentException("We has this neighbor");
+
 
 		this.neighbors.add(neighbor);
 		neighbor.neighbors.add(this);
@@ -106,11 +110,13 @@ public class Cell {
 		}
 	}
 
+	public void setStateToBusy(){this.cellState = CellState.CELL_IS_BUSY;}
+
 	public List<Cell> getNeighbors() {
 		return new ArrayList<>(this.neighbors);
 	}
 
-	public boolean isNeighbor(Cell cell) {
+	public boolean isNeighbor(@NotNull Cell cell) {
 		return this.neighbors.contains(cell);
 	}
 

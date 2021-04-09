@@ -12,16 +12,26 @@ public class Game {
 
 	private int currentPlayerIndex = 0;
 
+	//todo create gamefield, alphabet, wordmanager
+	//done
+	private final GameField field;
+
+	private final Alphabet alphabet;
+
+	private final WordManager wordManager;
+
 	private Player currentPlayer;
 
 	private final ArrayList<Player> players = new ArrayList<>();
 
 	public Game(@NotNull GameField field, @NotNull String player1Name, @NotNull String player2Name)
 			throws FileNotFoundException {
-		Alphabet alphabet = new Alphabet("абвгдеёжзийклмнопрстуфхцчшщъыьэюя");
-		WordManager wordManager = new WordManager();
-		Player player1 = new Player(wordManager, player1Name, alphabet, field);
-		Player player2 = new Player(wordManager, player2Name, alphabet, field);
+		this.alphabet = new Alphabet("абвгдеёжзийклмнопрстуфхцчшщъыьэюя");
+		this.wordManager = new WordManager();
+		this.field = field;
+		Player player1 = new Player(this.wordManager, player1Name, this.alphabet, this.field);
+		Player player2 = new Player(this.wordManager, player2Name, this.alphabet, this.field);
+
 
 		this.currentState = GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER;
 		this.players.add(player1);
@@ -37,7 +47,7 @@ public class Game {
 	public String determinateWinner() {
 		String winner = null;
 
-		if(this.currentPlayer.getGameFiled().isFullField())
+		if(this.field.isFullField())
 			winner = this.players.get(0).calcScore() > this.players.get(1).calcScore()?
 					this.players.get(0).getName() : this.players.get(1).getName();
 
@@ -85,19 +95,11 @@ public class Game {
 
 
 	public void endGame() {
-		this.currentPlayer.getWordManager().clearAll();
-		this.currentPlayer.getGameFiled().clearAll();
+		this.wordManager.clearAll();
+		this.field.clearAll();
 	}
 
 	public List<Player> getPlayers() {
 		return new ArrayList<>(players);
 	}
-}
-
-
-enum GameState {
-	PLAYER_SELECT_CELL_FOR_INSERT_LETTER,
-	PLAYER_INSERTING_LETTER,
-	PLAYER_SELECTING_CHARS,
-	PLAYER_SUBMITTED_TURN
 }

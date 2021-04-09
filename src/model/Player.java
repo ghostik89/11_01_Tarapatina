@@ -14,9 +14,14 @@ public class Player {
 
 	private final Alphabet alphabet;
 
+	//todo ограничение на имя
+	//done
 	public Player(@NotNull WordManager wordManager,@NotNull String name,
 				  @NotNull Alphabet alphabet,@NotNull GameField gameField) {
 		this.wordManager = wordManager;
+		if(name.isEmpty())
+			throw new IllegalArgumentException();
+
 		this.name = name;
 		this.alphabet = alphabet;
 		this.gameField = gameField;
@@ -33,6 +38,7 @@ public class Player {
 	}
 
 	public void selectCellForInsertLetter(Point point){
+		//todo create update cell by point
 		this.gameField.getCellByPoint(point).updateCellState();
 	}
 
@@ -44,6 +50,7 @@ public class Player {
 	}
 
 	public void selectCell(Point point) {
+		// todo select cell by point in select
 		this.gameField.selectCell(this.gameField.getCellByPoint(point));
 	}
 
@@ -57,14 +64,6 @@ public class Player {
 			submitState = SubmitState.WORDMANAGER_ERROR_IS_SOLVED;
 
 		return submitState;
-	}
-
-	public GameField getGameFiled() {
-		return this.gameField;
-	}
-
-	public WordManager getWordManager() {
-		return this.wordManager;
 	}
 
 }

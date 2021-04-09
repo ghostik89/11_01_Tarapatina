@@ -14,36 +14,54 @@ public class GameField {
 	private Cell letterSettedAtTurn;
 
 	public GameField(int width, int height) {
-		if(width < 3 || height < 3)
+		if(width < 3 || height < 3 || width > 29)
 			throw new IllegalArgumentException();
+		this.generateField(width, height);
+	}
 
+	private void generateField(int width, int height){
 		for(int x = 0; x < width; x++)
 			for(int y = 0; y < height; y++)
 				this.playFiled.add(new Cell(new Point(x,y)));
 
 		for(int x = 0; x < width; x++)
 			for(int y = 0; y < height; y++){
-				if(x > 0)
-					this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x-1,y)));
-				if(y > 0)
-					this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x,y-1)));
-				if(y < height-1)
-					this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x,y+1)));
-				if(x < width - 1)
-					this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x+1,y)));
+				try{
+					if(x > 0)
+						this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x-1,y)));
+					if(y > 0)
+						this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x,y-1)));
+					if(y < height-1)
+						this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x,y+1)));
+					if(x < width - 1)
+						this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x+1,y)));
+				}catch (IllegalArgumentException ex){
+					if(!ex.getMessage().equals("We has this neighbor"))
+						throw new IllegalArgumentException();
+				}
 			}
+	}
+
+	public void setStartedWord(@NotNull String word){
+		int place = (int) Math.ceil((this.getHeight() - 1) / 2);
+
+		for(int i = 0; i < this.getWidth(); i++){
+			Cell cell = this.getCellByPoint(new Point(i, place));
+			cell.setLetter(word.toCharArray()[i]);
+			cell.setStateToBusy();
+		}
 	}
 
 	public int getWidth() {
 		return this.playFiled.stream()
 				.mapToInt(v -> (int) v.getCellPosition().getX())
-				.max().orElseThrow(NoSuchElementException::new);
+				.max().orElseThrow(NoSuchElementException::new) + 1;
 	}
 
 	public int getHeight() {
 		return this.playFiled.stream()
 				.mapToInt(v -> (int) v.getCellPosition().getY())
-				.max().orElseThrow(NoSuchElementException::new);
+				.max().orElseThrow(NoSuchElementException::new) + 1;
 	}
 
 	public Cell getCellByPoint(@NotNull Point point) {
@@ -103,6 +121,10 @@ public class GameField {
 
 	public Cell getLetterSettedAtTurn() {
 		return this.letterSettedAtTurn;
+	}
+
+	public List<Cell> getPlayFiled() {
+		return new ArrayList<>(playFiled);
 	}
 
 	public String getWordSettedAtTurn() {
