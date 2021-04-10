@@ -38,7 +38,7 @@ public class GameField {
 				}catch (IllegalArgumentException ex){
 					if(!ex.getMessage().equals("We has this neighbor"))
 						throw new IllegalArgumentException();
-				}
+				}catch (NullPointerException ignored){}
 			}
 	}
 
@@ -153,10 +153,9 @@ public class GameField {
 		return new ArrayList<>(playFiled);
 	}
 
-	// i stopped here
 	public String getWordSettedAtTurn() {
 		return this.playFiled.stream()
-				.filter(cell -> cell.getCellState() == CellState.CELL_IS_BUSY)
+				.filter(cell -> cell.getCellState() == CellState.CELL_IS_SELECTED)
 				.sorted((Comparator.comparingInt(Cell::getSelectedIndex))).map(Cell::getLetter)
 				.map(String::valueOf).collect(Collectors.joining());
 	}
@@ -167,8 +166,7 @@ public class GameField {
 	}
 
 	public void clearAll(){
-		for (Cell elem : this.playFiled)
-			elem.resetCell();
+		this.playFiled.forEach(Cell::resetCell);
 	}
 
 	public boolean isFullField(){

@@ -1,12 +1,14 @@
 package cell_test;
 
 import model.Cell;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.awt.*;
 
 public class TestingIndexes {
+    @BeforeAll
+    static void resetBefore(){Cell.resetStaticIndex();}
+
     @Test
     public void simpleIncTest(){
         Assertions.assertEquals(Cell.incIndex(), 0);

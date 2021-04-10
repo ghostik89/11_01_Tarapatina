@@ -50,18 +50,10 @@ public class Cell {
 	 * */
 	public void updateCellState() {
 		switch (this.cellState){
-			case CELL_WITH_SETTED_LETTER_AT_TURN -> {
-				this.cellState = CellState.CELL_IS_SELECTED;
-			}
-			case CELL_SELECTED_FOR_INSERTING -> {
-				this.cellState = CellState.CELL_WITH_SETTED_LETTER_AT_TURN;
-			}
-			case CELL_IS_EMPTY -> {
-				this.cellState = CellState.CELL_SELECTED_FOR_INSERTING;
-			}
-			default -> {
-				this.cellState = CellState.CELL_IS_BUSY;
-			}
+			case CELL_WITH_SETTED_LETTER_AT_TURN -> this.cellState = CellState.CELL_IS_SELECTED;
+			case CELL_SELECTED_FOR_INSERTING -> this.cellState = CellState.CELL_WITH_SETTED_LETTER_AT_TURN;
+			case CELL_IS_EMPTY -> this.cellState = CellState.CELL_SELECTED_FOR_INSERTING;
+			default -> this.cellState = CellState.CELL_IS_BUSY;
 		}
 	}
 
@@ -131,6 +123,8 @@ public class Cell {
 	public char getLetter() {
 		return letter;
 	}
+
+	public static void resetStaticIndex(){Cell.index = 0;}
 
 	public static int getIndex() {
 		return index;
