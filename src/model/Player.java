@@ -38,8 +38,8 @@ public class Player {
 	}
 
 	public void selectCellForInsertLetter(Point point){
-		//todo create update cell by point
-		this.gameField.getCellByPoint(point).updateCellState();
+		//todo create update cell by point - done
+		this.gameField.selectCellForInsertLetterByPoint(point);
 	}
 
 	public void insertLetterIntoCell(char letter) {
@@ -50,8 +50,8 @@ public class Player {
 	}
 
 	public void selectCell(Point point) {
-		// todo select cell by point in select
-		this.gameField.selectCell(this.gameField.getCellByPoint(point));
+		// todo select cell by point in select - done
+		this.gameField.selectCellByPoint(point);
 	}
 
 	public SubmitState submitTurn() {
