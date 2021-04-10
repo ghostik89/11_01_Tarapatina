@@ -42,7 +42,17 @@ public class GameField {
 			}
 	}
 
+
+	public List<Cell> getPlayField(){
+		return new ArrayList<>(this.playFiled);
+	}
+
 	public void setStartedWord(@NotNull String word){
+		boolean isInvalid = word.isEmpty() || word.isBlank() || word.length() > this.getWidth()
+				|| word.length() < this.getWidth();
+		if(isInvalid)
+			throw new IllegalArgumentException();
+
 		int place = (int) Math.ceil((this.getHeight() - 1) / 2);
 
 		for(int i = 0; i < this.getWidth(); i++){
@@ -64,32 +74,48 @@ public class GameField {
 				.max().orElseThrow(NoSuchElementException::new) + 1;
 	}
 
-	public Cell getCellByPoint(@NotNull Point point) {
+	private Cell getCellByPoint(@NotNull Point point) {
 		return this.playFiled.stream()
 				.filter(elem -> elem.getCellPosition().equals(point))
 				.findAny()
 				.orElse(null);
 	}
 
-	public void setCellForLetterAtTurn(@NotNull Cell cell) {
-		this.letterSettedAtTurn = cell;
-		cell.updateCellState();
+	public void selectCellForInsertLetterByPoint(@NotNull Point point) {
+		Cell cell = this.getCellByPoint(point);
+		if(cell != null) {
+			cell.updateCellState();
+			this.letterSettedAtTurn = cell;
+		}
+		else
+			throw new IllegalArgumentException();
+	}
+
+	public void selectCellByPoint(@NotNull Point point){
+		Cell cell = this.getCellByPoint(point);
+		if(cell != null) {
+			cell.updateCellState();
+			cell.setIndex();
+		}
+		else
+			throw new IllegalArgumentException();
 	}
 
 	public void setCharIntoCellAtTurn(char letter){
 		this.letterSettedAtTurn.setLetter(letter);
+		this.letterSettedAtTurn.updateCellState();
 	}
 
-	public void selectCell(@NotNull Cell cell) {
-		cell.updateCellState();
-		cell.setIndex();
-	}
 
 	public boolean isAvailableCell(@NotNull Point point,@NotNull GameState gameState) {
 		boolean isAvailable = false;
 		Cell cell = this.getCellByPoint(point);
 
-		if (gameState == GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER) {
+		if (cell == null)
+			throw new IllegalArgumentException();
+
+		if (gameState == GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER
+				|| gameState == GameState.PLAYER_INSERTING_LETTER) {
 			for (Cell elem : cell.getNeighbors())
 				if (elem.getCellState() == CellState.CELL_IS_BUSY) {
 					isAvailable = true;
@@ -127,11 +153,12 @@ public class GameField {
 		return new ArrayList<>(playFiled);
 	}
 
+	// i stopped here
 	public String getWordSettedAtTurn() {
 		return this.playFiled.stream()
-				.filter(cell -> cell.getCellState() == CellState.CELL_IS_SELECTED)
-				.sorted((Comparator.comparingInt(Cell::getSelectedIndex)))
-				.collect(Collectors.toCollection(ArrayList::new)).toString();
+				.filter(cell -> cell.getCellState() == CellState.CELL_IS_BUSY)
+				.sorted((Comparator.comparingInt(Cell::getSelectedIndex))).map(Cell::getLetter)
+				.map(String::valueOf).collect(Collectors.joining());
 	}
 
 	public void cleanFieldAfterPlayersTurn() {
@@ -154,5 +181,4 @@ public class GameField {
 
 		return isFull;
 	}
-
 }
