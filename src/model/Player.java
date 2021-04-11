@@ -19,7 +19,7 @@ public class Player {
 	public Player(@NotNull WordManager wordManager,@NotNull String name,
 				  @NotNull Alphabet alphabet,@NotNull GameField gameField) {
 		this.wordManager = wordManager;
-		if(name.isEmpty())
+		if(name.isEmpty() || name.isBlank())
 			throw new IllegalArgumentException();
 
 		this.name = name;
@@ -43,7 +43,7 @@ public class Player {
 	}
 
 	public void insertLetterIntoCell(char letter) {
-		if(!this.alphabet.letterHasInAlphabet(letter))
+		if(this.alphabet.letterHasInAlphabet(letter))
 			this.gameField.setCharIntoCellAtTurn(letter);
 		else
 			throw new IllegalArgumentException();
@@ -60,8 +60,10 @@ public class Player {
 
 		if(!(wordManager.hasWordInDictionary(word)))
 			submitState = SubmitState.WORDMANAGER_ERROR_NOT_FOUND;
-		else if(!wordManager.addToSolvedWords(this, word))
+		else if(!wordManager.addToSolvedWords(this, word) || wordManager.getStartedWord().equals(word))
 			submitState = SubmitState.WORDMANAGER_ERROR_IS_SOLVED;
+		else if(!this.gameField.getAllSelectedCells().contains(this.gameField.getLetterSettedAtTurn()))
+			submitState = SubmitState.GAMEFIELD_HAS_NOT_LETTER_SET_AT_TURN;
 
 		return submitState;
 	}

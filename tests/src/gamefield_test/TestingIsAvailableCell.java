@@ -23,7 +23,7 @@ public class TestingIsAvailableCell {
     public void justSelect(){
         this.field.setStartedWord("boo");
         this.field.selectCellByPoint(new Point(1,1));
-        Assertions.assertTrue(this.field.isAvailableCell(this.point, GameState.PLAYER_SELECTING_CHARS));
+        Assertions.assertFalse(this.field.isAvailableCell(this.point, GameState.PLAYER_SELECTING_CHARS));
         Assertions.assertFalse(this.field.isAvailableCell(this.point, GameState.PLAYER_SUBMITTED_TURN));
     }
 

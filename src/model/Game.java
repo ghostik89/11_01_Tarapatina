@@ -16,6 +16,14 @@ public class Game {
 	//done
 	private final GameField field;
 
+	public Alphabet getAlphabet() {
+		return alphabet;
+	}
+
+	public GameField getField() {
+		return field;
+	}
+
 	private final Alphabet alphabet;
 
 	private final WordManager wordManager;
@@ -26,9 +34,13 @@ public class Game {
 
 	public Game(@NotNull GameField field, @NotNull String player1Name, @NotNull String player2Name)
 			throws FileNotFoundException {
-		this.alphabet = new Alphabet("абвгдеёжзийклмнопрстуфхцчшщъыьэюя");
+		this.alphabet = new Alphabet("абвгдежзийклмнопрстуфхцчшщъыьэюя");
 		this.wordManager = new WordManager();
 		this.field = field;
+
+		if(player1Name.equals(player2Name))
+			throw new IllegalArgumentException("Player's names equals");
+
 		Player player1 = new Player(this.wordManager, player1Name, this.alphabet, this.field);
 		Player player2 = new Player(this.wordManager, player2Name, this.alphabet, this.field);
 
@@ -44,12 +56,21 @@ public class Game {
 		this.currentPlayer = this.players.get(this.currentPlayerIndex);
 	}
 
+	//test only
+	public WordManager getWordManager() {
+		return wordManager;
+	}
+
 	public String determinateWinner() {
 		String winner = null;
 
 		if(this.field.isFullField())
-			winner = this.players.get(0).calcScore() > this.players.get(1).calcScore()?
-					this.players.get(0).getName() : this.players.get(1).getName();
+			if(this.players.get(0).calcScore() == this.players.get(1).calcScore())
+				winner = "Ничья";
+			else if(this.players.get(0).calcScore() > this.players.get(1).calcScore())
+				winner = this.players.get(0).getName();
+			else
+				winner = this.players.get(1).getName();
 
 		return winner;
 	}

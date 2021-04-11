@@ -28,7 +28,7 @@ public class TestingCleanFieldAfterPlayersTurn {
         this.field.setCharIntoCellAtTurn('a');
         this.field.selectCellByPoint(point);
         this.field.cleanFieldAfterPlayersTurn();
-        Assertions.assertEquals(this.getAllBusyCells().size(), 4);
+        Assertions.assertEquals(this.getAllBusyCells().size(), 3);
     }
 
     @Test

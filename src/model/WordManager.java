@@ -12,8 +12,11 @@ public class WordManager {
 
 	private final HashMap<String, Player> allSolvedWords = new HashMap<>();
 
+	private String startedWord = "";
+
 	public WordManager() throws FileNotFoundException {
-		File myDict = new File("./dictionaries/russian_nouns.txt");
+//		File myDict = new File("./src/dictionaries/russian_nouns.txt");
+		File myDict = new File("F:\\working field\\oop_labs\\new sem\\11_01_Tarapatina\\dictionaries\\russian_nouns.txt");
 		Scanner myReader = new Scanner(myDict);
 		while(myReader.hasNextLine()){
 			dictionary.add(myReader.nextLine());
@@ -30,6 +33,7 @@ public class WordManager {
 				.filter(word -> word.length() == length).collect(Collectors.toCollection(ArrayList::new));
 
 		int random = new Random().nextInt(allFoundedWords.size());
+		this.startedWord = allFoundedWords.get(random);
 		return allFoundedWords.get(random);
 	}
 
@@ -49,10 +53,21 @@ public class WordManager {
 		this.allSolvedWords.clear();
 	}
 
+	public List<String> getDict() {return new ArrayList<>(this.dictionary);}
+
 	public List<String> getAllSolvedWordsByPlayer(@NotNull Player player) {
 		return this.allSolvedWords.entrySet().stream()
 				.filter(stringPlayerEntry -> stringPlayerEntry.getValue().equals(player))
 				.map(Map.Entry::getKey)
 				.collect(Collectors.toCollection(ArrayList::new));
+	}
+
+	public String getStartedWord() {
+		return startedWord;
+	}
+
+	//test only!!
+	public void setStartedWord(@NotNull String word){
+		this.startedWord = word;
 	}
 }

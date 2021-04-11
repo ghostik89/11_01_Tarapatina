@@ -53,10 +53,10 @@ public class GameField {
 		if(isInvalid)
 			throw new IllegalArgumentException();
 
-		int place = (int) Math.ceil((this.getHeight() - 1) / 2);
+		int place = (this.getHeight() - 1) / 2;
 
 		for(int i = 0; i < this.getWidth(); i++){
-			Cell cell = this.getCellByPoint(new Point(i, place));
+			Cell cell = this.getCellByPoint(new Point(place,i));
 			cell.setLetter(word.toCharArray()[i]);
 			cell.setStateToBusy();
 		}
