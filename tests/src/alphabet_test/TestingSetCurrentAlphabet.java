@@ -4,24 +4,25 @@ import model.Alphabet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class TestingCreation {
+public class TestingSetCurrentAlphabet {
+    Alphabet alphabet = new Alphabet("abcd");
     @Test
     public void creationWithNull(){
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Alphabet alphabet = new Alphabet(null);
+            this.alphabet.setCurrentAlphabet(null);
         });
     }
 
     @Test
     public void simpleCreation(){
-        Alphabet alpha = new Alphabet("abc");
-        Assertions.assertEquals(alpha.getCurrentAlphabet(), "abc");
+        this.alphabet.setCurrentAlphabet("abc");
+        Assertions.assertEquals(this.alphabet.getCurrentAlphabet(), "abc");
     }
 
     @Test
     public void creationWithInvalidAlphabet(){
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Alphabet alphabet = new Alphabet("abфб");
+            this.alphabet.setCurrentAlphabet("abфб");
         });
     }
 }
