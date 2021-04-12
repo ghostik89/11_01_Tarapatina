@@ -10,6 +10,7 @@ public class Alphabet {
 
 	/**Конструктор класса
 	 * @param alphabet алфавит, который будет использоваться в игре
+	 * @throws IllegalArgumentException если алфавит состоит из букв разного алфавита или пуст
 	 *                 todo - ограничиение: алфавит - это один язык и только символы - done
 	 * */
 	public Alphabet(@NotNull String alphabet) {
@@ -19,15 +20,16 @@ public class Alphabet {
 			throw new IllegalArgumentException();
 	}
 
-	/**Геттер алфавита
+	/** Получить текущий алфавит алфавит
 	 * @return текущий алфавит
 	 * */
 	public String getCurrentAlphabet() {
 		return this.container;
 	}
 
-	/**Сеттер текущего алфавита
+	/** Задать новый алфавит
 	 * @param alphabet новый алфавит
+	 * @throws IllegalArgumentException если алфавит состоит из букв разного алфавита или пуст
 	 *                 todo добавить проверку на ограничение как в конструк. - done
 	 * */
 	public void setCurrentAlphabet(@NotNull String alphabet) {

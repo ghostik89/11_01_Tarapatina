@@ -10,15 +10,24 @@ import java.util.stream.Collectors;
 
 public class GameField {
 
-	private final ArrayList<Cell> playFiled = new ArrayList<>();
-	private Cell letterSettedAtTurn;
+	private final ArrayList<Cell> playFiled = new ArrayList<>(); //игровое поле
+	private Cell letterSettedAtTurn; //буква, которую добавили в текущем поле
 
+	/** Конструктор класса
+	 * @param width ширина поля
+	 * @param height высота поля
+	 * @throws IllegalArgumentException если ширина или длина больше 29 или меньше 3
+	 * */
 	public GameField(int width, int height) {
 		if(width < 3 || height < 3 || width > 29)
 			throw new IllegalArgumentException();
 		this.generateField(width, height);
 	}
 
+	/** Сгенерировать поле
+	 * @param width ширина поля
+	 * @param height высота поля
+	 * */
 	private void generateField(int width, int height){
 		for(int x = 0; x < width; x++)
 			for(int y = 0; y < height; y++)
@@ -42,11 +51,16 @@ public class GameField {
 			}
 	}
 
-
+	/** Получить игровое поле
+	 * */
 	public List<Cell> getPlayField(){
 		return new ArrayList<>(this.playFiled);
 	}
 
+	/** Написать стартовое слово на поле
+	 * @param word слово, которое необходимо вписать на поле
+	 * @throws IllegalArgumentException если слово больше или меньше ширины поля
+	 * */
 	public void setStartedWord(@NotNull String word){
 		boolean isInvalid = word.isEmpty() || word.isBlank() || word.length() > this.getWidth()
 				|| word.length() < this.getWidth();
@@ -62,18 +76,25 @@ public class GameField {
 		}
 	}
 
+	/** Получить ширину поля
+	 * */
 	public int getWidth() {
 		return this.playFiled.stream()
 				.mapToInt(v -> (int) v.getCellPosition().getX())
 				.max().orElseThrow(NoSuchElementException::new) + 1;
 	}
 
+	/** Получить высоту поля
+	 * */
 	public int getHeight() {
 		return this.playFiled.stream()
 				.mapToInt(v -> (int) v.getCellPosition().getY())
 				.max().orElseThrow(NoSuchElementException::new) + 1;
 	}
 
+	/** Получить клетку с поля по координате
+	 * @param point координата, по которой необходимо получить клетку
+	 * */
 	private Cell getCellByPoint(@NotNull Point point) {
 		return this.playFiled.stream()
 				.filter(elem -> elem.getCellPosition().equals(point))
@@ -81,6 +102,10 @@ public class GameField {
 				.orElse(null);
 	}
 
+	/** Выбрать клетку, чтобы вставить букву
+	 * @param point координата клетки
+	 * @throws IllegalArgumentException если точка за пределами поля
+	 * */
 	public void selectCellForInsertLetterByPoint(@NotNull Point point) {
 		Cell cell = this.getCellByPoint(point);
 		if(cell != null) {
@@ -91,6 +116,10 @@ public class GameField {
 			throw new IllegalArgumentException();
 	}
 
+	/** Выбрать клетку
+	 * @param point координата, по которой необходимо выбрать клетку
+	 * @throws IllegalArgumentException если точка за пределами поля
+	 * */
 	public void selectCellByPoint(@NotNull Point point){
 		Cell cell = this.getCellByPoint(point);
 		if(cell != null) {
@@ -101,12 +130,19 @@ public class GameField {
 			throw new IllegalArgumentException();
 	}
 
+	/** Вставить букву в клетку
+	 * @param letter буква, которую необходимо вставить в клетку
+	 * */
 	public void setCharIntoCellAtTurn(char letter){
 		this.letterSettedAtTurn.setLetter(letter);
 		this.letterSettedAtTurn.updateCellState();
 	}
 
-
+	/** Доступна ли клетка в данный момент
+	 * @param point координата клетки
+	 * @param gameState текущее состояние игры
+	 * @throws IllegalArgumentException если клетка не найдена по текущей точке
+	 * */
 	public boolean isAvailableCell(@NotNull Point point,@NotNull GameState gameState) {
 		boolean isAvailable = false;
 		Cell cell = this.getCellByPoint(point);
@@ -139,20 +175,28 @@ public class GameField {
 		return isAvailable;
 	}
 
+	/** Получить все клетки, которые были выбраны
+	 * */
 	public List<Cell> getAllSelectedCells() {
 		return this.playFiled.stream()
 				.filter(cell -> cell.getCellState() == CellState.CELL_IS_SELECTED)
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
+	/** Получить клетку, в которую вставили букву в это ходу
+	 * */
 	public Cell getLetterSettedAtTurn() {
 		return this.letterSettedAtTurn;
 	}
 
+	/** Получить игровое поле
+	 * */
 	public List<Cell> getPlayFiled() {
 		return new ArrayList<>(playFiled);
 	}
 
+	/** Получить слово, которое получилось в этом ходу
+	 * */
 	public String getWordSettedAtTurn() {
 		return this.playFiled.stream()
 				.filter(cell -> cell.getCellState() == CellState.CELL_IS_SELECTED)
@@ -160,15 +204,21 @@ public class GameField {
 				.map(String::valueOf).collect(Collectors.joining());
 	}
 
+	/** Почистить поле после хода игрока
+	 * */
 	public void cleanFieldAfterPlayersTurn() {
 		this.getAllSelectedCells().forEach(Cell::updateCellState);
 		this.letterSettedAtTurn = null;
 	}
 
+	/** Очистить поле полностью
+	 * */
 	public void clearAll(){
 		this.playFiled.forEach(Cell::resetCell);
 	}
 
+	/** Является ли поле заполненным
+	 * */
 	public boolean isFullField(){
 		boolean isFull = true;
 		for(Cell elem : this.playFiled)

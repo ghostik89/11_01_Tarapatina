@@ -8,30 +8,20 @@ import java.util.List;
 
 public class Game {
 
-	private GameState currentState;
+	private GameState currentState; //текущее состояние игры
+	private int currentPlayerIndex = 0; //индекс текущего игрока
+	private final GameField field; // игровое поле
+	private final Alphabet alphabet; // алфавит
+	private final WordManager wordManager; // менеджер слов
+	private Player currentPlayer; //текущий игрок
+	private final ArrayList<Player> players = new ArrayList<>(); //список игроков
 
-	private int currentPlayerIndex = 0;
-
-	//todo create gamefield, alphabet, wordmanager
-	//done
-	private final GameField field;
-
-	public Alphabet getAlphabet() {
-		return alphabet;
-	}
-
-	public GameField getField() {
-		return field;
-	}
-
-	private final Alphabet alphabet;
-
-	private final WordManager wordManager;
-
-	private Player currentPlayer;
-
-	private final ArrayList<Player> players = new ArrayList<>();
-
+	/** Конструктор класса
+	 * @param field игровое поле
+	 * @param player1Name имя первого игрока
+	 * @param player2Name имя второго игрока
+	 * @throws IllegalArgumentException если имена игроков совпадают
+	 * */
 	public Game(@NotNull GameField field, @NotNull String player1Name, @NotNull String player2Name)
 			throws FileNotFoundException {
 		this.alphabet = new Alphabet("абвгдежзийклмнопрстуфхцчшщъыьэюя");
@@ -51,6 +41,20 @@ public class Game {
 		this.currentPlayer = player1;
 	}
 
+	/** Получить текущий алфавит
+	 * */
+	public Alphabet getAlphabet() {
+		return alphabet;
+	}
+
+	/** Получить игровое поле
+	 * */
+	public GameField getField() {
+		return field;
+	}
+
+	/** Изменить текущего игрока
+	 * */
 	public void changePlayer() {
 		this.currentPlayerIndex = this.currentPlayerIndex == 1 ? 0 : 1;
 		this.currentPlayer = this.players.get(this.currentPlayerIndex);
@@ -61,6 +65,9 @@ public class Game {
 		return wordManager;
 	}
 
+	/** Получить имя победителя
+	 * @return имя победителя, null - если победитель не определен, "Ничья" - если ничья
+	 * */
 	public String determinateWinner() {
 		String winner = null;
 
@@ -75,14 +82,20 @@ public class Game {
 		return winner;
 	}
 
+	/** Получить текущего игрока
+	 * */
 	public Player getCurrentPlayer() {
 		return this.currentPlayer;
 	}
 
+	/** Получить текущее состояние
+	 * */
 	public GameState getCurrentState() {
 		return this.currentState;
 	}
 
+	/** Перейти к следующему состоянию игры
+	 * */
 	public void updateCurrentState() {
 		switch (this.currentState){
 			case PLAYER_SELECT_CELL_FOR_INSERT_LETTER -> {
@@ -100,6 +113,8 @@ public class Game {
 		}
 	}
 
+	/** Откатится к предыдущему состоянию игры
+	 * */
 	public void revertState() {
 		switch (this.currentState){
 			case PLAYER_INSERTING_LETTER -> {
@@ -114,12 +129,15 @@ public class Game {
 		}
 	}
 
-
+	/** Закончить игру
+	 * */
 	public void endGame() {
 		this.wordManager.clearAll();
 		this.field.clearAll();
 	}
 
+	/** Получить всех игроков, задействованных в игре
+	 * */
 	public List<Player> getPlayers() {
 		return new ArrayList<>(players);
 	}
