@@ -145,12 +145,13 @@ public class StartMenuWidget extends JPanel{
         try{
             GameField field = new GameField(Integer.parseInt(this.widthForm.getText()),
                     Integer.parseInt(this.heightForm.getText()));
-            this.owner.initGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
+            this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
             System.out.println("Complete");
         }catch (IllegalArgumentException arg){
             this.illegalArgumentModal.setVisible(true);
         }catch (FileNotFoundException notFoundException){
             this.fileNotFound.setVisible(true);
         }
+        setVisible(false);
     }
 }

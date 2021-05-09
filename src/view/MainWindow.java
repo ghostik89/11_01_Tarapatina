@@ -10,9 +10,8 @@ import java.awt.*;
 import java.io.FileNotFoundException;
 
 public class MainWindow extends JFrame {
-    //todo change signature
     private final StartMenuWidget startMenu = new StartMenuWidget(this);
-    private Game game;
+    private final GameWidget gameWidget = new GameWidget(this);
 
     public MainWindow(){
         setTitle("Balda. The game");
@@ -26,21 +25,15 @@ public class MainWindow extends JFrame {
 
         //todo add yet windows
         add(startMenu, gbc);
+        add(gameWidget,gbc);
 
         setVisible(true);
         setLocationRelativeTo(null);
-
-        try{
-            this.game = new Game(new GameField(3,3), "player_one", "player_two");
-        }catch (IllegalArgumentException | FileNotFoundException ignored){}
     }
-
-    //fixme
-    void initGame(@NotNull Game game){
-        this.game = game;
-    }
-
-    //todo create func for init Game
 
     //todo create route to main menu
+    void runGame(@NotNull Game game){
+        gameWidget.setGame(game);
+        gameWidget.setVisible(true);
+    }
 }
