@@ -7,8 +7,6 @@ import view.helpers.GlobalStyles;
 import javax.swing.*;
 import java.awt.*;
 
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-
 public class MainWindow extends JFrame {
     private final StartMenuWidget startMenu = new StartMenuWidget(this);
     private final GameWidget gameWidget = new GameWidget(this);
