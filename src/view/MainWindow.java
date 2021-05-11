@@ -23,7 +23,6 @@ public class MainWindow extends JFrame {
         setLayout(new GridLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        //todo add yet windows
         add(startMenu, gbc);
         add(gameWidget,gbc);
 
@@ -31,7 +30,6 @@ public class MainWindow extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    //todo create route to main menu
     void runGame(@NotNull Game game){
         gameWidget.setGame(game);
         gameWidget.setVisible(true);
