@@ -15,31 +15,37 @@ public class GameWidget extends JPanel {
     private Game game;
     private final MainWindow owner;
     private ArrayList<CellWidget> cellWidgets = new ArrayList<>();
+    private PlayersWidget playerOne;
+    private PlayersWidget playerTwo;
 
-    public GameWidget(MainWindow owner){
+
+    public GameWidget(MainWindow owner) {
         this.owner = owner;
         setPreferredSize(new Dimension(600, 600));
         setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
         setVisible(false);
     }
 
-    public void initField(){
+    public void initField() {
         GameField field = this.game.getField();
         setLayout(new GridLayout(field.getWidth(), field.getHeight(), 4, 4));
 
         for(int i = 0; i < field.getWidth(); i++)
-            for (int j = 0; j < field.getHeight(); j++){
+            for (int j = 0; j < field.getHeight(); j++) {
                 CellWidget cell = new CellWidget(field.getHeight(), field.getCellByPoint(new Point(i,j)).getLetter());
                 cell.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
                         //todo add logic
-//                        if (_owner.getGame().activePlayer().selectCell(finalI, finalJ))
-//                            cell.setSelection(field.getCell(finalI, finalJ).selectionState());
                     }
                 });
                 add(cell);
                 this.cellWidgets.add(cell);
             }
+
+        this.playerOne = new PlayersWidget(this, this.game.getPlayers().get(0));
+        add(this.playerOne);
+        this.playerTwo = new PlayersWidget(this, this.game.getPlayers().get(1));
+        add(this.playerTwo);
         setVisible(true);
     }
 
