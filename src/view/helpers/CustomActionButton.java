@@ -12,6 +12,7 @@ public class CustomActionButton extends JButton {
         super(text.toUpperCase(Locale.ROOT));
         setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
         setBorder(BorderFactory.createLineBorder(GlobalStyles.BORDER_COLOR));
+        setFont(GlobalStyles.MAIN_FONT);
         addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
