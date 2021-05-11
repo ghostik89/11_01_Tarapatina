@@ -39,6 +39,8 @@ public class Game {
 		this.players.add(player1);
 		this.players.add(player2);
 		this.currentPlayer = player1;
+
+		this.field.setStartedWord(this.wordManager.generateStartWord(this.field.getWidth()));
 	}
 
 	/** Получить текущий алфавит
