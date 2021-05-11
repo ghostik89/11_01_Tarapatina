@@ -95,7 +95,7 @@ public class GameField {
 	/** Получить клетку с поля по координате
 	 * @param point координата, по которой необходимо получить клетку
 	 * */
-	private Cell getCellByPoint(@NotNull Point point) {
+	public Cell getCellByPoint(@NotNull Point point) {
 		return this.playFiled.stream()
 				.filter(elem -> elem.getCellPosition().equals(point))
 				.findAny()
