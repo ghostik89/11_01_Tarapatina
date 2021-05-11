@@ -18,16 +18,18 @@ public class MainWindow extends JFrame {
         setSize(new Dimension(1000, 720));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        getContentPane().setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+        JPanel contentPane = new JPanel();
+        contentPane.setLayout(new CardLayout());
+        contentPane.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
 
-        setLayout(new GridLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        contentPane.add(this.startMenu, "Стартовое меню");
+        contentPane.add(this.gameWidget, "Игра");
 
-        add(startMenu, gbc);
-        add(gameWidget,gbc);
-
-        setVisible(true);
+        setContentPane(contentPane);
+        pack();
+        setLocationByPlatform(true);
         setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     void runGame(@NotNull Game game){
