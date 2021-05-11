@@ -11,6 +11,14 @@ public class CustomActionButton extends JButton {
         setFocusPainted(false);
         setOpaque(false);
         setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                setBackground(GlobalStyles.INSERTED_BACKGROUND);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                setBackground(GlobalStyles.PRIMARY_COLOR);
+            }
+        });
     }
 
     @Override
