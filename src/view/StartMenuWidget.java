@@ -5,20 +5,18 @@ import view.helpers.CustomActionButton;
 import view.helpers.CustomModal;
 import view.helpers.GlobalStyles;
 import javax.swing.*;
-import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.io.FileNotFoundException;
-import java.text.NumberFormat;
 import java.util.Objects;
 
 public class StartMenuWidget extends JPanel{
-    private MainWindow owner;
+    private final MainWindow owner;
     private final JTextField firstName = new JTextField();
     private final JTextField secondName = new JTextField();
-    private JFormattedTextField widthForm;
-    private JFormattedTextField heightForm;
-    private CustomModal illegalArgumentModal;
-    private CustomModal fileNotFound;
+    private final JSpinner widthForm = new JSpinner(new SpinnerNumberModel(3, 3, 29, 1));
+    private final JSpinner heightForm = new JSpinner(new SpinnerNumberModel(3, 3, 29, 1));
+    private final CustomModal illegalArgumentModal;
+    private final CustomModal fileNotFound;
 
     public StartMenuWidget(MainWindow owner){
         super();
@@ -36,14 +34,6 @@ public class StartMenuWidget extends JPanel{
         constraints.gridy = gridCounter++;
         constraints.gridx = 0;
         constraints.anchor = GridBagConstraints.CENTER;
-
-        // init formatters
-        NumberFormatter formatter = new NumberFormatter(NumberFormat.getInstance());
-        formatter.setValueClass(Integer.class);
-        formatter.setMaximum(3);
-        formatter.setMaximum(29);
-        formatter.setAllowsInvalid(false);
-        formatter.setCommitsOnValidEdit(true);
 
         //main header
         constraints.gridwidth = 2;
@@ -67,7 +57,6 @@ public class StartMenuWidget extends JPanel{
         widthLabel.setFont(GlobalStyles.MAIN_FONT);
         add(widthLabel, constraints);
         constraints.gridx = 1;
-        this.widthForm = new JFormattedTextField(formatter);
         add(this.widthForm, constraints);
         constraints.gridy = gridCounter++;
 
@@ -78,7 +67,6 @@ public class StartMenuWidget extends JPanel{
         heightLabel.setFont(GlobalStyles.MAIN_FONT);
         add(heightLabel, constraints);
         constraints.gridx = 1;
-        this.heightForm = new JFormattedTextField(formatter);
         add(this.heightForm, constraints);
         constraints.gridy = gridCounter++;
 
@@ -93,7 +81,7 @@ public class StartMenuWidget extends JPanel{
         constraints.gridy = gridCounter++;
 
         //first name form
-        constraints.gridwidth = GridBagConstraints.REMAINDER;;
+        constraints.gridwidth = GridBagConstraints.REMAINDER;
         constraints.gridx = 0;
         JLabel firstPlayerLabel = new JLabel("первый игрок:");
         firstPlayerLabel.setFont(GlobalStyles.MAIN_FONT);
@@ -143,15 +131,13 @@ public class StartMenuWidget extends JPanel{
 
     private void handleStart(){
         try{
-            GameField field = new GameField(Integer.parseInt(this.widthForm.getText()),
-                    Integer.parseInt(this.heightForm.getText()));
+            GameField field = new GameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
             this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
-            System.out.println("Complete");
+            setVisible(false);
         }catch (IllegalArgumentException arg){
             this.illegalArgumentModal.setVisible(true);
         }catch (FileNotFoundException notFoundException){
             this.fileNotFound.setVisible(true);
         }
-        setVisible(false);
     }
 }
