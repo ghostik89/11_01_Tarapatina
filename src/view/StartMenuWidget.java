@@ -1,13 +1,14 @@
 package view;
 import model.Game;
 import model.GameField;
+import org.jetbrains.annotations.NotNull;
 import view.helpers.CustomActionButton;
+import view.helpers.CustomLabel;
 import view.helpers.CustomModal;
 import view.helpers.GlobalStyles;
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
-import java.util.Objects;
 
 public class StartMenuWidget extends JPanel{
     private final MainWindow owner;
@@ -18,9 +19,9 @@ public class StartMenuWidget extends JPanel{
     private final CustomModal illegalArgumentModal;
     private final CustomModal fileNotFound;
 
-    public StartMenuWidget(MainWindow owner){
+    public StartMenuWidget(@NotNull MainWindow owner){
         super();
-        this.owner = Objects.requireNonNull(owner);
+        this.owner = owner;
 
         // init grid
         int gridCounter = 0;
@@ -35,17 +36,25 @@ public class StartMenuWidget extends JPanel{
         constraints.gridx = 0;
         constraints.anchor = GridBagConstraints.CENTER;
 
+        //init font for fields todo refactor to overload classes
+        this.widthForm.setFont(GlobalStyles.MAIN_FONT);
+        this.heightForm.setFont(GlobalStyles.MAIN_FONT);
+        this.firstName.setFont(GlobalStyles.MAIN_FONT);
+        this.secondName.setFont(GlobalStyles.MAIN_FONT);
+
         //main header
         constraints.gridwidth = 2;
-        JLabel mainHeader = new JLabel("Игра балда. Новая игра", SwingConstants.LEFT);
-        mainHeader.setFont(GlobalStyles.MAIN_HEADER_FONT);
+        CustomLabel mainHeader = new CustomLabel("Игра балда. Новая игра", GlobalStyles.MAIN_HEADER_FONT);
         add(mainHeader, constraints);
         constraints.gridy = gridCounter++;
-        add(new JSeparator(SwingConstants.HORIZONTAL), constraints);
+        JSeparator divider = new JSeparator(SwingConstants.HORIZONTAL);
+        divider.setBackground(GlobalStyles.PRIMARY_COLOR);
+        add(divider, constraints);
+        constraints.gridy = gridCounter++;
 
         //dimension form header
         constraints.gridwidth = 2;
-        JLabel dimensionHeader = new JLabel("Размер поля");
+        CustomLabel dimensionHeader = new CustomLabel("Размер поля");
         dimensionHeader.setFont(GlobalStyles.HEADER_FONT);
         add(dimensionHeader, constraints);
         constraints.gridy = gridCounter++;
@@ -53,8 +62,7 @@ public class StartMenuWidget extends JPanel{
         //dimension form width
         constraints.gridwidth = 1;
         constraints.gridx = 0;
-        JLabel widthLabel = new JLabel("ширина:");
-        widthLabel.setFont(GlobalStyles.MAIN_FONT);
+        CustomLabel widthLabel = new CustomLabel("ширина:");
         add(widthLabel, constraints);
         constraints.gridx = 1;
         add(this.widthForm, constraints);
@@ -63,28 +71,28 @@ public class StartMenuWidget extends JPanel{
         //dimension form height
         constraints.gridwidth = 1;
         constraints.gridx = 0;
-        JLabel heightLabel = new JLabel("высота:");
-        heightLabel.setFont(GlobalStyles.MAIN_FONT);
+        CustomLabel heightLabel = new CustomLabel("высота:");
         add(heightLabel, constraints);
         constraints.gridx = 1;
         add(this.heightForm, constraints);
         constraints.gridy = gridCounter++;
+        add(divider, constraints);
+        constraints.gridy = gridCounter++;
+
 
         //names form header
         constraints.gridwidth = 2;
         constraints.gridx = 0;
-        add(new JSeparator(SwingConstants.HORIZONTAL), constraints);
+        add(divider, constraints);
         constraints.gridy = gridCounter++;
-        JLabel namesHeader = new JLabel("Имена игроков");
-        namesHeader.setFont(GlobalStyles.HEADER_FONT);
+        CustomLabel namesHeader = new CustomLabel("Имена игроков", GlobalStyles.HEADER_FONT);
         add(namesHeader, constraints);
         constraints.gridy = gridCounter++;
 
         //first name form
         constraints.gridwidth = GridBagConstraints.REMAINDER;
         constraints.gridx = 0;
-        JLabel firstPlayerLabel = new JLabel("первый игрок:");
-        firstPlayerLabel.setFont(GlobalStyles.MAIN_FONT);
+        CustomLabel firstPlayerLabel = new CustomLabel("первый игрок:");
         add(firstPlayerLabel, constraints);
         constraints.gridx = 1;
         add(this.firstName, constraints);
@@ -93,8 +101,7 @@ public class StartMenuWidget extends JPanel{
         //second name form
         constraints.gridwidth = 1;
         constraints.gridx = 0;
-        JLabel secondPlayerLabel = new JLabel("второй игрок:");
-        secondPlayerLabel.setFont(GlobalStyles.MAIN_FONT);
+        CustomLabel secondPlayerLabel = new CustomLabel("второй игрок:");
         add(secondPlayerLabel, constraints);
         constraints.gridx = 1;
         add(this.secondName, constraints);
@@ -113,7 +120,7 @@ public class StartMenuWidget extends JPanel{
         setVisible(true);
 
         //create modal window for illegal argument
-        JLabel illegalArgumentText = new JLabel("Введите верные данные");
+        CustomLabel illegalArgumentText = new CustomLabel("Введите верные данные");
         illegalArgumentText.setFont(GlobalStyles.MAIN_FONT);
         this.illegalArgumentModal = new CustomModal(this.owner, illegalArgumentText);
         CustomActionButton cancelBtn1 = new CustomActionButton("ОК");
@@ -121,8 +128,7 @@ public class StartMenuWidget extends JPanel{
         this.illegalArgumentModal.addButton(cancelBtn1);
 
         //crate modal window for file not found
-        JLabel fileNotFoundText = new JLabel("Файл с словарем не найден. Проверьте файлы");
-        fileNotFoundText.setFont(GlobalStyles.MAIN_FONT);
+        CustomLabel fileNotFoundText = new CustomLabel("Файл с словарем не найден. Проверьте файлы");
         this.fileNotFound = new CustomModal(this.owner, fileNotFoundText);
         CustomActionButton cancelBtn2 = new CustomActionButton("ОК");
         cancelBtn2.addActionListener(e -> fileNotFound.setVisible(false));
