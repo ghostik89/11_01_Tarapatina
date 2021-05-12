@@ -1,20 +1,18 @@
 package view;
 
 import model.Game;
-import model.GameField;
 import org.jetbrains.annotations.NotNull;
 import view.helpers.GlobalStyles;
+import view.helpers.GridBagHelper;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 public class GameWidget extends JPanel {
     private Game game;
     private final MainWindow owner;
-    private ArrayList<CellWidget> cellWidgets = new ArrayList<>();
+    private GameFieldWidget gameFieldWidget;
+    private final GridBagHelper helper = new GridBagHelper();
     private PlayersWidget playerOne;
     private PlayersWidget playerTwo;
 
@@ -27,29 +25,40 @@ public class GameWidget extends JPanel {
     }
 
     public void initField() {
-        GameField field = this.game.getField();
-        setLayout(new GridLayout(field.getWidth(), field.getHeight(), 4, 4));
+        setLayout(new GridBagLayout());
 
-        for(int i = 0; i < field.getWidth(); i++)
-            for (int j = 0; j < field.getHeight(); j++) {
-                CellWidget cell = new CellWidget(field.getHeight(), field.getCellByPoint(new Point(i,j)).getLetter());
-                cell.addMouseListener(new MouseAdapter() {
-                    public void mouseClicked(MouseEvent e) {
-                        //todo add logic
-                    }
-                });
-                add(cell);
-                this.cellWidgets.add(cell);
-            }
+        int gridCounter = 0;
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.insets = new Insets(0,50,15,50);
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 1.0;
+        constraints.gridy = gridCounter++;
+        constraints.gridx = 0;
+        constraints.anchor = GridBagConstraints.CENTER;
 
+        constraints.gridwidth = 2;
+        constraints.gridheight = 2;
+        this.gameFieldWidget = new GameFieldWidget(this);
+        add(this.gameFieldWidget, constraints);
+        constraints.gridy = gridCounter++;
+
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
         this.playerOne = new PlayersWidget(this, this.game.getPlayers().get(0));
-        add(this.playerOne);
+        add(this.playerOne, constraints);
+
+        constraints.gridx = 1;
         this.playerTwo = new PlayersWidget(this, this.game.getPlayers().get(1));
-        add(this.playerTwo);
+        add(this.playerTwo, constraints);
+
         setVisible(true);
     }
 
     public void setGame(@NotNull Game game) {
         this.game = game;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }
