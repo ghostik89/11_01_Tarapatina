@@ -1,7 +1,6 @@
 package view;
 import model.Player;
 import org.jetbrains.annotations.NotNull;
-import view.helpers.CustomLabel;
 import view.helpers.GridBagHelper;
 
 import javax.swing.*;
@@ -11,8 +10,8 @@ import java.util.ArrayList;
 public class PlayersWidget extends JPanel {
     private final GameWidget owner;
     private final Player player;
-    private final CustomLabel playersName = new CustomLabel();
-    private final ArrayList<CustomLabel> playersWords = new ArrayList<>();
+    private final JLabel playersName = new JLabel();
+    private final ArrayList<JLabel> playersWords = new ArrayList<>();
     private final GridBagHelper helper = new GridBagHelper();
 
     public PlayersWidget(@NotNull GameWidget owner, @NotNull Player player) {

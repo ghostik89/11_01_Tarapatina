@@ -2,10 +2,8 @@ package view;
 import model.Game;
 import model.GameField;
 import org.jetbrains.annotations.NotNull;
-import view.helpers.CustomActionButton;
-import view.helpers.CustomLabel;
-import view.helpers.CustomModal;
-import view.helpers.GlobalStyles;
+import view.helpers.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -44,7 +42,8 @@ public class StartMenuWidget extends JPanel{
 
         //main header
         constraints.gridwidth = 2;
-        CustomLabel mainHeader = new CustomLabel("Игра балда. Новая игра", GlobalStyles.MAIN_HEADER_FONT);
+        JLabel mainHeader = StyledLabelFactory.createCustomLabel("Игра балда. Новая игра",
+                GlobalStyles.MAIN_HEADER_FONT);
         add(mainHeader, constraints);
         constraints.gridy = gridCounter++;
         JSeparator divider = new JSeparator(SwingConstants.HORIZONTAL);
@@ -54,7 +53,7 @@ public class StartMenuWidget extends JPanel{
 
         //dimension form header
         constraints.gridwidth = 2;
-        CustomLabel dimensionHeader = new CustomLabel("Размер поля");
+        JLabel dimensionHeader = StyledLabelFactory.createBasicLabel("Размер поля");
         dimensionHeader.setFont(GlobalStyles.HEADER_FONT);
         add(dimensionHeader, constraints);
         constraints.gridy = gridCounter++;
@@ -62,7 +61,7 @@ public class StartMenuWidget extends JPanel{
         //dimension form width
         constraints.gridwidth = 1;
         constraints.gridx = 0;
-        CustomLabel widthLabel = new CustomLabel("ширина:");
+        JLabel widthLabel = StyledLabelFactory.createBasicLabel("ширина:");
         add(widthLabel, constraints);
         constraints.gridx = 1;
         add(this.widthForm, constraints);
@@ -71,7 +70,7 @@ public class StartMenuWidget extends JPanel{
         //dimension form height
         constraints.gridwidth = 1;
         constraints.gridx = 0;
-        CustomLabel heightLabel = new CustomLabel("высота:");
+        JLabel heightLabel = StyledLabelFactory.createBasicLabel("высота:");
         add(heightLabel, constraints);
         constraints.gridx = 1;
         add(this.heightForm, constraints);
@@ -85,14 +84,14 @@ public class StartMenuWidget extends JPanel{
         constraints.gridx = 0;
         add(divider, constraints);
         constraints.gridy = gridCounter++;
-        CustomLabel namesHeader = new CustomLabel("Имена игроков", GlobalStyles.HEADER_FONT);
+        JLabel namesHeader = StyledLabelFactory.createCustomLabel("Имена игроков", GlobalStyles.HEADER_FONT);
         add(namesHeader, constraints);
         constraints.gridy = gridCounter++;
 
         //first name form
         constraints.gridwidth = GridBagConstraints.REMAINDER;
         constraints.gridx = 0;
-        CustomLabel firstPlayerLabel = new CustomLabel("первый игрок:");
+        JLabel firstPlayerLabel = StyledLabelFactory.createBasicLabel("первый игрок:");
         add(firstPlayerLabel, constraints);
         constraints.gridx = 1;
         add(this.firstName, constraints);
@@ -101,7 +100,7 @@ public class StartMenuWidget extends JPanel{
         //second name form
         constraints.gridwidth = 1;
         constraints.gridx = 0;
-        CustomLabel secondPlayerLabel = new CustomLabel("второй игрок:");
+        JLabel secondPlayerLabel = StyledLabelFactory.createBasicLabel("второй игрок:");
         add(secondPlayerLabel, constraints);
         constraints.gridx = 1;
         add(this.secondName, constraints);
@@ -120,7 +119,7 @@ public class StartMenuWidget extends JPanel{
         setVisible(true);
 
         //create modal window for illegal argument
-        CustomLabel illegalArgumentText = new CustomLabel("Введите верные данные");
+        JLabel illegalArgumentText = StyledLabelFactory.createBasicLabel("Введите верные данные");
         illegalArgumentText.setFont(GlobalStyles.MAIN_FONT);
         this.illegalArgumentModal = new CustomModal(this.owner, illegalArgumentText);
         CustomActionButton cancelBtn1 = new CustomActionButton("ОК");
@@ -128,7 +127,7 @@ public class StartMenuWidget extends JPanel{
         this.illegalArgumentModal.addButton(cancelBtn1);
 
         //crate modal window for file not found
-        CustomLabel fileNotFoundText = new CustomLabel("Файл с словарем не найден. Проверьте файлы");
+        JLabel fileNotFoundText = StyledLabelFactory.createBasicLabel("Файл с словарем не найден. Проверьте файлы");
         this.fileNotFound = new CustomModal(this.owner, fileNotFoundText);
         CustomActionButton cancelBtn2 = new CustomActionButton("ОК");
         cancelBtn2.addActionListener(e -> fileNotFound.setVisible(false));
