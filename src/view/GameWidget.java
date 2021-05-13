@@ -1,9 +1,12 @@
 package view;
 
+import event.PlayerActionFieldEvent;
+import event.PlayerActionFieldListener;
 import model.Game;
+import model.GameState;
 import org.jetbrains.annotations.NotNull;
+import view.helpers.CustomActionButton;
 import view.helpers.GlobalStyles;
-import view.helpers.GridBagHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,44 +15,56 @@ public class GameWidget extends JPanel {
     private Game game;
     private final MainWindow owner;
     private GameFieldWidget gameFieldWidget;
-    private final GridBagHelper helper = new GridBagHelper();
     private PlayersWidget playerOne;
     private PlayersWidget playerTwo;
+    private CustomActionButton acceptBtn = new CustomActionButton("подтвердить");
+    private CustomActionButton cancelBtn = new CustomActionButton("отменить");
+    private AlphabetWidget alphabetWidget;
 
 
     public GameWidget(MainWindow owner) {
         this.owner = owner;
-        setPreferredSize(new Dimension(600, 600));
+        setPreferredSize(new Dimension(1000, 720));
         setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+        setBorder(BorderFactory.createEmptyBorder(0, 15, 15, 15));
         setVisible(false);
     }
 
     public void initField() {
-        setLayout(new GridBagLayout());
+        setLayout(new BorderLayout(10,10));
+        this.alphabetWidget = new AlphabetWidget(this.owner, this.game.getAlphabet());
 
-        int gridCounter = 0;
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(0,50,15,50);
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.weightx = 1.0;
-        constraints.gridy = gridCounter++;
-        constraints.gridx = 0;
-        constraints.anchor = GridBagConstraints.CENTER;
+        this.gameFieldWidget = new GameFieldWidget(this, new PlayerActionObserver());
+        add(this.gameFieldWidget, BorderLayout.CENTER);
 
-        constraints.gridwidth = 2;
-        constraints.gridheight = 2;
-        this.gameFieldWidget = new GameFieldWidget(this);
-        add(this.gameFieldWidget, constraints);
-        constraints.gridy = gridCounter++;
+        JPanel container = new JPanel(new BorderLayout());
+        JPanel playersPanel = new JPanel(new BorderLayout());
+        JPanel controlPanel = new JPanel();
+        container.add(playersPanel, BorderLayout.CENTER);
+        container.add(controlPanel, BorderLayout.PAGE_END);
 
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
         this.playerOne = new PlayersWidget(this, this.game.getPlayers().get(0));
-        add(this.playerOne, constraints);
+        playersPanel.add(this.playerOne, BorderLayout.LINE_START);
 
-        constraints.gridx = 1;
         this.playerTwo = new PlayersWidget(this, this.game.getPlayers().get(1));
-        add(this.playerTwo, constraints);
+        playersPanel.add(this.playerTwo, BorderLayout.LINE_END);
+
+        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.LINE_AXIS));
+        controlPanel.add(Box.createHorizontalGlue());
+        controlPanel.add(this.cancelBtn);
+        controlPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        controlPanel.add(this.acceptBtn);
+
+        add(container, BorderLayout.PAGE_END);
+
+        this.acceptBtn.addActionListener(e -> {
+            this.game.updateCurrentState();
+            if(this.game.determinateWinner() != null)
+                this.endGame();
+            if(this.game.getCurrentState() == GameState.PLAYER_INSERTING_LETTER)
+                this.alphabetWidget.setVisible(true);
+        });
+        this.cancelBtn.addActionListener(e -> this.game.revertState());
 
         setVisible(true);
     }
@@ -60,5 +75,34 @@ public class GameWidget extends JPanel {
 
     public Game getGame() {
         return game;
+    }
+
+    private void endGame(){
+        //todo add modal window
+        this.game.endGame();
+    }
+
+     class PlayerActionObserver implements PlayerActionFieldListener {
+
+        @Override
+        public void playerClickToField(PlayerActionFieldEvent e) {
+            if(!game.getField().isAvailableCell(e.getPoint(), game.getCurrentState()))
+                // todo show modal window with invalid message
+                System.out.print("Not valid!");
+            else {
+                switch (game.getCurrentState()) {
+                    case PLAYER_SELECT_CELL_FOR_INSERT_LETTER -> game.getCurrentPlayer()
+                            .selectCellForInsertLetter(e.getPoint());
+                    case PLAYER_SELECTING_CHARS -> game.getCurrentPlayer().selectCell(e.getPoint());
+                    case PLAYER_SUBMITTED_TURN -> game.getCurrentPlayer().submitTurn();
+                }
+            }
+        }
+
+        @Override
+        public void playerClickOnAlphabet(PlayerActionFieldEvent e) {
+            if(game.getCurrentState() == GameState.PLAYER_INSERTING_LETTER)
+                game.getCurrentPlayer().insertLetterIntoCell(e.getLetter());
+        }
     }
 }
