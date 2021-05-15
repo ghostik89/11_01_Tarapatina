@@ -108,8 +108,11 @@ public class GameField {
 	 * */
 	public void selectCellForInsertLetterByPoint(@NotNull Point point) {
 		Cell cell = this.getCellByPoint(point);
-		if(cell != null) {
+		if(cell != null ) {
 			cell.updateCellState();
+			if(this.letterSettedAtTurn != null)
+				this.letterSettedAtTurn.revertCellState();
+
 			this.letterSettedAtTurn = cell;
 		}
 		else
@@ -158,18 +161,20 @@ public class GameField {
 					break;
 				}
 		} else if (gameState == GameState.PLAYER_SELECTING_CHARS) {
-			if (this.getAllSelectedCells().isEmpty())
+			if (this.getAllSelectedCells().isEmpty()) {
 				for (Cell elem : cell.getNeighbors())
 					if (elem.getCellState() == CellState.CELL_IS_BUSY) {
 						isAvailable = true;
 						break;
-					} else {
-						for (Cell newElem : cell.getNeighbors())
-							if (newElem.getCellState() == CellState.CELL_IS_SELECTED) {
-								isAvailable = true;
-								break;
-							}
 					}
+			}
+			else {
+				for (Cell newElem : cell.getNeighbors())
+					if (newElem.getCellState() == CellState.CELL_IS_SELECTED) {
+						isAvailable = true;
+						break;
+					}
+			}
 		}
 
 		return isAvailable;
