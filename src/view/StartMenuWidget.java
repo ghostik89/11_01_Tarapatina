@@ -38,33 +38,30 @@ public class StartMenuWidget extends JPanel{
         constraints.gridx = 0;
         constraints.anchor = GridBagConstraints.CENTER;
 
-        //init font for fields todo refactor to overload classes
         this.widthForm.setFont(GlobalStyles.MAIN_FONT);
         this.heightForm.setFont(GlobalStyles.MAIN_FONT);
 
         //main header
         constraints.gridwidth = 2;
-        JLabel mainHeader = StyledLabelFactory.createCustomLabel("Игра балда. Новая игра",
-                GlobalStyles.MAIN_HEADER_FONT);
-        add(mainHeader, constraints);
+        add(StyledLabelFactory.createCustomLabel("Игра балда. Новая игра",
+                GlobalStyles.MAIN_HEADER_FONT), constraints);
         constraints.gridy = gridCounter++;
-        JSeparator divider = new JSeparator(SwingConstants.HORIZONTAL);
-        divider.setBackground(GlobalStyles.PRIMARY_TEXT_COLOR);
-        add(divider, constraints);
+
+        JSeparator divider1 = new JSeparator(SwingConstants.HORIZONTAL);
+        divider1.setBackground(GlobalStyles.CELL_BORDER_COLOR);
+        divider1.setBorder(BorderFactory.createLineBorder(GlobalStyles.CELL_BORDER_COLOR, 1));
+        add(divider1, constraints);
         constraints.gridy = gridCounter++;
 
         //dimension form header
         constraints.gridwidth = 2;
-        JLabel dimensionHeader = StyledLabelFactory.createBasicLabel("Размер поля");
-        dimensionHeader.setFont(GlobalStyles.HEADER_FONT);
-        add(dimensionHeader, constraints);
+        add(StyledLabelFactory.createCustomLabel("Размер поля", GlobalStyles.HEADER_FONT), constraints);
         constraints.gridy = gridCounter++;
 
         //dimension form width
         constraints.gridwidth = 1;
         constraints.gridx = 0;
-        JLabel widthLabel = StyledLabelFactory.createBasicLabel("ширина:");
-        add(widthLabel, constraints);
+        add(StyledLabelFactory.createBasicLabel("ширина:"), constraints);
         constraints.gridx = 1;
         add(this.widthForm, constraints);
         constraints.gridy = gridCounter++;
@@ -72,29 +69,31 @@ public class StartMenuWidget extends JPanel{
         //dimension form height
         constraints.gridwidth = 1;
         constraints.gridx = 0;
-        JLabel heightLabel = StyledLabelFactory.createBasicLabel("высота:");
-        add(heightLabel, constraints);
+        add(StyledLabelFactory.createBasicLabel("высота:"), constraints);
         constraints.gridx = 1;
         add(this.heightForm, constraints);
         constraints.gridy = gridCounter++;
-        add(divider, constraints);
+
+        constraints.gridwidth = 2;
+        constraints.gridx = 0;
+        JSeparator divider2 = new JSeparator(SwingConstants.HORIZONTAL);
+        divider2.setBackground(GlobalStyles.CELL_BORDER_COLOR);
+        divider2.setBorder(BorderFactory.createLineBorder(GlobalStyles.CELL_BORDER_COLOR, 1));
+        add(divider2, constraints);
         constraints.gridy = gridCounter++;
 
 
         //names form header
         constraints.gridwidth = 2;
         constraints.gridx = 0;
-        add(divider, constraints);
         constraints.gridy = gridCounter++;
-        JLabel namesHeader = StyledLabelFactory.createCustomLabel("Имена игроков", GlobalStyles.HEADER_FONT);
-        add(namesHeader, constraints);
+        add(StyledLabelFactory.createCustomLabel("Имена игроков", GlobalStyles.HEADER_FONT), constraints);
         constraints.gridy = gridCounter++;
 
         //first name form
         constraints.gridwidth = GridBagConstraints.REMAINDER;
         constraints.gridx = 0;
-        JLabel firstPlayerLabel = StyledLabelFactory.createBasicLabel("первый игрок:");
-        add(firstPlayerLabel, constraints);
+        add(StyledLabelFactory.createBasicLabel("первый игрок:"), constraints);
         constraints.gridx = 1;
         add(this.firstName, constraints);
         constraints.gridy = gridCounter++;
@@ -102,8 +101,7 @@ public class StartMenuWidget extends JPanel{
         //second name form
         constraints.gridwidth = 1;
         constraints.gridx = 0;
-        JLabel secondPlayerLabel = StyledLabelFactory.createBasicLabel("второй игрок:");
-        add(secondPlayerLabel, constraints);
+        add(StyledLabelFactory.createBasicLabel("второй игрок:"), constraints);
         constraints.gridx = 1;
         add(this.secondName, constraints);
         constraints.gridy = gridCounter++;
