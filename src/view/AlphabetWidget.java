@@ -23,6 +23,7 @@ public class AlphabetWidget extends JDialog {
         this.alphabet = alphabet;
 
         setLocation(520,300);
+        setSize(new Dimension(600, 600));
         setResizable(false);
         getContentPane().setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
         setLayout(new BorderLayout(10,10));
@@ -44,7 +45,7 @@ public class AlphabetWidget extends JDialog {
             this.fireLetterIsChoose();
         });
 
-        add(controlPanel);
+        add(controlPanel, BorderLayout.PAGE_END);
     }
 
     private void initAlphabetCells(){
@@ -70,6 +71,6 @@ public class AlphabetWidget extends JDialog {
     private void fireLetterIsChoose(){
         PlayerActionFieldEvent event = new PlayerActionFieldEvent(this);
         event.setLetter(this.selectedChar);
-        this.actionFieldEventList.forEach(e -> e.playerClickToField(event));
+        this.actionFieldEventList.forEach(e -> e.playerClickOnAlphabet(event));
     }
 }
