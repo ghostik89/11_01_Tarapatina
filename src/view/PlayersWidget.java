@@ -2,7 +2,7 @@ package view;
 import model.Player;
 import org.jetbrains.annotations.NotNull;
 import view.helpers.GlobalStyles;
-import view.helpers.StyledLabelFactory;
+import view.helpers.factories.StyledLabelFactory;
 
 import javax.swing.*;
 import java.awt.*;

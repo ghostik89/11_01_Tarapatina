@@ -3,8 +3,7 @@ package view;
 import event.PlayerActionFieldEvent;
 import event.PlayerActionFieldListener;
 import model.Alphabet;
-import model.Cell;
-import view.helpers.CustomActionButton;
+import view.helpers.components.CustomActionButton;
 import view.helpers.GlobalStyles;
 
 import javax.swing.*;

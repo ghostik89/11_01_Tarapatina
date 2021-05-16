@@ -1,5 +1,5 @@
 package view;
-import view.helpers.CustomActionButton;
+import view.helpers.components.CustomActionButton;
 import view.helpers.GlobalStyles;
 import java.awt.*;
 

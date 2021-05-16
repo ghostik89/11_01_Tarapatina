@@ -3,6 +3,12 @@ import model.Game;
 import model.GameField;
 import org.jetbrains.annotations.NotNull;
 import view.helpers.*;
+import view.helpers.components.CustomActionButton;
+import view.helpers.components.CustomModal;
+import view.helpers.components.TextInput;
+import view.helpers.factories.CustomActionButtonFactory;
+import view.helpers.factories.SnackbarFactory;
+import view.helpers.factories.StyledLabelFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,12 +16,10 @@ import java.io.FileNotFoundException;
 
 public class StartMenuWidget extends JPanel{
     private final MainWindow owner;
-    private final JTextField firstName = new JTextField();
-    private final JTextField secondName = new JTextField();
+    private final TextInput firstName = new TextInput();
+    private final TextInput secondName = new TextInput();
     private final JSpinner widthForm = new JSpinner(new SpinnerNumberModel(3, 3, 29, 1));
     private final JSpinner heightForm = new JSpinner(new SpinnerNumberModel(3, 3, 29, 1));
-    private final CustomModal illegalArgumentModal;
-    private final CustomModal fileNotFound;
 
     public StartMenuWidget(@NotNull MainWindow owner){
         super();
@@ -37,8 +41,6 @@ public class StartMenuWidget extends JPanel{
         //init font for fields todo refactor to overload classes
         this.widthForm.setFont(GlobalStyles.MAIN_FONT);
         this.heightForm.setFont(GlobalStyles.MAIN_FONT);
-        this.firstName.setFont(GlobalStyles.MAIN_FONT);
-        this.secondName.setFont(GlobalStyles.MAIN_FONT);
 
         //main header
         constraints.gridwidth = 2;
@@ -47,7 +49,7 @@ public class StartMenuWidget extends JPanel{
         add(mainHeader, constraints);
         constraints.gridy = gridCounter++;
         JSeparator divider = new JSeparator(SwingConstants.HORIZONTAL);
-        divider.setBackground(GlobalStyles.PRIMARY_COLOR);
+        divider.setBackground(GlobalStyles.PRIMARY_TEXT_COLOR);
         add(divider, constraints);
         constraints.gridy = gridCounter++;
 
@@ -112,26 +114,11 @@ public class StartMenuWidget extends JPanel{
         constraints.gridx = 0;
         constraints.gridy = gridCounter;
 
-        CustomActionButton startBtn = new CustomActionButton("НОВАЯ ИГРА");
+        CustomActionButton startBtn = CustomActionButtonFactory.createOutlinedButton("Новая игра");
         startBtn.addActionListener(e -> this.handleStart());
         add(startBtn, constraints);
 
         setVisible(true);
-
-        //create modal window for illegal argument
-        JLabel illegalArgumentText = StyledLabelFactory.createBasicLabel("Введите верные данные");
-        illegalArgumentText.setFont(GlobalStyles.MAIN_FONT);
-        this.illegalArgumentModal = new CustomModal(this.owner, illegalArgumentText);
-        CustomActionButton cancelBtn1 = new CustomActionButton("ОК");
-        cancelBtn1.addActionListener(e -> illegalArgumentModal.setVisible(false));
-        this.illegalArgumentModal.addButton(cancelBtn1);
-
-        //crate modal window for file not found
-        JLabel fileNotFoundText = StyledLabelFactory.createBasicLabel("Файл с словарем не найден. Проверьте файлы");
-        this.fileNotFound = new CustomModal(this.owner, fileNotFoundText);
-        CustomActionButton cancelBtn2 = new CustomActionButton("ОК");
-        cancelBtn2.addActionListener(e -> fileNotFound.setVisible(false));
-        this.fileNotFound.addButton(cancelBtn2);
     }
 
     private void handleStart(){
@@ -140,9 +127,11 @@ public class StartMenuWidget extends JPanel{
             this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
             setVisible(false);
         }catch (IllegalArgumentException arg){
-            this.illegalArgumentModal.setVisible(true);
+            SnackbarFactory.createBasicInfoSnackbar("Неверно введены параметры.", this.owner)
+            .setVisible(true);
         }catch (FileNotFoundException notFoundException){
-            this.fileNotFound.setVisible(true);
+            SnackbarFactory.createBasicInfoSnackbar("Файл со словарем не найден. Проверьте целостность программы",
+                    this.owner).setVisible(true);
         }
     }
 }

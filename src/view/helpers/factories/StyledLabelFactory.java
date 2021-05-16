@@ -1,6 +1,7 @@
-package view.helpers;
+package view.helpers.factories;
 
 import org.jetbrains.annotations.NotNull;
+import view.helpers.GlobalStyles;
 
 import javax.swing.*;
 import java.awt.*;
