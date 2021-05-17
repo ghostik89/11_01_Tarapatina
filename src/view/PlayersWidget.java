@@ -19,7 +19,7 @@ public class PlayersWidget extends JPanel {
         this.player = player;
         setLayout(new BorderLayout(20,20));
 
-        setPreferredSize(new Dimension(100,100));
+        setPreferredSize(new Dimension(160,511));
         JPanel namePanel = new JPanel();
         namePanel.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
         JPanel scorePanel = new JPanel();

@@ -8,24 +8,30 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
+    private final GridBagConstraints gbc = new GridBagConstraints();
     private final StartMenuWidget startMenu = new StartMenuWidget(this);
     private final GameWidget gameWidget = new GameWidget(this);
 
     public MainWindow(){
         setTitle("Balda. The game");
-        setSize(new Dimension(1000, 720));
+        setSize(new Dimension(1500, 700));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        JPanel contentPane = new JPanel();
-        contentPane.setLayout(new CardLayout());
-        contentPane.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+        getContentPane().setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+        setLayout(new GridBagLayout());
 
-        contentPane.add(this.startMenu, "Стартовое меню");
-        contentPane.add(this.gameWidget, "Игра");
+        add(this.gameWidget, this.gbc);
+        add(this.startMenu, this.gbc);
+//        JPanel contentPane = new JPanel();
+//        contentPane.setLayout(new CardLayout());
+//        contentPane.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+//
+//        contentPane.add(this.startMenu, "Стартовое меню");
+//        contentPane.add(this.gameWidget, "Игра");
+//
+//        setContentPane(contentPane);
+//        pack();
 
-        setContentPane(contentPane);
-        pack();
-        setLocationByPlatform(true);
         setLocationRelativeTo(null);
         setVisible(true);
     }

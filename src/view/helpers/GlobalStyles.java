@@ -27,7 +27,7 @@ public interface GlobalStyles {
 
 
     //fonts
-    Font MAIN_HEADER_FONT = new Font(fontName, Font.BOLD, 28);
+    Font MAIN_HEADER_FONT = new Font(fontName, Font.PLAIN, 30);
     Font HEADER_FONT = new Font(fontName, Font.PLAIN, 20);
     Font MAIN_BTN_FONT = new Font(fontName, Font.PLAIN, 22);
     Font MAIN_FONT = new Font(fontName, Font.PLAIN, 16);
