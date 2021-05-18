@@ -11,6 +11,7 @@ public class GameFieldWidget extends JPanel {
 
     public GameFieldWidget(GameWidget owner, GameWidget.PlayerActionObserver observer) {
         this.owner = owner;
+        setPreferredSize(new Dimension(790, 490));
         GameField field = this.owner.getGame().getField();
 
 
