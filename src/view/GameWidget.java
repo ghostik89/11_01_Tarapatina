@@ -62,49 +62,35 @@ public class GameWidget extends JPanel {
 
         JPanel gameLayout = new JPanel();
 
+        GameFieldWidget gameFieldWidget = new GameFieldWidget(this, observer);
+        alphabetWidget.addListener(observer);
+        gameLayout.add(gameFieldWidget, BorderLayout.PAGE_START);
 
+        JPanel container = new JPanel(new FlowLayout());
 
-//        GameFieldWidget gameFieldWidget = new GameFieldWidget(this, observer);
-//        alphabetWidget.addListener(observer);
-//        add(gameFieldWidget, BorderLayout.CENTER);
-//
-//        JPanel container = new JPanel(new BorderLayout());
-//        JPanel playersPanel = new JPanel(new BorderLayout());
-//        JPanel controlPanel = new JPanel();
-//        container.add(playersPanel, BorderLayout.CENTER);
-//        container.add(controlPanel, BorderLayout.PAGE_END);
-//
-//        this.playerOne = new PlayersWidget(this, this.game.getPlayers().get(0));
-//        playersPanel.add(this.playerOne, BorderLayout.LINE_START);
-//
-//        this.playerTwo = new PlayersWidget(this, this.game.getPlayers().get(1));
-//        playersPanel.add(this.playerTwo, BorderLayout.LINE_END);
-//
-//        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.LINE_AXIS));
-//        controlPanel.add(Box.createHorizontalGlue());
-//        controlPanel.add(this.cancelBtn);
-//        controlPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-//        controlPanel.add(this.changePlayerBtn);
-//        controlPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-//        controlPanel.add(this.acceptBtn);
-//
-//        add(container, BorderLayout.PAGE_END);
-//
-//        this.acceptBtn.addActionListener(e -> {
-//            this.game.updateCurrentState();
-//
-//            if (this.game.getCurrentState() == GameState.PLAYER_INSERTING_LETTER) {
-//                alphabetWidget.setVisible(true);
-//            } else if (this.game.getCurrentState() == GameState.PLAYER_SUBMITTED_TURN)
-//                this.submitTurn();
-//        });
-//        this.cancelBtn.addActionListener(e -> this.game.revertState());
+        container.add(this.cancelBtn);
+        container.add(this.acceptBtn);
+        container.add(this.changePlayerBtn);
+        gameLayout.add(container, BorderLayout.PAGE_END);
+
+        add(gameLayout, BorderLayout.CENTER);
+
+        this.acceptBtn.addActionListener(e -> {
+            this.game.updateCurrentState();
+
+            if (this.game.getCurrentState() == GameState.PLAYER_INSERTING_LETTER) {
+                alphabetWidget.setVisible(true);
+            } else if (this.game.getCurrentState() == GameState.PLAYER_SUBMITTED_TURN)
+                this.submitTurn();
+        });
+        this.cancelBtn.addActionListener(e -> this.game.revertState());
 
         setVisible(true);
     }
 
     private void initModalAddingWords(){
-        CustomModal addModal = SnackbarFactory.createBasicInfoSnackbar("Ваше слово не существует в словаре\nВы хотите его добавить?", this.owner);
+        CustomModal addModal = SnackbarFactory.createBasicInfoSnackbar(
+                "<html>Ваше слово не существует в словаре<br>Вы хотите его добавить?</html>", this.owner);
         CustomActionButton addButton = new CustomActionButton("Добавить");
         String wordToAdd = this.game.getField().getWordSettedAtTurn();
         addButton.addActionListener(e -> {
