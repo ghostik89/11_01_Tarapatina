@@ -22,7 +22,7 @@ public class AlphabetWidget extends JDialog {
         this.alphabet = alphabet;
 
         setLocation(520,300);
-        setSize(new Dimension(600, 600));
+        setSize(new Dimension(500, 500));
         setResizable(false);
         getContentPane().setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
         setLayout(new BorderLayout(10,10));
@@ -48,15 +48,11 @@ public class AlphabetWidget extends JDialog {
     }
 
     private void initAlphabetCells(){
-        int size = this.alphabet.getCurrentAlphabet().length() / 2;
-        alphabetGrid.setLayout(new GridLayout(size, size, 4, 4));
+        alphabetGrid.setPreferredSize(new Dimension(500,300));
+        alphabetGrid.setLayout(new GridLayout(6, 6, 4, 4));
         for(char ch : this.alphabet.getCurrentAlphabet().toCharArray()){
-            alphabetGrid.add(new LetterCellWidget(ch,size, this));
+            alphabetGrid.add(new LetterCellWidget(ch,15, this));
         }
-    }
-
-    public char getSelectedChar() {
-        return selectedChar;
     }
 
     public void setSelectedChar(char selectedChar) {
