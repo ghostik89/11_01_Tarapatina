@@ -32,5 +32,7 @@ public class LetterCellWidget extends CustomActionButton {
         super.paintComponent(g);
         setBackground(this.myChar == this.owner.selectedChar?
                 GlobalStyles.SELECTED_CELL : GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+        setForeground(this.myChar == this.owner.selectedChar? GlobalStyles.SECONDARY_TEXT_COLOR :
+                GlobalStyles.PRIMARY_TEXT_COLOR);
     }
 }
