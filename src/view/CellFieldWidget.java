@@ -48,14 +48,18 @@ public class CellFieldWidget extends CustomActionButton {
         setText(String.valueOf(this.member.getLetter()));
 
         switch (this.member.getCellState()){
-            case CELL_WITH_SETTED_LETTER_AT_TURN,CELL_SELECTED_FOR_INSERTING ->
-                    setBackground(GlobalStyles.INSERTED_BACKGROUND);
+            case CELL_WITH_SETTED_LETTER_AT_TURN,CELL_SELECTED_FOR_INSERTING -> {
+                setBackground(GlobalStyles.INSERTED_BACKGROUND);
+                setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
+            }
             case CELL_IS_SELECTED -> {
                 setBackground(GlobalStyles.SELECTED_CELL);
-                //todo try to override
-                setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
+                setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
             }
-            default -> setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+            default -> {
+                setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+                setForeground(GlobalStyles.PRIMARY_TEXT_COLOR);
+            }
         }
     }
 }
