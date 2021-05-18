@@ -152,7 +152,7 @@ public class GameWidget extends JPanel {
         public void playerClickToField(PlayerActionFieldEvent e) {
             if(!game.getField().isAvailableCell(e.getPoint(), game.getCurrentState()))
                 SnackbarFactory
-                        .createBasicInfoSnackbar("Вы не можете совершить действие с клеткой", owner)
+                        .createBasicInfoSnackbar("Вы не можете совершить действие с ячейкой", owner)
                         .setVisible(true);
             else {
                 if (game.getCurrentState() == GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER) {

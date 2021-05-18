@@ -13,6 +13,7 @@ public class PlayersWidget extends JPanel {
     private final Player player;
     private final JLabel playersScore = StyledLabelFactory.createCustomLabel("", GlobalStyles.HEADER_FONT);
     private final JPanel wordsPanel = new JPanel();
+    private final JLabel wordsList = StyledLabelFactory.createBasicLabel("");
 
     public PlayersWidget(@NotNull GameWidget owner, @NotNull Player player) {
         this.owner = owner;
@@ -29,6 +30,7 @@ public class PlayersWidget extends JPanel {
         JPanel rowLayout = new JPanel(new BorderLayout(20, 20));
         wordsPanel.setLayout(new BoxLayout(wordsPanel, BoxLayout.Y_AXIS));
         wordsPanel.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+        wordsPanel.add(this.wordsList);
 
         rowLayout.add(namePanel, BorderLayout.PAGE_START);
         rowLayout.add(scorePanel, BorderLayout.PAGE_END);
@@ -47,10 +49,13 @@ public class PlayersWidget extends JPanel {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         this.playersScore.setText("Счет: " + this.player.calcScore());
-        wordsPanel.removeAll();
+        wordsList.setText("<html>");
+
         ArrayList<String> playersWords = new ArrayList<>(this.owner.getGame().getWordManager()
                 .getAllSolvedWordsByPlayer(this.player));
-        playersWords.forEach(word -> wordsPanel.add(StyledLabelFactory.createBasicLabel(word)));
+        playersWords.forEach(word -> wordsList.setText(wordsList.getText() + word + "<br>"));
+
+        wordsList.setText(wordsList.getText() + "<html>");
 
         if(this.player == this.owner.getGame().getCurrentPlayer())
             setBorder(BorderFactory.createLineBorder(GlobalStyles.SELECTED_CELL, 1));
