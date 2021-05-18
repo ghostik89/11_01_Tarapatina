@@ -61,6 +61,7 @@ public class GameWidget extends JPanel {
         add(this.playerTwo, BorderLayout.LINE_END);
 
         JPanel gameLayout = new JPanel();
+        gameLayout.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
 
         GameFieldWidget gameFieldWidget = new GameFieldWidget(this, observer);
         alphabetWidget.addListener(observer);
