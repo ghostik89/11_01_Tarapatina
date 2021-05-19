@@ -14,12 +14,16 @@ public class PlayersWidget extends JPanel {
     private final JLabel playersScore = StyledLabelFactory.createCustomLabel("", GlobalStyles.HEADER_FONT);
     private final JPanel wordsPanel = new JPanel();
     private final JLabel wordsList = StyledLabelFactory.createBasicLabel("");
+    private JLabel playersName = new JLabel();
+    private JSeparator divider = new JSeparator(SwingConstants.HORIZONTAL);
+
 
     public PlayersWidget(@NotNull GameWidget owner, @NotNull Player player) {
         this.owner = owner;
         this.player = player;
         setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
         setLayout(new BorderLayout(20,20));
+        playersName = StyledLabelFactory.createCustomLabel(this.player.getName(), GlobalStyles.HEADER_FONT);
 
         setPreferredSize(new Dimension(160,511));
         JPanel namePanel = new JPanel();
@@ -28,8 +32,10 @@ public class PlayersWidget extends JPanel {
         scorePanel.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
 
         JPanel rowLayout = new JPanel(new BorderLayout(20, 20));
+        rowLayout.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
         wordsPanel.setLayout(new BoxLayout(wordsPanel, BoxLayout.Y_AXIS));
         wordsPanel.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+        wordsPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         wordsPanel.add(this.wordsList);
 
         rowLayout.add(namePanel, BorderLayout.PAGE_START);
@@ -38,11 +44,11 @@ public class PlayersWidget extends JPanel {
         rowLayout.setPreferredSize(new Dimension(210,80));
 
         add(rowLayout, BorderLayout.PAGE_START);
-        add(wordsPanel, BorderLayout.PAGE_END);
+        add(wordsPanel, BorderLayout.CENTER);
 
-        JLabel playersName = StyledLabelFactory.createCustomLabel(this.player.getName(), GlobalStyles.HEADER_FONT);
         namePanel.add(playersName, BorderLayout.PAGE_START);
-        scorePanel.add(this.playersScore, BorderLayout.CENTER);
+        scorePanel.add(this.playersScore, BorderLayout.PAGE_START);
+        scorePanel.add(this.divider, BorderLayout.PAGE_END);
     }
 
     @Override
@@ -57,9 +63,15 @@ public class PlayersWidget extends JPanel {
 
         wordsList.setText(wordsList.getText() + "<html>");
 
-        if(this.player == this.owner.getGame().getCurrentPlayer())
+        if(this.player == this.owner.getGame().getCurrentPlayer()) {
+            playersName.setForeground(GlobalStyles.SELECTED_CELL);
             setBorder(BorderFactory.createLineBorder(GlobalStyles.SELECTED_CELL, 1));
-        else
+            divider.setBackground(GlobalStyles.SELECTED_CELL);
+        }
+        else {
+            playersName.setForeground(GlobalStyles.PRIMARY_TEXT_COLOR);
+            divider.setBackground(GlobalStyles.CELL_BORDER_COLOR);
             setBorder(BorderFactory.createLineBorder(GlobalStyles.FIELD_BORDER_COLOR));
+        }
     }
 }
