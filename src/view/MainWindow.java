@@ -14,7 +14,7 @@ public class MainWindow extends JFrame {
 
     public MainWindow(){
         setTitle("Balda. The game");
-        setSize(new Dimension(1500, 700));
+        setSize(new Dimension(1300, 800));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);

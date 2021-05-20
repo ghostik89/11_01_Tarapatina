@@ -22,9 +22,10 @@ public class GameWidget extends JPanel {
     private final MainWindow owner;
     private PlayersWidget playerOne;
     private PlayersWidget playerTwo;
-    private final CustomActionButton acceptBtn = new CustomActionButton("подтвердить");
-    private final CustomActionButton changePlayerBtn = new CustomActionButton("пропустить ход");
-    private final CustomActionButton cancelBtn = new CustomActionButton("отменить");
+    private final CustomActionButton acceptBtn = CustomActionButtonFactory.createOutlinedButton("Подтвердить");
+    private final CustomActionButton changePlayerBtn = CustomActionButtonFactory
+            .createButtonWithoutBorder("пропустить ход");
+    private final CustomActionButton cancelBtn = CustomActionButtonFactory.createButtonWithoutBorder("отмена действия");
     private final JLabel headerHelper = StyledLabelFactory.createCustomLabel("", GlobalStyles.MAIN_HEADER_FONT);
 
 
@@ -39,7 +40,7 @@ public class GameWidget extends JPanel {
     public void initField() {
         AlphabetWidget alphabetWidget;
         setLayout(new BorderLayout(10,10));
-        setPreferredSize(new Dimension(1200, 600));
+        setPreferredSize(new Dimension(1200, 620));
 
         alphabetWidget = new AlphabetWidget(this.owner, this.game.getAlphabet());
         PlayerActionObserver observer = new PlayerActionObserver();
@@ -67,7 +68,8 @@ public class GameWidget extends JPanel {
         alphabetWidget.addListener(observer);
         gameLayout.add(gameFieldWidget, BorderLayout.PAGE_START);
 
-        JPanel container = new JPanel(new FlowLayout());
+        JPanel container = new JPanel(new FlowLayout(FlowLayout.CENTER, 25,2));
+        container.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
 
         container.add(this.cancelBtn);
         container.add(this.acceptBtn);
