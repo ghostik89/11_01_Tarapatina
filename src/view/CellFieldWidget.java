@@ -81,6 +81,7 @@ public class CellFieldWidget extends JPanel {
         switch (this.member.getCellState()){
             case CELL_WITH_SETTED_LETTER_AT_TURN,CELL_SELECTED_FOR_INSERTING -> {
                 setBackground(GlobalStyles.INSERTED_BACKGROUND);
+                indexLabel.setText("");
                 charLabel.setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
             }
             case CELL_IS_SELECTED -> {
@@ -90,6 +91,7 @@ public class CellFieldWidget extends JPanel {
                 indexLabel.setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
             }
             default -> {
+                indexLabel.setText("");
                 setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
                 charLabel.setForeground(GlobalStyles.PRIMARY_TEXT_COLOR);
                 indexLabel.setForeground(GlobalStyles.PRIMARY_TEXT_COLOR);
