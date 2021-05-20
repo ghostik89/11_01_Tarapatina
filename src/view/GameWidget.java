@@ -2,6 +2,7 @@ package view;
 
 import event.PlayerActionFieldEvent;
 import event.PlayerActionFieldListener;
+import model.Cell;
 import model.Game;
 import model.GameState;
 import org.jetbrains.annotations.NotNull;
@@ -99,15 +100,22 @@ public class GameWidget extends JPanel {
     }
 
     private void initModalAddingWords(){
-        CustomModal addModal = DialogFactory.createBasicInfoSnackbar(
-                "<html>Ваше слово не существует в словаре<br>Вы хотите его добавить?</html>", this.owner);
-        CustomActionButton addButton = new CustomActionButton("Добавить");
+        CustomModal addModal = new CustomModal(this.owner,
+                StyledLabelFactory
+                        .createCustomLabel("<html>Ваше слово не существует в словаре<br>Вы хотите его " +
+                                "добавить?</html>", GlobalStyles.HEADER_FONT));
+        CustomActionButton addButton = CustomActionButtonFactory.createButtonWithoutBorder("да");
         String wordToAdd = this.game.getField().getWordSettedAtTurn();
         addButton.addActionListener(e -> {
             this.game.getWordManager().addWordToDictionary(wordToAdd);
             this.submitTurn();
+            addModal.setVisible(false);
         });
         addModal.addButton(addButton);
+        CustomActionButton cancelButton = CustomActionButtonFactory.createButtonWithoutBorder("нет");
+        cancelButton.addActionListener(e -> addModal.setVisible(false));
+        addModal.addButton(cancelButton);
+
         addModal.setVisible(true);
     }
 
@@ -119,6 +127,7 @@ public class GameWidget extends JPanel {
                 this.game.getField().cleanFieldAfterPlayersTurn();
                 this.game.updateCurrentState();
                 this.game.changePlayer();
+                Cell.resetStaticIndex();
                 repaint();
                 revalidate();
             }
