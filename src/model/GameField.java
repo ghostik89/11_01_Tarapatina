@@ -154,8 +154,8 @@ public class GameField {
 		if (cell == null)
 			throw new IllegalArgumentException();
 
-		if (gameState == GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER
-				|| gameState == GameState.PLAYER_INSERTING_LETTER) {
+		if ((gameState == GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER
+				|| gameState == GameState.PLAYER_INSERTING_LETTER) && cell.getCellState() != CellState.CELL_IS_BUSY) {
 			for (Cell elem : cell.getNeighbors())
 				if (elem.getCellState() == CellState.CELL_IS_BUSY) {
 					isAvailable = true;
