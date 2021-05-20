@@ -72,6 +72,10 @@ public class GameWidget extends JPanel {
 
         container.add(this.cancelBtn);
         container.add(this.acceptBtn);
+        this.acceptBtn.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(GlobalStyles.BTN_PRIMARY_COLOR, 2),
+                BorderFactory.createEmptyBorder(10,60,10,60)));
+
         container.add(this.changePlayerBtn);
         gameLayout.add(container, BorderLayout.PAGE_END);
 
