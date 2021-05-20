@@ -118,6 +118,7 @@ public class Game {
 	/** Откатится к предыдущему состоянию игры
 	 * */
 	public void revertState() {
+		//fixme
 		switch (this.currentState){
 			case PLAYER_INSERTING_LETTER -> {
 				this.currentState = GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER;
