@@ -11,7 +11,7 @@ public class CustomModal extends JDialog {
     private int gridBtnCounter = 0;
 
     public CustomModal(JFrame owner, JLabel message){
-        super(owner, "", true);
+        super(owner, "Balda. The game", true);
         setLocation(520,300);
         setResizable(false);
         setSize(new Dimension(500,200));
