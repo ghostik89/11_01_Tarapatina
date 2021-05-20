@@ -207,6 +207,8 @@ public class GameWidget extends JPanel {
         public void playerClickOnAlphabet(PlayerActionFieldEvent e) {
             if(game.getCurrentState() == GameState.PLAYER_INSERTING_LETTER)
                 game.getCurrentPlayer().insertLetterIntoCell(e.getLetter());
+
+            game.updateCurrentState();
             repaint();
             revalidate();
         }
