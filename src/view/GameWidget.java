@@ -155,7 +155,9 @@ public class GameWidget extends JPanel {
     }
 
     private void endGame(){
-        CustomModal endModal = new CustomModal(owner, StyledLabelFactory.createBasicLabel("Вы уверены, что хотите выйти?"));
+        String winner = this.game.determinateWinner() == null ? "Игра еще не закончена."
+                : "Выйграл игрок " + this.game.determinateWinner();
+        CustomModal endModal = new CustomModal(owner, StyledLabelFactory.createBasicLabel(winner + " Вы уверены, что хотите выйти?"));
 
         CustomActionButton okBtn = CustomActionButtonFactory.createButtonWithoutBorder("Да");
         okBtn.addActionListener(e -> {
