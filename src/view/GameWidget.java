@@ -37,6 +37,9 @@ public class GameWidget extends JPanel {
     }
 
     public void initField() {
+        removeAll();
+        revalidate();
+        this.game.revertState();
         AlphabetWidget alphabetWidget;
         setLayout(new BorderLayout(10,10));
         setPreferredSize(new Dimension(1200, 620));
@@ -87,8 +90,9 @@ public class GameWidget extends JPanel {
 
             if (this.game.getCurrentState() == GameState.PLAYER_INSERTING_LETTER) {
                 alphabetWidget.setVisible(true);
-            } else if (this.game.getCurrentState() == GameState.PLAYER_SUBMITTED_TURN)
+            } else if (this.game.getCurrentState() == GameState.PLAYER_SUBMITTED_TURN) {
                 this.submitTurn();
+            }
         });
         this.cancelBtn.addActionListener(e -> {
             this.game.revertState();
