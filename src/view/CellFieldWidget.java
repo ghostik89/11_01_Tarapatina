@@ -8,8 +8,6 @@ import view.helpers.GlobalStyles;
 import view.helpers.factories.StyledLabelFactory;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -40,6 +38,10 @@ public class CellFieldWidget extends JPanel {
 
         charLabel.setFont(new Font(GlobalStyles.fontName, Font.PLAIN, fontSize));
         charLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(GlobalStyles.CELL_BORDER_COLOR, 1),
+                BorderFactory.createEmptyBorder(5,5,5,5)));
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
