@@ -162,9 +162,9 @@ public class GameWidget extends JPanel {
                 } else if (game.getCurrentState() == GameState.PLAYER_SELECTING_CHARS) {
                     game.getCurrentPlayer().selectCell(e.getPoint());
                 }
+                repaint();
+                revalidate();
             }
-            repaint();
-            revalidate();
         }
 
         @Override
