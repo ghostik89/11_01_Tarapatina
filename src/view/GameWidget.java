@@ -48,6 +48,7 @@ public class GameWidget extends JPanel {
         headerLayout.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
         headerLayout.setLayout(new BorderLayout(10,10));
         headerLayout.add(this.headerHelper, BorderLayout.CENTER);
+        this.headerHelper.setHorizontalAlignment(SwingConstants.CENTER);
         CustomActionButton exitBtn = CustomActionButtonFactory.createButtonWithoutBorder("Завершить игру");
         exitBtn.setBorder(BorderFactory.createEmptyBorder());
         exitBtn.addActionListener(e -> this.endGame());
