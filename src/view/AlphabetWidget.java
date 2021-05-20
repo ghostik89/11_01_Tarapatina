@@ -3,8 +3,8 @@ package view;
 import event.PlayerActionFieldEvent;
 import event.PlayerActionFieldListener;
 import model.Alphabet;
-import view.helpers.components.CustomActionButton;
 import view.helpers.GlobalStyles;
+import view.helpers.factories.CustomActionButtonFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,10 +32,10 @@ public class AlphabetWidget extends JDialog {
 
         JPanel controlPanel = new JPanel();
         controlPanel.add(Box.createHorizontalGlue());
-        JButton cancelBtn = new CustomActionButton("Отменить");
+        JButton cancelBtn = CustomActionButtonFactory.createButtonWithoutBorder("отменить");
         controlPanel.add(cancelBtn);
         controlPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        JButton acceptBtn = new CustomActionButton("Подтвердить");
+        JButton acceptBtn = CustomActionButtonFactory.createButtonWithoutBorder("подтвердить");
         controlPanel.add(acceptBtn);
 
         cancelBtn.addActionListener(e -> setVisible(false));
