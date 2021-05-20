@@ -4,10 +4,9 @@ import model.GameField;
 import org.jetbrains.annotations.NotNull;
 import view.helpers.*;
 import view.helpers.components.CustomActionButton;
-import view.helpers.components.CustomModal;
 import view.helpers.components.TextInput;
 import view.helpers.factories.CustomActionButtonFactory;
-import view.helpers.factories.SnackbarFactory;
+import view.helpers.factories.DialogFactory;
 import view.helpers.factories.StyledLabelFactory;
 
 import javax.swing.*;
@@ -125,10 +124,10 @@ public class StartMenuWidget extends JPanel{
             this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
             setVisible(false);
         }catch (IllegalArgumentException arg){
-            SnackbarFactory.createBasicInfoSnackbar("Неверно введены параметры.", this.owner)
+            DialogFactory.createBasicInfoSnackbar("Неверно введены параметры.", this.owner)
             .setVisible(true);
         }catch (FileNotFoundException notFoundException){
-            SnackbarFactory.createBasicInfoSnackbar("Файл со словарем не найден. Проверьте целостность программы",
+            DialogFactory.createBasicInfoSnackbar("Файл со словарем не найден. Проверьте целостность программы",
                     this.owner).setVisible(true);
         }
     }

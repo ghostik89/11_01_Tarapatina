@@ -6,10 +6,9 @@ import view.helpers.components.CustomModal;
 
 import javax.swing.*;
 
-public class SnackbarFactory {
+public class DialogFactory {
     public static CustomModal createBasicInfoSnackbar(@NotNull String message, @NotNull JFrame owner){
-        JLabel infoText = StyledLabelFactory.createBasicLabel(message);
-        CustomModal infoModal = new CustomModal(owner, infoText);
+        CustomModal infoModal = new CustomModal(owner,  StyledLabelFactory.createBasicLabel(message));
         CustomActionButton okBtn = CustomActionButtonFactory.createButtonWithoutBorder("ок");
         okBtn.addActionListener(e -> infoModal.setVisible(false));
         infoModal.addButton(okBtn);

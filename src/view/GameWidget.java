@@ -9,12 +9,10 @@ import view.helpers.*;
 import view.helpers.components.CustomActionButton;
 import view.helpers.components.CustomModal;
 import view.helpers.factories.CustomActionButtonFactory;
-import view.helpers.factories.SnackbarFactory;
+import view.helpers.factories.DialogFactory;
 import view.helpers.factories.StyledLabelFactory;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
 import java.awt.*;
 
 public class GameWidget extends JPanel {
@@ -86,13 +84,22 @@ public class GameWidget extends JPanel {
             } else if (this.game.getCurrentState() == GameState.PLAYER_SUBMITTED_TURN)
                 this.submitTurn();
         });
-        this.cancelBtn.addActionListener(e -> this.game.revertState());
+        this.cancelBtn.addActionListener(e -> {
+            this.game.revertState();
+            repaint();
+            revalidate();
+        });
+        this.changePlayerBtn.addActionListener(e -> {
+            this.game.changePlayer();
+            repaint();
+            revalidate();
+        });
 
         setVisible(true);
     }
 
     private void initModalAddingWords(){
-        CustomModal addModal = SnackbarFactory.createBasicInfoSnackbar(
+        CustomModal addModal = DialogFactory.createBasicInfoSnackbar(
                 "<html>Ваше слово не существует в словаре<br>Вы хотите его добавить?</html>", this.owner);
         CustomActionButton addButton = new CustomActionButton("Добавить");
         String wordToAdd = this.game.getField().getWordSettedAtTurn();
@@ -115,11 +122,11 @@ public class GameWidget extends JPanel {
                 repaint();
                 revalidate();
             }
-            case WORDMANAGER_ERROR_IS_SOLVED -> SnackbarFactory
+            case WORDMANAGER_ERROR_IS_SOLVED -> DialogFactory
                     .createBasicInfoSnackbar("Ваше слово уже было отгадано", this.owner)
                     .setVisible(true);
             case WORDMANAGER_ERROR_NOT_FOUND -> this.initModalAddingWords();
-            case GAMEFIELD_HAS_NOT_LETTER_SET_AT_TURN -> SnackbarFactory
+            case GAMEFIELD_HAS_NOT_LETTER_SET_AT_TURN -> DialogFactory
                     .createBasicInfoSnackbar("Среди выделенных клеток нет той новой буквы!", this.owner)
                     .setVisible(true);
         }
@@ -134,8 +141,21 @@ public class GameWidget extends JPanel {
     }
 
     private void endGame(){
-        //todo add modal window
-        this.game.endGame();
+        CustomModal endModal = new CustomModal(owner, StyledLabelFactory.createBasicLabel("Вы уверены, что хотите выйти?"));
+
+        CustomActionButton okBtn = CustomActionButtonFactory.createButtonWithoutBorder("Да");
+        okBtn.addActionListener(e -> {
+            this.game.endGame();
+            this.owner.revertGame();
+            endModal.setVisible(false);
+        });
+        endModal.addButton(okBtn);
+
+        CustomActionButton cancelBtn = CustomActionButtonFactory.createButtonWithoutBorder("Нет");
+        cancelBtn.addActionListener(e -> endModal.setVisible(false));
+        endModal.addButton(cancelBtn);
+
+        endModal.setVisible(true);
     }
 
     @Override
@@ -147,6 +167,7 @@ public class GameWidget extends JPanel {
             case PLAYER_INSERTING_LETTER -> this.headerHelper.setText("Вставка буквы...");
             case PLAYER_SELECT_CELL_FOR_INSERT_LETTER -> this.headerHelper.setText("Выберите ячейку, чтобы вставить букву");
         }
+        this.cancelBtn.setEnabled(this.game.getCurrentState() != GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER);
     }
 
      class PlayerActionObserver implements PlayerActionFieldListener {
@@ -154,7 +175,7 @@ public class GameWidget extends JPanel {
         @Override
         public void playerClickToField(PlayerActionFieldEvent e) {
             if(!game.getField().isAvailableCell(e.getPoint(), game.getCurrentState()))
-                SnackbarFactory
+                DialogFactory
                         .createBasicInfoSnackbar("Вы не можете совершить действие с ячейкой", owner)
                         .setVisible(true);
             else {
