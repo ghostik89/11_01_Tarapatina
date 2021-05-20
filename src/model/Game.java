@@ -129,6 +129,7 @@ public class Game {
 				this.currentState = GameState.PLAYER_SELECTING_CHARS;
 			}
 		}
+		this.field.revertAllCells();
 	}
 
 	/** Закончить игру
