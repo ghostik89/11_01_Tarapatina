@@ -27,6 +27,8 @@ public class AlphabetWidget extends JDialog {
         getContentPane().setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
         setLayout(new BorderLayout(10,10));
 
+        alphabetGrid.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+
         initAlphabetCells();
         add(this.alphabetGrid, BorderLayout.CENTER);
 
@@ -37,6 +39,7 @@ public class AlphabetWidget extends JDialog {
         controlPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         JButton acceptBtn = CustomActionButtonFactory.createButtonWithoutBorder("подтвердить");
         controlPanel.add(acceptBtn);
+        controlPanel.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
 
         cancelBtn.addActionListener(e -> setVisible(false));
         acceptBtn.addActionListener(e -> {
