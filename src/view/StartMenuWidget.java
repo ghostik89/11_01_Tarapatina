@@ -124,7 +124,7 @@ public class StartMenuWidget extends JPanel{
             this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
             setVisible(false);
         }catch (IllegalArgumentException arg){
-            DialogFactory.createBasicInfoSnackbar("Ошибка" + arg.getMessage(), this.owner)
+            DialogFactory.createBasicInfoSnackbar("Ошибка! " + arg.getMessage() + "!", this.owner)
             .setVisible(true);
         }catch (FileNotFoundException notFoundException){
             DialogFactory.createBasicInfoSnackbar("Файл со словарем не найден. Проверьте целостность программы",
