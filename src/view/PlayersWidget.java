@@ -14,7 +14,7 @@ public class PlayersWidget extends JPanel {
     private final JLabel playersScore = StyledLabelFactory.createCustomLabel("", GlobalStyles.HEADER_FONT);
     private final JPanel wordsPanel = new JPanel();
     private final JLabel wordsList = StyledLabelFactory.createBasicLabel("");
-    private JLabel playersName = new JLabel();
+    private JLabel playersName;
     private JSeparator divider = new JSeparator(SwingConstants.HORIZONTAL);
 
 
@@ -28,7 +28,11 @@ public class PlayersWidget extends JPanel {
         setPreferredSize(new Dimension(160,511));
         JPanel namePanel = new JPanel();
         namePanel.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+        namePanel.setLayout(new BorderLayout());
+        namePanel.setBorder(BorderFactory.createEmptyBorder(10,10,0,10));
         JPanel scorePanel = new JPanel();
+        scorePanel.setLayout(new BorderLayout(0,3));
+        scorePanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         scorePanel.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
 
         JPanel rowLayout = new JPanel(new BorderLayout(20, 20));
@@ -71,6 +75,7 @@ public class PlayersWidget extends JPanel {
         else {
             playersName.setForeground(GlobalStyles.PRIMARY_TEXT_COLOR);
             divider.setBackground(GlobalStyles.CELL_BORDER_COLOR);
+            divider.setBorder(BorderFactory.createLineBorder(GlobalStyles.CELL_BORDER_COLOR, 1));
             setBorder(BorderFactory.createLineBorder(GlobalStyles.FIELD_BORDER_COLOR));
         }
     }
