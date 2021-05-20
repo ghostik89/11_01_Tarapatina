@@ -19,8 +19,8 @@ public class GameField {
 	 * @throws IllegalArgumentException если ширина или длина больше 29 или меньше 3
 	 * */
 	public GameField(int width, int height) {
-		if(height < 3 || width > 29 || width != height)
-			throw new IllegalArgumentException();
+		if(height < 3 || width > 15 || width != height)
+			throw new IllegalArgumentException("Размеры поля не вадилдны");
 		this.generateField(width, height);
 	}
 

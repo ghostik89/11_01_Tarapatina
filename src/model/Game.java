@@ -29,7 +29,7 @@ public class Game {
 		this.field = field;
 
 		if(player1Name.equals(player2Name))
-			throw new IllegalArgumentException("Player's names equals");
+			throw new IllegalArgumentException("Имена игроков одинаковы");
 
 		Player player1 = new Player(this.wordManager, player1Name, this.alphabet, this.field);
 		Player player2 = new Player(this.wordManager, player2Name, this.alphabet, this.field);

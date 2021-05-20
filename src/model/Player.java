@@ -24,7 +24,7 @@ public class Player {
 				  @NotNull Alphabet alphabet,@NotNull GameField gameField) {
 		this.wordManager = wordManager;
 		if(name.isEmpty() || name.isBlank())
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Неверный формат имени");
 
 		this.name = name;
 		this.alphabet = alphabet;

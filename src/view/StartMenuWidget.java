@@ -17,8 +17,8 @@ public class StartMenuWidget extends JPanel{
     private final MainWindow owner;
     private final TextInput firstName = new TextInput();
     private final TextInput secondName = new TextInput();
-    private final JSpinner widthForm = new JSpinner(new SpinnerNumberModel(3, 3, 29, 1));
-    private final JSpinner heightForm = new JSpinner(new SpinnerNumberModel(3, 3, 29, 1));
+    private final JSpinner widthForm = new JSpinner(new SpinnerNumberModel(3, 3, 15, 1));
+    private final JSpinner heightForm = new JSpinner(new SpinnerNumberModel(3, 3, 15, 1));
 
     public StartMenuWidget(@NotNull MainWindow owner){
         super();
@@ -124,7 +124,7 @@ public class StartMenuWidget extends JPanel{
             this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
             setVisible(false);
         }catch (IllegalArgumentException arg){
-            DialogFactory.createBasicInfoSnackbar("Неверно введены параметры.", this.owner)
+            DialogFactory.createBasicInfoSnackbar("Ошибка" + arg.getMessage(), this.owner)
             .setVisible(true);
         }catch (FileNotFoundException notFoundException){
             DialogFactory.createBasicInfoSnackbar("Файл со словарем не найден. Проверьте целостность программы",
