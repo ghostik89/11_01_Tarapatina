@@ -22,15 +22,6 @@ public class MainWindow extends JFrame {
 
         add(this.gameWidget, this.gbc);
         add(this.startMenu, this.gbc);
-//        JPanel contentPane = new JPanel();
-//        contentPane.setLayout(new CardLayout());
-//        contentPane.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
-//
-//        contentPane.add(this.startMenu, "Стартовое меню");
-//        contentPane.add(this.gameWidget, "Игра");
-//
-//        setContentPane(contentPane);
-//        pack();
 
         setLocationRelativeTo(null);
         setVisible(true);
@@ -40,5 +31,10 @@ public class MainWindow extends JFrame {
         this.gameWidget.setGame(game);
         this.gameWidget.initField();
         this.gameWidget.setVisible(true);
+    }
+
+    void revertGame(){
+        this.gameWidget.setVisible(false);
+        this.startMenu.setVisible(true);
     }
 }
