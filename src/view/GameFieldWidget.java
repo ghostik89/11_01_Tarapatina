@@ -1,5 +1,6 @@
 package view;
 import model.GameField;
+import view.helpers.GlobalStyles;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,9 +14,13 @@ public class GameFieldWidget extends JPanel {
         this.owner = owner;
         setPreferredSize(new Dimension(790, 490));
         GameField field = this.owner.getGame().getField();
+        setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
 
 
         setLayout(new GridLayout(field.getWidth(), field.getHeight(), 4, 4));
+        setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(GlobalStyles.CELL_BORDER_COLOR, 1),
+                BorderFactory.createEmptyBorder(10,10,10,10)));
         for(int i = 0; i < field.getWidth(); i++)
             for (int j = 0; j < field.getHeight(); j++) {
                 CellFieldWidget cell = new CellFieldWidget(field.getHeight(), field.getCellByPoint(new Point(i,j)));
