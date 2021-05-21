@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class AlphabetWidget extends JDialog {
     private final Alphabet alphabet;
     private final JPanel alphabetGrid = new JPanel();
-    char selectedChar;
+    private char selectedChar;
     private final ArrayList<PlayerActionFieldListener> actionFieldEventList = new ArrayList<>();
 
 
@@ -48,6 +48,10 @@ public class AlphabetWidget extends JDialog {
         });
 
         add(controlPanel, BorderLayout.PAGE_END);
+    }
+
+    public char getSelectedChar() {
+        return selectedChar;
     }
 
     private void initAlphabetCells(){
