@@ -189,7 +189,12 @@ public class GameWidget extends JPanel {
             case PLAYER_INSERTING_LETTER -> this.headerHelper.setText("Вставка буквы...");
             case PLAYER_SELECT_CELL_FOR_INSERT_LETTER -> this.headerHelper.setText("Выберите ячейку, чтобы вставить букву");
         }
+        boolean isDisabledAccept = (this.game.getCurrentState() == GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER
+                && this.game.getField().getLetterSettedAtTurn() == null) || (this.game.getCurrentState() ==
+                GameState.PLAYER_SELECTING_CHARS && this.game.getField().getAllSelectedCells().isEmpty());
+
         this.cancelBtn.setEnabled(this.game.getCurrentState() != GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER);
+        this.acceptBtn.setEnabled(!isDisabledAccept);
     }
 
      class PlayerActionObserver implements PlayerActionFieldListener {
