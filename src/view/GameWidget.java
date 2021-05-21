@@ -94,11 +94,13 @@ public class GameWidget extends JPanel {
                 this.submitTurn();
             }
         });
+
         this.cancelBtn.addActionListener(e -> {
             this.game.revertState();
             repaint();
             revalidate();
         });
+
         this.changePlayerBtn.addActionListener(e -> {
             this.game.changePlayer();
             repaint();

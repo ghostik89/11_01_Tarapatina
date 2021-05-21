@@ -217,11 +217,15 @@ public class GameField {
 		this.letterSettedAtTurn = null;
 	}
 
-	public void revertAllCells(){
+	public void revertField(){
 		this.playFiled.forEach(cell -> {
+			if(cell.equals(this.letterSettedAtTurn))
+				cell.resetCell();
 			if(cell.getCellState() != CellState.CELL_IS_BUSY)
 				cell.revertCellState();
 		});
+		this.letterSettedAtTurn = null;
+		Cell.resetStaticIndex();
 	}
 
 	/** Очистить поле полностью

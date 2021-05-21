@@ -118,19 +118,8 @@ public class Game {
 	/** Откатится к предыдущему состоянию игры
 	 * */
 	public void revertState() {
-		//fixme
-		switch (this.currentState){
-			case PLAYER_INSERTING_LETTER -> {
-				this.currentState = GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER;
-			}
-			case PLAYER_SELECTING_CHARS -> {
-				this.currentState = GameState.PLAYER_INSERTING_LETTER;
-			}
-			case PLAYER_SUBMITTED_TURN -> {
-				this.currentState = GameState.PLAYER_SELECTING_CHARS;
-			}
-		}
-		this.field.revertAllCells();
+		this.currentState = GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER;
+		this.field.revertField();
 	}
 
 	/** Закончить игру
