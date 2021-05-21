@@ -18,8 +18,8 @@ import java.util.ArrayList;
 public class CellFieldWidget extends JPanel {
     private final Cell member;
     private final ArrayList<PlayerActionFieldListener> actionFieldEventList = new ArrayList<>();
-    JLabel charLabel = StyledLabelFactory.createBasicLabel("");
-    JLabel indexLabel = StyledLabelFactory.createBasicLabel("");
+    private final JLabel charLabel = StyledLabelFactory.createBasicLabel("");
+    private final JLabel indexLabel = StyledLabelFactory.createBasicLabel("");
 
 
     public CellFieldWidget(int fieldSize, Cell cell){
@@ -47,16 +47,6 @@ public class CellFieldWidget extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 fireCellIsSelected();
-            }
-
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                setBackground(GlobalStyles.BTN_HOVER_COLOR);
-            }
-
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
             }
         });
         add(this.indexLabel, BorderLayout.PAGE_START);
