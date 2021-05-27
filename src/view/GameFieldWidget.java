@@ -17,12 +17,12 @@ public class GameFieldWidget extends JPanel {
         setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
 
 
-        setLayout(new GridLayout(field.getWidth(), field.getHeight(), 4, 4));
+        setLayout(new GridLayout(field.getHeight(), field.getWidth(), 4, 4));
         setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(GlobalStyles.CELL_BORDER_COLOR, 1),
                 BorderFactory.createEmptyBorder(10,10,10,10)));
-        for(int i = 0; i < field.getWidth(); i++)
-            for (int j = 0; j < field.getHeight(); j++) {
+        for(int i = 0; i < field.getHeight(); i++)
+            for (int j = 0; j < field.getWidth(); j++) {
                 CellFieldWidget cell = new CellFieldWidget(field.getHeight(), field.getCellByPoint(new Point(i,j)));
                 cell.addListener(observer);
                 add(cell);

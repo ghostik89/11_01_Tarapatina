@@ -19,7 +19,7 @@ public class GameField {
 	 * @throws IllegalArgumentException если ширина или длина больше 29 или меньше 3
 	 * */
 	public GameField(int width, int height) {
-		if(height < 3 || width > 15 || width != height)
+		if(height < 3 || width > 15)
 			throw new IllegalArgumentException("Размеры поля не вадилдны");
 		this.generateField(width, height);
 	}
@@ -30,20 +30,20 @@ public class GameField {
 	 * */
 	private void generateField(int width, int height){
 		//fixme
-		for(int x = 0; x < width; x++)
-			for(int y = 0; y < height; y++)
+		for(int x = 0; x < height; x++)
+			for(int y = 0; y < width; y++)
 				this.playFiled.add(new Cell(new Point(x,y)));
 
-		for(int x = 0; x < width; x++)
-			for(int y = 0; y < height; y++){
+		for(int x = 0; x < height; x++)
+			for(int y = 0; y < width; y++){
 				try{
 					if(x > 0)
 						this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x-1,y)));
 					if(y > 0)
 						this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x,y-1)));
-					if(y < height-1)
+					if(y < width - 1)
 						this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x,y+1)));
-					if(x < width - 1)
+					if(x < height - 1)
 						this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x+1,y)));
 				}catch (IllegalArgumentException ex){
 					if(!ex.getMessage().equals("We has this neighbor"))
@@ -71,6 +71,7 @@ public class GameField {
 		int place = (this.getHeight() - 1) / 2;
 
 		for(int i = 0; i < this.getWidth(); i++){
+			System.out.println(place + ", " + i);
 			Cell cell = this.getCellByPoint(new Point(place,i));
 			cell.setLetter(word.toCharArray()[i]);
 			cell.setStateToBusy();
@@ -81,7 +82,7 @@ public class GameField {
 	 * */
 	public int getWidth() {
 		return this.playFiled.stream()
-				.mapToInt(v -> (int) v.getCellPosition().getX())
+				.mapToInt(v -> (int) v.getCellPosition().getY())
 				.max().orElseThrow(NoSuchElementException::new) + 1;
 	}
 
@@ -89,7 +90,7 @@ public class GameField {
 	 * */
 	public int getHeight() {
 		return this.playFiled.stream()
-				.mapToInt(v -> (int) v.getCellPosition().getY())
+				.mapToInt(v -> (int) v.getCellPosition().getX())
 				.max().orElseThrow(NoSuchElementException::new) + 1;
 	}
 
