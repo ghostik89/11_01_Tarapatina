@@ -97,17 +97,19 @@ public class GameWidget extends JPanel {
             });
         }
 
-        this.cancelBtn.addActionListener(e -> {
-            this.game.revertState();
-            repaint();
-            revalidate();
-        });
+        if(this.cancelBtn.getActionListeners().length == 0)
+            this.cancelBtn.addActionListener(e -> {
+                this.game.revertState();
+                repaint();
+                revalidate();
+            });
 
-        this.changePlayerBtn.addActionListener(e -> {
-            this.game.changePlayer();
-            repaint();
-            revalidate();
-        });
+        if(this.changePlayerBtn.getActionListeners().length == 0)
+            this.changePlayerBtn.addActionListener(e -> {
+                this.game.changePlayer();
+                repaint();
+                revalidate();
+            });
 
         setVisible(true);
     }
