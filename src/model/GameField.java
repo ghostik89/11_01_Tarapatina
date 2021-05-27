@@ -71,7 +71,6 @@ public class GameField {
 		int place = (this.getHeight() - 1) / 2;
 
 		for(int i = 0; i < this.getWidth(); i++){
-			System.out.println(place + ", " + i);
 			Cell cell = this.getCellByPoint(new Point(place,i));
 			cell.setLetter(word.toCharArray()[i]);
 			cell.setStateToBusy();
