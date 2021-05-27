@@ -85,15 +85,17 @@ public class GameWidget extends JPanel {
 
         add(gameLayout, BorderLayout.CENTER);
 
-        this.acceptBtn.addActionListener(e -> {
-            this.game.updateCurrentState();
+        if(this.acceptBtn.getActionListeners().length == 0) {
+            this.acceptBtn.addActionListener(e -> {
+                this.game.updateCurrentState();
 
-            if (this.game.getCurrentState() == GameState.PLAYER_INSERTING_LETTER) {
-                alphabetWidget.setVisible(true);
-            } else if (this.game.getCurrentState() == GameState.PLAYER_SUBMITTED_TURN) {
-                this.submitTurn();
-            }
-        });
+                if (this.game.getCurrentState() == GameState.PLAYER_INSERTING_LETTER) {
+                    alphabetWidget.setVisible(true);
+                } else if (this.game.getCurrentState() == GameState.PLAYER_SUBMITTED_TURN) {
+                    this.submitTurn();
+                }
+            });
+        }
 
         this.cancelBtn.addActionListener(e -> {
             this.game.revertState();
