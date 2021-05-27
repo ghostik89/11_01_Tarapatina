@@ -39,7 +39,7 @@ public class GameWidget extends JPanel {
     public void initField() {
         removeAll();
         revalidate();
-        this.game.revertState();
+
         AlphabetWidget alphabetWidget;
         setLayout(new BorderLayout(10,10));
         setPreferredSize(new Dimension(1200, 620));
