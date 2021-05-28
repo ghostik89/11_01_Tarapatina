@@ -45,6 +45,7 @@ public class AlphabetWidget extends JDialog {
         acceptBtn.addActionListener(e -> {
             setVisible(false);
             this.fireLetterIsChoose();
+            this.selectedChar = '\0';
         });
 
         add(controlPanel, BorderLayout.PAGE_END);

@@ -26,13 +26,13 @@ public class CellFieldWidget extends JPanel {
         this.member = cell;
         setLayout(new BorderLayout());
         int fontSize;
-        switch (fieldSize){
-            case 5 -> fontSize = 60;
-            case 6 -> fontSize = 55;
-            case 7 -> fontSize = 45;
-            case 8 -> fontSize = 35;
-            default -> fontSize = 30;
-        }
+        fontSize = switch (fieldSize){
+            case 5 -> 60;
+            case 6 -> 55;
+            case 7 -> 45;
+            case 8 -> 35;
+            default -> 30;
+        };
 
         addFocusListener(new CellWidgetFocusListener());
 
