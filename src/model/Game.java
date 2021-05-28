@@ -99,20 +99,12 @@ public class Game {
 	/** Перейти к следующему состоянию игры
 	 * */
 	public void updateCurrentState() {
-		switch (this.currentState){
-			case PLAYER_SELECT_CELL_FOR_INSERT_LETTER -> {
-				this.currentState = GameState.PLAYER_INSERTING_LETTER;
-			}
-			case PLAYER_INSERTING_LETTER -> {
-				this.currentState = GameState.PLAYER_SELECTING_CHARS;
-			}
-			case PLAYER_SELECTING_CHARS -> {
-				this.currentState = GameState.PLAYER_SUBMITTED_TURN;
-			}
-			case PLAYER_SUBMITTED_TURN -> {
-				this.currentState = GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER;
-			}
-		}
+		this.currentState = switch (this.currentState){
+			case PLAYER_SELECT_CELL_FOR_INSERT_LETTER -> GameState.PLAYER_INSERTING_LETTER;
+			case PLAYER_INSERTING_LETTER -> GameState.PLAYER_SELECTING_CHARS;
+			case PLAYER_SELECTING_CHARS ->  GameState.PLAYER_SUBMITTED_TURN;
+			case PLAYER_SUBMITTED_TURN -> GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER;
+		};
 	}
 
 	/** Откатится к предыдущему состоянию игры
