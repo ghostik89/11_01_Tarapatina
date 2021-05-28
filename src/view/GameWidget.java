@@ -107,6 +107,7 @@ public class GameWidget extends JPanel {
         if(this.changePlayerBtn.getActionListeners().length == 0)
             this.changePlayerBtn.addActionListener(e -> {
                 this.game.changePlayer();
+                this.game.revertState();
                 repaint();
                 revalidate();
             });
