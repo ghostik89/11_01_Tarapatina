@@ -163,17 +163,21 @@ public class GameField {
 		} else if (gameState == GameState.PLAYER_SELECTING_CHARS) {
 			if (this.getAllSelectedCells().isEmpty()) {
 				for (Cell elem : cell.getNeighbors())
-					if (elem.getCellState() == CellState.CELL_IS_BUSY) {
+					if (elem.getCellState() == CellState.CELL_IS_BUSY && (cell.getCellState() == CellState.CELL_IS_BUSY
+							|| cell.getCellState() == CellState.CELL_WITH_SETTED_LETTER_AT_TURN)) {
 						isAvailable = true;
 						break;
 					}
 			}
 			else {
-				for (Cell newElem : cell.getNeighbors())
-					if (newElem.getCellState() == CellState.CELL_IS_SELECTED) {
-						isAvailable = true;
+				for (Cell newElem : cell.getNeighbors()) {
+					isAvailable = newElem.getCellState() == CellState.CELL_IS_SELECTED
+							&& newElem.getSelectedIndex() == Cell.getIndex() - 1 &&
+							(cell.getCellState() == CellState.CELL_IS_BUSY ||
+									cell.getCellState() == CellState.CELL_WITH_SETTED_LETTER_AT_TURN);
+					if (isAvailable)
 						break;
-					}
+				}
 			}
 		}
 
