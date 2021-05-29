@@ -19,8 +19,6 @@ import java.awt.*;
 public class GameWidget extends JPanel {
     private Game game;
     private final MainWindow owner;
-    private PlayersWidget playerOne;
-    private PlayersWidget playerTwo;
     private final CustomActionButton acceptBtn = CustomActionButtonFactory.createOutlinedButton("Подтвердить");
     private final CustomActionButton changePlayerBtn = CustomActionButtonFactory
             .createButtonWithoutBorder("пропустить ход");
@@ -58,11 +56,11 @@ public class GameWidget extends JPanel {
         headerLayout.add(exitBtn, BorderLayout.LINE_END);
         add(headerLayout, BorderLayout.PAGE_START);
 
-        this.playerOne = new PlayersWidget(this, this.game.getPlayers().get(0));
-        add(this.playerOne, BorderLayout.LINE_START);
+        PlayersWidget playerOne = new PlayersWidget(this, this.game.getPlayers().get(0));
+        add(playerOne, BorderLayout.LINE_START);
 
-        this.playerTwo = new PlayersWidget(this, this.game.getPlayers().get(1));
-        add(this.playerTwo, BorderLayout.LINE_END);
+        PlayersWidget playerTwo = new PlayersWidget(this, this.game.getPlayers().get(1));
+        add(playerTwo, BorderLayout.LINE_END);
 
         JPanel gameLayout = new JPanel();
         gameLayout.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
