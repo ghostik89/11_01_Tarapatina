@@ -127,7 +127,11 @@ public class GameWidget extends JPanel {
         });
         addModal.addButton(addButton);
         CustomActionButton cancelButton = CustomActionButtonFactory.createButtonWithoutBorder("нет");
-        cancelButton.addActionListener(e -> addModal.setVisible(false));
+        cancelButton.addActionListener(e -> {
+            addModal.setVisible(false);
+            this.game.revertState();
+            this.repaint();
+        });
         addModal.addButton(cancelButton);
 
         addModal.setVisible(true);
@@ -153,6 +157,8 @@ public class GameWidget extends JPanel {
                     .createBasicInfoSnackbar("Среди выделенных клеток нет той новой буквы!", this.owner)
                     .setVisible(true);
         }
+        this.game.revertState();
+        repaint();
     }
 
     public void setGame(@NotNull Game game) {
