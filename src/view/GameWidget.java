@@ -224,12 +224,12 @@ public class GameWidget extends JPanel {
 
         @Override
         public void playerClickOnAlphabet(PlayerActionFieldEvent e) {
-            if(game.getCurrentState() == GameState.PLAYER_INSERTING_LETTER)
+            if(game.getCurrentState() == GameState.PLAYER_INSERTING_LETTER) {
                 game.getCurrentPlayer().insertLetterIntoCell(e.getLetter());
-
-            game.updateCurrentState();
-            repaint();
-            revalidate();
+                game.updateCurrentState();
+                repaint();
+                revalidate();
+            }
         }
     }
 }
