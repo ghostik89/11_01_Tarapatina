@@ -224,12 +224,16 @@ public class GameWidget extends JPanel {
 
         @Override
         public void playerClickOnAlphabet(PlayerActionFieldEvent e) {
-            if(game.getCurrentState() == GameState.PLAYER_INSERTING_LETTER) {
+            if(!game.getAlphabet().letterHasInAlphabet(e.getLetter())) {
+                DialogFactory.createBasicInfoSnackbar("Вы не выбрали букву!", owner).setVisible(true);
+                game.revertState();
+            }
+            else if(game.getCurrentState() == GameState.PLAYER_INSERTING_LETTER) {
                 game.getCurrentPlayer().insertLetterIntoCell(e.getLetter());
                 game.updateCurrentState();
-                repaint();
-                revalidate();
             }
+            repaint();
+            revalidate();
         }
     }
 }
