@@ -17,7 +17,7 @@ public class AlphabetWidget extends JDialog {
     private final ArrayList<PlayerActionFieldListener> actionFieldEventList = new ArrayList<>();
 
 
-    public AlphabetWidget(JFrame owner, Alphabet alphabet) {
+    public AlphabetWidget(JFrame owner, Alphabet alphabet, GameWidget gameWidget) {
         super(owner, "Alphabet keyboard", true);
         this.alphabet = alphabet;
 
@@ -41,7 +41,12 @@ public class AlphabetWidget extends JDialog {
         controlPanel.add(acceptBtn);
         controlPanel.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
 
-        cancelBtn.addActionListener(e -> setVisible(false));
+        cancelBtn.addActionListener(e -> {
+            setVisible(false);
+            gameWidget.getGame().revertState();
+            gameWidget.repaint();
+        });
+
         acceptBtn.addActionListener(e -> {
             setVisible(false);
             this.fireLetterIsChoose();
