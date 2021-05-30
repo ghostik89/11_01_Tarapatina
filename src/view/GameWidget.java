@@ -154,8 +154,8 @@ public class GameWidget extends JPanel {
                     .setVisible(true);
             case WORDMANAGER_ERROR_NOT_FOUND -> this.initModalAddingWords();
             case GAMEFIELD_HAS_NOT_LETTER_SET_AT_TURN -> DialogFactory
-                    .createBasicInfoSnackbar("Среди выделенных клеток нет той новой буквы!", this.owner)
-                    .setVisible(true);
+                    .createBasicInfoSnackbar("<html>Среди выделенных клеток<br> нет той новой буквы!<html>",
+                            this.owner).setVisible(true);
         }
         this.game.revertState();
         repaint();
