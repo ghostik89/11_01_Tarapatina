@@ -114,7 +114,7 @@ public class GameField {
 				this.letterSettedAtTurn.revertCellState();
 
 			this.letterSettedAtTurn = cell;
-		}else if (cell != null && cell == this.letterSettedAtTurn){
+		}else if (cell != null){
 			this.letterSettedAtTurn.revertCellState();
 			this.letterSettedAtTurn = null;
 		}
