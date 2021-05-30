@@ -8,6 +8,8 @@ import view.helpers.factories.CustomActionButtonFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class AlphabetWidget extends JDialog {
@@ -54,6 +56,21 @@ public class AlphabetWidget extends JDialog {
         });
 
         add(controlPanel, BorderLayout.PAGE_END);
+
+        addWindowListener(new WindowAdapter() {
+            /**
+             * Invoked when a window is in the process of being closed.
+             * The close operation can be overridden at this point.
+             *
+             * @param e
+             */
+            @Override
+            public void windowClosing(WindowEvent e) {
+                gameWidget.getGame().revertState();
+                gameWidget.repaint();
+                super.windowClosing(e);
+            }
+        });
     }
 
     public char getSelectedChar() {
