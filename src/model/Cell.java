@@ -106,6 +106,8 @@ public class Cell {
 	 * */
 	public void setStateToBusy(){this.cellState = CellState.CELL_IS_BUSY;}
 
+	public void setToBlocked(){this.cellState = CellState.CELL_IS_BLOCKED;}
+
 	/** Получить всех соседей клетки
 	 * @return массив соседей клетки
 	 * */
