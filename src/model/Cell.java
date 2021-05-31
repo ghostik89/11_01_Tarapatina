@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Cell {
 
-	private CellState cellState = CellState.CELL_IS_EMPTY; // текущее состояние клетки
+	protected CellState cellState = CellState.CELL_IS_EMPTY; // текущее состояние клетки
 	private char letter; // текущая буква клетки
 	private final Point cellPosition; // позиция клетки на поле
 	private int selectedIndex; // индекс клетки, после того как она была выбрана
@@ -105,8 +105,6 @@ public class Cell {
 	/** Сделать клетку занятой
 	 * */
 	public void setStateToBusy(){this.cellState = CellState.CELL_IS_BUSY;}
-
-	public void setToBlocked(){this.cellState = CellState.CELL_IS_BLOCKED;}
 
 	/** Получить всех соседей клетки
 	 * @return массив соседей клетки

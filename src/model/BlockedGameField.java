@@ -16,10 +16,9 @@ public class BlockedGameField extends GameField{
     }
 
     public void blockRandomCellAfterTurn(){
-        //fixme
         int randomX = rand.nextInt(this.getHeight() + 1);
         int randomY = rand.nextInt(this.getWidth() + 1);
-        Cell blockedCell = getCellByPoint(new Point(randomX, randomY));
+        BlockedCell blockedCell = (BlockedCell) getCellByPoint(new Point(randomX, randomY));
         if(blockedCell != null && blockedCell.getCellState() != CellState.CELL_IS_BLOCKED)
             blockedCell.setToBlocked();
         else
