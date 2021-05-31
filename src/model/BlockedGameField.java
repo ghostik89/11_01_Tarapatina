@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.Random;
 public class BlockedGameField extends GameField{
-    private Random rand;
+    private final Random rand = new Random();
     /**
      * Конструктор класса
      *
@@ -15,6 +15,30 @@ public class BlockedGameField extends GameField{
      */
     public BlockedGameField(int width, int height) {
         super(width, height);
+    }
+
+    @Override
+    protected void generateField(int width, int height) {
+        for(int x = 0; x < height; x++)
+            for(int y = 0; y < width; y++)
+                this.playFiled.add(new BlockedCell(new Point(x,y)));
+
+        for(int x = 0; x < height; x++)
+            for(int y = 0; y < width; y++){
+                try{
+                    if(x > 0)
+                        this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x-1,y)));
+                    if(y > 0)
+                        this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x,y-1)));
+                    if(y < width - 1)
+                        this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x,y+1)));
+                    if(x < height - 1)
+                        this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x+1,y)));
+                }catch (IllegalArgumentException ex){
+                    if(!ex.getMessage().equals("We has this neighbor"))
+                        throw new IllegalArgumentException();
+                }catch (NullPointerException ignored){}
+            }
     }
 
     public void blockRandomCellAfterTurn(){

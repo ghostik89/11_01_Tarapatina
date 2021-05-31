@@ -1,4 +1,5 @@
 package view;
+import model.BlockedGameField;
 import model.Game;
 import model.GameField;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +20,7 @@ public class StartMenuWidget extends JPanel{
     private final TextInput secondName = new TextInput();
     private final JSpinner widthForm = new JSpinner(new SpinnerNumberModel(3, 3, 15, 1));
     private final JSpinner heightForm = new JSpinner(new SpinnerNumberModel(3, 3, 15, 1));
+    private final JCheckBox isBlockedField = new JCheckBox("Повышенный уровень сложности");
 
     public StartMenuWidget(@NotNull MainWindow owner){
         super();
@@ -105,11 +107,22 @@ public class StartMenuWidget extends JPanel{
         add(this.secondName, constraints);
         constraints.gridy = gridCounter++;
 
+
+        //checkbox
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.gridx = 0;
+        constraints.gridy = gridCounter++;
+        isBlockedField.setFont(GlobalStyles.MAIN_FONT);
+        isBlockedField.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+        add(isBlockedField, constraints);
+
         //button
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridx = 0;
         constraints.gridy = gridCounter;
+
 
         CustomActionButton startBtn = CustomActionButtonFactory.createOutlinedButton("Новая игра");
         startBtn.addActionListener(e -> this.handleStart());
@@ -120,8 +133,13 @@ public class StartMenuWidget extends JPanel{
 
     private void handleStart(){
         try{
-            GameField field = new GameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
-            this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
+            if(isBlockedField.isSelected()){
+                BlockedGameField field = new BlockedGameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
+                this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
+            }else{
+                GameField field = new GameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
+                this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
+            }
             setVisible(false);
         }catch (IllegalArgumentException arg){
             DialogFactory.createBasicInfoSnackbar("Ошибка! " + arg.getMessage() + "!", this.owner)

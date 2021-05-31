@@ -2,6 +2,7 @@ package view;
 
 import event.PlayerActionFieldEvent;
 import event.PlayerActionFieldListener;
+import model.BlockedGameField;
 import model.Cell;
 import model.Game;
 import model.GameState;
@@ -146,6 +147,13 @@ public class GameWidget extends JPanel {
                 this.game.updateCurrentState();
                 this.game.changePlayer();
                 Cell.resetStaticIndex();
+
+                if (this.game.getField() instanceof BlockedGameField) {
+                    ((BlockedGameField) this.game.getField()).blockRandomCellAfterTurn();
+                    repaint();
+                    revalidate();
+                }
+
                 repaint();
                 revalidate();
             }

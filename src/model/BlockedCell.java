@@ -14,6 +14,5 @@ public class BlockedCell extends Cell{
         super(point);
     }
 
-
     public void setToBlocked(){this.cellState = CellState.CELL_IS_BLOCKED;}
 }

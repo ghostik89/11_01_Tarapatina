@@ -7,6 +7,7 @@ public interface GlobalStyles {
     //cell colors
     Color CELL_BORDER_COLOR = Color.decode("#9EB0BE");
     Color SELECTED_CELL = Color.decode("#0077D9");
+    Color CELL_BLOCKED = Color.red;
     Color INSERTED_LETTER = Color.decode("#9A9898");
     Color INSERTED_BACKGROUND = Color.decode("#4399DF");
 

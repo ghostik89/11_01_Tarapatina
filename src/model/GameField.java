@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class GameField {
 
-	private final ArrayList<Cell> playFiled = new ArrayList<>(); //игровое поле
+	protected final ArrayList<Cell> playFiled = new ArrayList<>(); //игровое поле
 	private Cell letterSettedAtTurn; //буква, которую добавили в текущем поле
 
 	/** Конструктор класса
@@ -28,7 +28,7 @@ public class GameField {
 	 * @param width ширина поля
 	 * @param height высота поля
 	 * */
-	private void generateField(int width, int height){
+	protected void generateField(int width, int height){
 		for(int x = 0; x < height; x++)
 			for(int y = 0; y < width; y++)
 				this.playFiled.add(new Cell(new Point(x,y)));

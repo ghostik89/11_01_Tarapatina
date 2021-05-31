@@ -2,6 +2,7 @@ package view;
 
 import event.PlayerActionFieldEvent;
 import event.PlayerActionFieldListener;
+import model.BlockedCell;
 import model.Cell;
 import view.helpers.components.CustomActionButton;
 import view.helpers.GlobalStyles;
@@ -68,6 +69,7 @@ public class CellFieldWidget extends JPanel {
         super.paintComponent(g);
         charLabel.setText(String.valueOf(this.member.getLetter()));
 
+        System.out.println(this.member.getCellState());
         switch (this.member.getCellState()){
             case CELL_WITH_SETTED_LETTER_AT_TURN,CELL_SELECTED_FOR_INSERTING -> {
                 setBackground(GlobalStyles.INSERTED_BACKGROUND);
@@ -79,6 +81,10 @@ public class CellFieldWidget extends JPanel {
                 setBackground(GlobalStyles.SELECTED_CELL);
                 charLabel.setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
                 indexLabel.setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
+            }
+            case CELL_IS_BLOCKED -> {
+                setBackground(GlobalStyles.CELL_BLOCKED);
+                charLabel.setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
             }
             default -> {
                 indexLabel.setText("");
