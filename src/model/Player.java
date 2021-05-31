@@ -81,12 +81,12 @@ public class Player {
 		SubmitState submitState = SubmitState.TURN_SUCCESS;
 		String word = this.gameField.getWordSettedAtTurn();
 
-		if(!(wordManager.hasWordInDictionary(word)))
+		if(!this.gameField.getAllSelectedCells().contains(this.gameField.getLetterSettedAtTurn()))
+			submitState = SubmitState.GAMEFIELD_HAS_NOT_LETTER_SET_AT_TURN;
+		else if(!(wordManager.hasWordInDictionary(word)))
 			submitState = SubmitState.WORDMANAGER_ERROR_NOT_FOUND;
 		else if(!wordManager.addToSolvedWords(this, word) || wordManager.getStartedWord().equals(word))
 			submitState = SubmitState.WORDMANAGER_ERROR_IS_SOLVED;
-		else if(!this.gameField.getAllSelectedCells().contains(this.gameField.getLetterSettedAtTurn()))
-			submitState = SubmitState.GAMEFIELD_HAS_NOT_LETTER_SET_AT_TURN;
 
 		return submitState;
 	}

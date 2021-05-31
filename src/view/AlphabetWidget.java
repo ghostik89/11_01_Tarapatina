@@ -8,6 +8,8 @@ import view.helpers.factories.CustomActionButtonFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class AlphabetWidget extends JDialog {
@@ -17,7 +19,7 @@ public class AlphabetWidget extends JDialog {
     private final ArrayList<PlayerActionFieldListener> actionFieldEventList = new ArrayList<>();
 
 
-    public AlphabetWidget(JFrame owner, Alphabet alphabet) {
+    public AlphabetWidget(JFrame owner, Alphabet alphabet, GameWidget gameWidget) {
         super(owner, "Alphabet keyboard", true);
         this.alphabet = alphabet;
 
@@ -41,7 +43,12 @@ public class AlphabetWidget extends JDialog {
         controlPanel.add(acceptBtn);
         controlPanel.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
 
-        cancelBtn.addActionListener(e -> setVisible(false));
+        cancelBtn.addActionListener(e -> {
+            setVisible(false);
+            gameWidget.getGame().revertState();
+            gameWidget.repaint();
+        });
+
         acceptBtn.addActionListener(e -> {
             setVisible(false);
             this.fireLetterIsChoose();
@@ -49,6 +56,21 @@ public class AlphabetWidget extends JDialog {
         });
 
         add(controlPanel, BorderLayout.PAGE_END);
+
+        addWindowListener(new WindowAdapter() {
+            /**
+             * Invoked when a window is in the process of being closed.
+             * The close operation can be overridden at this point.
+             *
+             * @param e
+             */
+            @Override
+            public void windowClosing(WindowEvent e) {
+                gameWidget.getGame().revertState();
+                gameWidget.repaint();
+                super.windowClosing(e);
+            }
+        });
     }
 
     public char getSelectedChar() {

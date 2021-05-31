@@ -42,7 +42,7 @@ public class GameWidget extends JPanel {
         setLayout(new BorderLayout(10,10));
         setPreferredSize(new Dimension(1200, 620));
 
-        alphabetWidget = new AlphabetWidget(this.owner, this.game.getAlphabet());
+        alphabetWidget = new AlphabetWidget(this.owner, this.game.getAlphabet(), this);
         PlayerActionObserver observer = new PlayerActionObserver();
 
         JPanel headerLayout = new JPanel();
@@ -105,6 +105,7 @@ public class GameWidget extends JPanel {
         if(this.changePlayerBtn.getActionListeners().length == 0)
             this.changePlayerBtn.addActionListener(e -> {
                 this.game.changePlayer();
+                this.game.revertState();
                 repaint();
                 revalidate();
             });
@@ -126,7 +127,11 @@ public class GameWidget extends JPanel {
         });
         addModal.addButton(addButton);
         CustomActionButton cancelButton = CustomActionButtonFactory.createButtonWithoutBorder("нет");
-        cancelButton.addActionListener(e -> addModal.setVisible(false));
+        cancelButton.addActionListener(e -> {
+            addModal.setVisible(false);
+            this.game.revertState();
+            this.repaint();
+        });
         addModal.addButton(cancelButton);
 
         addModal.setVisible(true);
@@ -149,9 +154,11 @@ public class GameWidget extends JPanel {
                     .setVisible(true);
             case WORDMANAGER_ERROR_NOT_FOUND -> this.initModalAddingWords();
             case GAMEFIELD_HAS_NOT_LETTER_SET_AT_TURN -> DialogFactory
-                    .createBasicInfoSnackbar("Среди выделенных клеток нет той новой буквы!", this.owner)
-                    .setVisible(true);
+                    .createBasicInfoSnackbar("<html>Среди выделенных клеток<br> нет той новой буквы!<html>",
+                            this.owner).setVisible(true);
         }
+        this.game.revertState();
+        repaint();
     }
 
     public void setGame(@NotNull Game game) {

@@ -108,12 +108,15 @@ public class GameField {
 	 * */
 	public void selectCellForInsertLetterByPoint(@NotNull Point point) {
 		Cell cell = this.getCellByPoint(point);
-		if(cell != null ) {
+		if(cell != null && cell != this.letterSettedAtTurn) {
 			cell.updateCellState();
 			if(this.letterSettedAtTurn != null)
 				this.letterSettedAtTurn.revertCellState();
 
 			this.letterSettedAtTurn = cell;
+		}else if (cell != null){
+			this.letterSettedAtTurn.revertCellState();
+			this.letterSettedAtTurn = null;
 		}
 		else
 			throw new IllegalArgumentException();
