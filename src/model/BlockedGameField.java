@@ -1,5 +1,7 @@
 package model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.util.Random;
 public class BlockedGameField extends GameField{
@@ -23,5 +25,11 @@ public class BlockedGameField extends GameField{
             blockedCell.setToBlocked();
         else
             this.blockRandomCellAfterTurn();
+    }
+
+    @Override
+    public boolean isAvailableCell(@NotNull Point point, @NotNull GameState gameState) {
+        Cell cell = getCellByPoint(point);
+        return cell.getCellState() != CellState.CELL_IS_BLOCKED  && super.isAvailableCell(point, gameState);
     }
 }
