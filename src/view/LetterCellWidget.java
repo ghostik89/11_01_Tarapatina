@@ -1,6 +1,9 @@
 package view;
+import model.BlockedAlphabet;
 import view.helpers.components.CustomActionButton;
 import view.helpers.GlobalStyles;
+import view.helpers.factories.DialogFactory;
+
 import java.awt.*;
 
 public class LetterCellWidget extends CustomActionButton {
@@ -11,13 +14,13 @@ public class LetterCellWidget extends CustomActionButton {
         super(String.valueOf(text));
         this.owner = owner;
         int fontSize;
-        switch (fieldSize){
-            case 5 -> fontSize = 60;
-            case 6 -> fontSize = 55;
-            case 7 -> fontSize = 45;
-            case 8 -> fontSize = 35;
-            default -> fontSize = 30;
-        }
+        fontSize = switch (fieldSize){
+            case 5 -> 60;
+            case 6 -> 55;
+            case 7 -> 45;
+            case 8 -> 35;
+            default -> 30;
+        };
         this.myChar = text;
         setFont(new Font(GlobalStyles.fontName, Font.PLAIN, fontSize));
         addActionListener(e -> {
@@ -32,7 +35,16 @@ public class LetterCellWidget extends CustomActionButton {
         super.paintComponent(g);
         setBackground(this.myChar == this.owner.getSelectedChar()?
                 GlobalStyles.SELECTED_CELL : GlobalStyles.PRIMARY_BACKGROUND_COLOR);
-        setForeground(this.myChar == this.owner.getSelectedChar()? GlobalStyles.SECONDARY_TEXT_COLOR :
-                GlobalStyles.PRIMARY_TEXT_COLOR);
+        if(this.myChar == this.owner.getSelectedChar()) {
+            setBackground(GlobalStyles.SELECTED_CELL);
+            setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
+        }
+        else if(((BlockedAlphabet)this.owner.getAlphabet()).getBlockedChars().contains(String.valueOf(myChar))){
+            setBackground(GlobalStyles.CELL_BLOCKED);
+            setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
+        }else{
+            setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+            setForeground(GlobalStyles.PRIMARY_TEXT_COLOR);
+        }
     }
 }
