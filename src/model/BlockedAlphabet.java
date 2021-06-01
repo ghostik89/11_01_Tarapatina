@@ -24,4 +24,8 @@ public class BlockedAlphabet extends Alphabet{
         else
             this.blockedChars += String.valueOf(this.getCurrentAlphabet().charAt(blockIndex));
     }
+
+    public String getBlockedChars() {
+        return blockedChars;
+    }
 }
