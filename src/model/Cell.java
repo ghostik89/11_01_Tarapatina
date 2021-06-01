@@ -7,7 +7,7 @@ import java.util.List;
 public class Cell {
 
 	protected CellState cellState = CellState.CELL_IS_EMPTY; // текущее состояние клетки
-	private char letter; // текущая буква клетки
+	protected char letter; // текущая буква клетки
 	private final Point cellPosition; // позиция клетки на поле
 	private int selectedIndex; // индекс клетки, после того как она была выбрана
 	private static int index = 0;
