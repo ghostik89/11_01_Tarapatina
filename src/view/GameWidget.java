@@ -2,10 +2,7 @@ package view;
 
 import event.PlayerActionFieldEvent;
 import event.PlayerActionFieldListener;
-import model.BlockedGameField;
-import model.Cell;
-import model.Game;
-import model.GameState;
+import model.*;
 import org.jetbrains.annotations.NotNull;
 import view.helpers.*;
 import view.helpers.components.CustomActionButton;
@@ -148,9 +145,10 @@ public class GameWidget extends JPanel {
                 this.game.changePlayer();
                 Cell.resetStaticIndex();
 
-                if (this.game.getField() instanceof BlockedGameField)
+                if (this.game.getField() instanceof BlockedGameField) {
                     ((BlockedGameField) this.game.getField()).blockRandomCellAfterTurn();
-
+                    ((BlockedAlphabet) this.game.getAlphabet()).blockLetter();
+                }
                 repaint();
                 revalidate();
             }
