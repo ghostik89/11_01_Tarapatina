@@ -56,4 +56,16 @@ public class BlockedGameField extends GameField{
         Cell cell = getCellByPoint(point);
         return cell.getCellState() != CellState.CELL_IS_BLOCKED  && super.isAvailableCell(point, gameState);
     }
+
+    @Override
+    public void revertField() {
+        this.playFiled.forEach(cell -> {
+            if(cell.equals(this.letterSettedAtTurn))
+                cell.resetCell();
+            if(cell.getCellState() != CellState.CELL_IS_BUSY && cell.getCellState() != CellState.CELL_IS_BLOCKED)
+                cell.revertCellState();
+        });
+        this.letterSettedAtTurn = null;
+        Cell.resetStaticIndex();
+    }
 }

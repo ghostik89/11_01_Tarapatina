@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class GameField {
 
 	protected final ArrayList<Cell> playFiled = new ArrayList<>(); //игровое поле
-	private Cell letterSettedAtTurn; //буква, которую добавили в текущем поле
+	protected Cell letterSettedAtTurn; //буква, которую добавили в текущем поле
 
 	/** Конструктор класса
 	 * @param width ширина поля
