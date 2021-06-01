@@ -3,8 +3,10 @@ package view;
 import event.PlayerActionFieldEvent;
 import event.PlayerActionFieldListener;
 import model.Alphabet;
+import model.BlockedAlphabet;
 import view.helpers.GlobalStyles;
 import view.helpers.factories.CustomActionButtonFactory;
+import view.helpers.factories.DialogFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,12 +17,14 @@ import java.util.ArrayList;
 public class AlphabetWidget extends JDialog {
     private final Alphabet alphabet;
     private final JPanel alphabetGrid = new JPanel();
+    private JFrame owner;
     private char selectedChar;
     private final ArrayList<PlayerActionFieldListener> actionFieldEventList = new ArrayList<>();
 
 
     public AlphabetWidget(JFrame owner, Alphabet alphabet, GameWidget gameWidget) {
         super(owner, "Alphabet keyboard", true);
+        this.owner = owner;
         this.alphabet = alphabet;
 
         setLocation(520,300);
@@ -86,7 +90,10 @@ public class AlphabetWidget extends JDialog {
     }
 
     public void setSelectedChar(char selectedChar) {
-        this.selectedChar = selectedChar;
+         if(((BlockedAlphabet)this.alphabet).getBlockedChars().contains(String.valueOf(selectedChar)))
+            DialogFactory.createBasicInfoSnackbar("Буква заблокирована", this.owner).setVisible(true);
+        else
+            this.selectedChar = selectedChar;
     }
 
     void addListener(PlayerActionFieldListener listener){
@@ -97,5 +104,9 @@ public class AlphabetWidget extends JDialog {
         PlayerActionFieldEvent event = new PlayerActionFieldEvent(this);
         event.setLetter(this.selectedChar);
         this.actionFieldEventList.forEach(e -> e.playerClickOnAlphabet(event));
+    }
+
+    Alphabet getAlphabet(){
+        return this.alphabet;
     }
 }
