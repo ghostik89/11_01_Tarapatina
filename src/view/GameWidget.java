@@ -148,11 +148,8 @@ public class GameWidget extends JPanel {
                 this.game.changePlayer();
                 Cell.resetStaticIndex();
 
-                if (this.game.getField() instanceof BlockedGameField) {
+                if (this.game.getField() instanceof BlockedGameField)
                     ((BlockedGameField) this.game.getField()).blockRandomCellAfterTurn();
-                    repaint();
-                    revalidate();
-                }
 
                 repaint();
                 revalidate();
