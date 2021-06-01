@@ -15,6 +15,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class AlphabetWidget extends JDialog {
+    //fixme don't swap to normal alphabet!!
     private final Alphabet alphabet;
     private final JPanel alphabetGrid = new JPanel();
     private JFrame owner;
