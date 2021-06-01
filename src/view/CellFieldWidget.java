@@ -69,7 +69,6 @@ public class CellFieldWidget extends JPanel {
         super.paintComponent(g);
         charLabel.setText(String.valueOf(this.member.getLetter()));
 
-        System.out.println(this.member.getCellState());
         switch (this.member.getCellState()){
             case CELL_WITH_SETTED_LETTER_AT_TURN,CELL_SELECTED_FOR_INSERTING -> {
                 setBackground(GlobalStyles.INSERTED_BACKGROUND);
