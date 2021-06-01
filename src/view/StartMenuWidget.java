@@ -2,6 +2,7 @@ package view;
 import model.BlockedGameField;
 import model.Game;
 import model.GameField;
+import model.HarderGame;
 import org.jetbrains.annotations.NotNull;
 import view.helpers.*;
 import view.helpers.components.CustomActionButton;
@@ -135,7 +136,7 @@ public class StartMenuWidget extends JPanel{
         try{
             if(isBlockedField.isSelected()){
                 BlockedGameField field = new BlockedGameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
-                this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
+                this.owner.runGame(new HarderGame(field, this.firstName.getText(), this.secondName.getText()));
             }else{
                 GameField field = new GameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
                 this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
