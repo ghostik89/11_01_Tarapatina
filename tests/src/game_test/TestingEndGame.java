@@ -1,9 +1,6 @@
 package game_test;
 
-import model.Cell;
-import model.CellState;
-import model.Game;
-import model.GameField;
+import model.*;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
@@ -26,7 +23,7 @@ public class TestingEndGame {
     @Test
     public void simpleClean(){
         try{
-            this.game = new Game(this.field, "Name", "Name2");
+            this.game = new Game(this.field, "Name", "Name2", GameDifficult.EASY);
             Point point = new Point(1,2);
             this.field.selectCellForInsertLetterByPoint(point);
             this.field.setCharIntoCellAtTurn('a');

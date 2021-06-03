@@ -1,6 +1,7 @@
 package game_test;
 
 import model.Game;
+import model.GameDifficult;
 import model.GameField;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -23,7 +24,7 @@ public class TestingDeterminateWinner {
     @Test
     public void simpleDeterminate(){
         try{
-            this.game = new Game(this.field, this.name1,  this.name2);
+            this.game = new Game(this.field, this.name1,  this.name2, GameDifficult.EASY);
             this.fillField();
             this.game.getWordManager().addToSolvedWords(this.game.getCurrentPlayer(), "asd");
             this.game.changePlayer();
@@ -37,7 +38,7 @@ public class TestingDeterminateWinner {
     @Test
     public void drawDeterminate(){
         try{
-            this.game = new Game(this.field, this.name1,  this.name2);
+            this.game = new Game(this.field, this.name1,  this.name2, GameDifficult.EASY);
             this.fillField();
             this.game.getWordManager().addToSolvedWords(this.game.getCurrentPlayer(), "asd");
             this.game.changePlayer();
@@ -51,7 +52,7 @@ public class TestingDeterminateWinner {
     @Test
     public void noWinnersDeterminate(){
         try{
-            this.game = new Game(this.field, this.name1,  this.name2);
+            this.game = new Game(this.field, this.name1,  this.name2, GameDifficult.EASY);
             this.game.getWordManager().addToSolvedWords(this.game.getCurrentPlayer(), "asd");
             this.game.changePlayer();
             this.game.getWordManager().addToSolvedWords(this.game.getCurrentPlayer(), "asd");

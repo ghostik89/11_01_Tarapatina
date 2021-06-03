@@ -1,6 +1,7 @@
 package game_test;
 
 import model.Game;
+import model.GameDifficult;
 import model.GameField;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -14,7 +15,7 @@ public class TestingChangePlayer {
     @Test
     public void fromZeroToOne(){
         try{
-            this.game = new Game(this.field, "Name", "Name2");
+            this.game = new Game(this.field, "Name", "Name2", GameDifficult.EASY);
             this.game.changePlayer();
             Assertions.assertEquals(this.game.getCurrentPlayer().getName(), "Name2");
         }catch (FileNotFoundException ignored){
@@ -25,7 +26,7 @@ public class TestingChangePlayer {
     @Test
     public void fromOneToZero(){
         try{
-            this.game = new Game(this.field, "Name", "Name2");
+            this.game = new Game(this.field, "Name", "Name2", GameDifficult.EASY);
             this.game.changePlayer();
             this.game.changePlayer();
             Assertions.assertEquals(this.game.getCurrentPlayer().getName(), "Name");

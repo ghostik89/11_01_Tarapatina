@@ -1,6 +1,7 @@
 package game_test;
 
 import model.Game;
+import model.GameDifficult;
 import model.GameField;
 import model.GameState;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class TestingRevertState {
     @Test
     public void fromSelectCellForInsertToInsertLetter(){
         try{
-            this.game = new Game(this.field, "Name", "Name2");
+            this.game = new Game(this.field, "Name", "Name2", GameDifficult.EASY);
             Assertions.assertEquals(this.game.getCurrentState(), GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER);
 
             this.game.updateCurrentState();
@@ -28,7 +29,7 @@ public class TestingRevertState {
     @Test
     public void fromInsertLetterToSelectCells(){
         try{
-            this.game = new Game(this.field, "Name", "Name2");
+            this.game = new Game(this.field, "Name", "Name2", GameDifficult.EASY);
             for(int i=0; i < 2; i++)
                 this.game.updateCurrentState();
 
@@ -41,7 +42,7 @@ public class TestingRevertState {
     @Test
     public void fromSelectCellToSubmit(){
         try{
-            this.game = new Game(this.field, "Name", "Name2");
+            this.game = new Game(this.field, "Name", "Name2", GameDifficult.EASY);
             for(int i=0; i < 3; i++)
                 this.game.updateCurrentState();
 
@@ -54,7 +55,7 @@ public class TestingRevertState {
     @Test
     public void fromSubmitToSelectForInsert(){
         try{
-            this.game = new Game(this.field, "Name", "Name2");
+            this.game = new Game(this.field, "Name", "Name2", GameDifficult.EASY);
             for(int i=0; i < 4; i++)
                 this.game.updateCurrentState();
 
