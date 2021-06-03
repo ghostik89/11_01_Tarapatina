@@ -3,7 +3,7 @@ package view;
 import event.PlayerActionFieldEvent;
 import event.PlayerActionFieldListener;
 import model.Alphabet;
-import model.BlockedAlphabet;
+import model.CustomizedAlphabet;
 import view.helpers.GlobalStyles;
 import view.helpers.factories.CustomActionButtonFactory;
 import view.helpers.factories.DialogFactory;
@@ -83,15 +83,18 @@ public class AlphabetWidget extends JDialog {
     }
 
     private void initAlphabetCells(){
+        alphabetGrid.removeAll();
         alphabetGrid.setPreferredSize(new Dimension(500,300));
         alphabetGrid.setLayout(new GridLayout(6, 6, 4, 4));
         for(char ch : this.alphabet.getCurrentAlphabet().toCharArray()){
             alphabetGrid.add(new LetterCellWidget(ch,15, this));
         }
+        alphabetGrid.revalidate();
+        alphabetGrid.repaint();
     }
 
     public void setSelectedChar(char selectedChar) {
-         if(((BlockedAlphabet)this.alphabet).getBlockedChars().contains(String.valueOf(selectedChar)))
+         if(((CustomizedAlphabet)this.alphabet).getBlockedChars().contains(String.valueOf(selectedChar)))
             DialogFactory.createBasicInfoSnackbar("Буква заблокирована", this.owner).setVisible(true);
         else
             this.selectedChar = selectedChar;

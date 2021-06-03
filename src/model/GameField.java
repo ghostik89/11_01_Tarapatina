@@ -156,6 +156,9 @@ public class GameField {
 		if (cell == null)
 			throw new IllegalArgumentException();
 
+		if (cell.getCellState() == CellState.CELL_IS_BLOCKED)
+			return false;
+
 		if ((gameState == GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER
 				|| gameState == GameState.PLAYER_INSERTING_LETTER) && cell.getCellState() != CellState.CELL_IS_BUSY) {
 			for (Cell elem : cell.getNeighbors())
@@ -227,7 +230,7 @@ public class GameField {
 		this.playFiled.forEach(cell -> {
 			if(cell.equals(this.letterSettedAtTurn))
 				cell.resetCell();
-			if(cell.getCellState() != CellState.CELL_IS_BUSY)
+			if(cell.getCellState() != CellState.CELL_IS_BUSY && cell.getCellState() != CellState.CELL_IS_BLOCKED)
 				cell.revertCellState();
 		});
 		this.letterSettedAtTurn = null;

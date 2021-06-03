@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
-public class BlockedAlphabet extends Alphabet{
+public class CustomizedAlphabet extends Alphabet{
     private final Random random = new Random();
     private String blockedChars = "";
     private final GameStateListener listener = new GameStateObserver();
@@ -16,7 +16,7 @@ public class BlockedAlphabet extends Alphabet{
      * @param alphabet алфавит, который будет использоваться в игре
      * @throws IllegalArgumentException если алфавит состоит из букв разного алфавита или пуст
      */
-    public BlockedAlphabet(@NotNull String alphabet) {
+    public CustomizedAlphabet(@NotNull String alphabet) {
         super(alphabet);
     }
 
@@ -34,6 +34,10 @@ public class BlockedAlphabet extends Alphabet{
 
     public GameStateListener getListener() {
         return listener;
+    }
+
+    public void clearBlockedChars(){
+        this.blockedChars = "";
     }
 
     private class GameStateObserver implements GameStateListener{

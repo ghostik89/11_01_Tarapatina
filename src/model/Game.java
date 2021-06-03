@@ -32,9 +32,9 @@ public class Game {
 		this.field = field;
 
 		if(difficult == GameDifficult.HARD) {
-			this.alphabet = new BlockedAlphabet("абвгдежзийклмнопрстуфхцчшщъыьэюя");
-			this.listeners.add(((BlockedAlphabet) this.alphabet).getListener());
-			this.listeners.add(((BlockedGameField)this.field).getListener());
+			this.alphabet = new CustomizedAlphabet("абвгдежзийклмнопрстуфхцчшщъыьэюя");
+			this.listeners.add(((CustomizedAlphabet) this.alphabet).getListener());
+			this.listeners.add(((CustomizedGameField)this.field).getListener());
 		}
 		else
 			this.alphabet = new Alphabet("абвгдежзийклмнопрстуфхцчшщъыьэюя");
@@ -139,6 +139,9 @@ public class Game {
 	public void endGame() {
 		this.wordManager.clearAll();
 		this.field.clearAll();
+
+		if(this.gameDifficult == GameDifficult.HARD)
+			((CustomizedAlphabet) this.alphabet).clearBlockedChars();
 	}
 
 	/** Получить всех игроков, задействованных в игре

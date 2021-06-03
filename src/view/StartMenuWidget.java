@@ -134,7 +134,7 @@ public class StartMenuWidget extends JPanel{
     private void handleStart(){
         try{
             if(Objects.requireNonNull(this.difficultSelect.getSelectedItem()).toString().equals("Сложный")){
-                BlockedGameField field = new BlockedGameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
+                CustomizedGameField field = new CustomizedGameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
                 this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText(), GameDifficult.HARD));
             }else{
                 GameField field = new GameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());

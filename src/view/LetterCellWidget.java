@@ -1,8 +1,7 @@
 package view;
-import model.BlockedAlphabet;
+import model.CustomizedAlphabet;
 import view.helpers.components.CustomActionButton;
 import view.helpers.GlobalStyles;
-import view.helpers.factories.DialogFactory;
 
 import java.awt.*;
 
@@ -39,7 +38,7 @@ public class LetterCellWidget extends CustomActionButton {
             setBackground(GlobalStyles.SELECTED_CELL);
             setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
         }
-        else if(((BlockedAlphabet)this.owner.getAlphabet()).getBlockedChars().contains(String.valueOf(myChar))){
+        else if(((CustomizedAlphabet)this.owner.getAlphabet()).getBlockedChars().contains(String.valueOf(myChar))){
             setBackground(GlobalStyles.CELL_BLOCKED);
             setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
         }else{

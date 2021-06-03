@@ -36,7 +36,7 @@ public class GameWidget extends JPanel {
         removeAll();
         revalidate();
 
-        AlphabetWidget alphabetWidget;
+        AlphabetWidget alphabetWidget ;
         setLayout(new BorderLayout(10,10));
         setPreferredSize(new Dimension(1200, 620));
 
