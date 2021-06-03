@@ -1,11 +1,14 @@
 package model;
 
+import event.GameStateEvent;
+import event.GameStateListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.Random;
 public class BlockedGameField extends GameField{
     private final Random rand = new Random();
+    private final GameStateListener listener = new GameStateObserver();
     /**
      * Конструктор класса
      *
@@ -41,6 +44,10 @@ public class BlockedGameField extends GameField{
             }
     }
 
+    public GameStateListener getListener() {
+        return listener;
+    }
+
     public void blockRandomCellAfterTurn(){
         int randomX = rand.nextInt(this.getHeight() + 1);
         int randomY = rand.nextInt(this.getWidth() + 1);
@@ -67,5 +74,13 @@ public class BlockedGameField extends GameField{
         });
         this.letterSettedAtTurn = null;
         Cell.resetStaticIndex();
+    }
+
+    private class GameStateObserver implements GameStateListener{
+
+        @Override
+        public void turnIsEnded(GameStateEvent e) {
+            blockRandomCellAfterTurn();
+        }
     }
 }
