@@ -20,29 +20,6 @@ public class BlockedGameField extends GameField{
         super(width, height);
     }
 
-    @Override
-    protected void generateField(int width, int height) {
-        for(int x = 0; x < height; x++)
-            for(int y = 0; y < width; y++)
-                this.playFiled.add(new BlockedCell(new Point(x,y)));
-
-        for(int x = 0; x < height; x++)
-            for(int y = 0; y < width; y++){
-                try{
-                    if(x > 0)
-                        this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x-1,y)));
-                    if(y > 0)
-                        this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x,y-1)));
-                    if(y < width - 1)
-                        this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x,y+1)));
-                    if(x < height - 1)
-                        this.getCellByPoint(new Point(x,y)).setNeighbor(this.getCellByPoint(new Point(x+1,y)));
-                }catch (IllegalArgumentException ex){
-                    if(!ex.getMessage().equals("We has this neighbor"))
-                        throw new IllegalArgumentException();
-                }catch (NullPointerException ignored){}
-            }
-    }
 
     public GameStateListener getListener() {
         return listener;
@@ -51,7 +28,7 @@ public class BlockedGameField extends GameField{
     public void blockRandomCellAfterTurn(){
         int randomX = rand.nextInt(this.getHeight() + 1);
         int randomY = rand.nextInt(this.getWidth() + 1);
-        BlockedCell blockedCell = (BlockedCell) getCellByPoint(new Point(randomX, randomY));
+        Cell blockedCell = getCellByPoint(new Point(randomX, randomY));
         if(blockedCell != null && blockedCell.getCellState() != CellState.CELL_IS_BLOCKED)
             blockedCell.setToBlocked();
         else
