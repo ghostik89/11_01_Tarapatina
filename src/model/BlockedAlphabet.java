@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Random;
 
 public class BlockedAlphabet extends Alphabet{
-    Random random = new Random();
-    String blockedChars = "";
+    private final Random random = new Random();
+    private String blockedChars = "";
     /**
      * Конструктор класса
      *
