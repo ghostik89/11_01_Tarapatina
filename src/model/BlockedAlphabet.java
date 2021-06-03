@@ -1,5 +1,7 @@
 package model;
 
+import event.GameStateEvent;
+import event.GameStateListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
@@ -7,6 +9,7 @@ import java.util.Random;
 public class BlockedAlphabet extends Alphabet{
     private final Random random = new Random();
     private String blockedChars = "";
+    private final GameStateListener listener = new GameStateObserver();
     /**
      * Конструктор класса
      *
@@ -17,7 +20,7 @@ public class BlockedAlphabet extends Alphabet{
         super(alphabet);
     }
 
-    public void blockLetter(){
+    protected void blockLetter(){
         int blockIndex = random.nextInt(this.getCurrentAlphabet().length() + 1);
         if(this.blockedChars.contains(String.valueOf(this.getCurrentAlphabet().charAt(blockIndex))))
             blockLetter();
@@ -27,5 +30,17 @@ public class BlockedAlphabet extends Alphabet{
 
     public String getBlockedChars() {
         return blockedChars;
+    }
+
+    public GameStateListener getListener() {
+        return listener;
+    }
+
+    private class GameStateObserver implements GameStateListener{
+
+        @Override
+        public void turnIsEnded(GameStateEvent e) {
+            blockLetter();
+        }
     }
 }
