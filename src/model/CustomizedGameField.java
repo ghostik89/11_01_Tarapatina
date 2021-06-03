@@ -24,7 +24,7 @@ public class CustomizedGameField extends GameField{
         return listener;
     }
 
-    public void blockCells(){
+    protected void blockCells(){
         int randomX = rand.nextInt(this.getHeight() + 1);
         int randomY = rand.nextInt(this.getWidth() + 1);
         Cell blockedCell = getCellByPoint(new Point(randomX, randomY));

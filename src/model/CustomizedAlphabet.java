@@ -21,7 +21,7 @@ public class CustomizedAlphabet extends Alphabet{
     }
 
     protected void blockLetter(){
-        int blockIndex = random.nextInt(this.getCurrentAlphabet().length() + 1);
+        int blockIndex = random.nextInt(this.getCurrentAlphabet().length());
         if(this.blockedChars.contains(String.valueOf(this.getCurrentAlphabet().charAt(blockIndex))))
             blockLetter();
         else
