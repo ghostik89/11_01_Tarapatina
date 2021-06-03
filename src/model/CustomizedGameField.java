@@ -4,7 +4,10 @@ import event.GameStateEvent;
 import event.GameStateListener;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.stream.Collectors;
+
 public class CustomizedGameField extends GameField{
     private final Random rand = new Random();
     private final GameStateListener listener = new GameStateObserver();
@@ -22,6 +25,18 @@ public class CustomizedGameField extends GameField{
 
     public GameStateListener getListener() {
         return listener;
+    }
+
+    protected int countLettersInFields(char letter){
+        return this.playFiled.stream()
+                .filter(elem -> elem.getLetter() == letter)
+                .collect(Collectors.toCollection(ArrayList::new)).size();
+    }
+
+    protected ArrayList<Cell> getCellsByLetter(char letter){
+        return this.playFiled.stream()
+                .filter(elem -> elem.getLetter() == letter)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     protected void blockCells(){

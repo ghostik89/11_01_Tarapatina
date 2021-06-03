@@ -16,8 +16,8 @@ public class WordManager {
 	 * @throws FileNotFoundException если файл со словарем не найден в текущей директории
 	 * */
 	public WordManager() throws FileNotFoundException {
-		File myDict = new File("./dictionaries/russian_nouns.txt");
-//		File myDict = new File("F:\\working field\\oop_labs\\new sem\\11_01_Tarapatina\\dictionaries\\russian_nouns.txt");
+//		File myDict = new File("./dictionaries/russian_nouns.txt");
+		File myDict = new File("F:\\working field\\oop_labs\\new sem\\11_01_Tarapatina\\dictionaries\\russian_nouns.txt");
 		Scanner myReader = new Scanner(myDict);
 		while(myReader.hasNextLine()){
 			dictionary.add(myReader.nextLine());
