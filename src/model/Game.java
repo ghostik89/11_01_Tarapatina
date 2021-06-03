@@ -1,5 +1,7 @@
 package model;
 
+import event.GameStateEvent;
+import event.GameStateListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
@@ -15,6 +17,8 @@ public class Game {
 	private final WordManager wordManager; // менеджер слов
 	private Player currentPlayer; //текущий игрок
 	private final ArrayList<Player> players = new ArrayList<>(); //список игроков
+	private final GameDifficult gameDifficult;
+	private final ArrayList<GameStateListener> listeners = new ArrayList<>();
 
 	/** Конструктор класса
 	 * @param field игровое поле
@@ -22,11 +26,20 @@ public class Game {
 	 * @param player2Name имя второго игрока
 	 * @throws IllegalArgumentException если имена игроков совпадают
 	 * */
-	public Game(@NotNull GameField field, @NotNull String player1Name, @NotNull String player2Name)
-			throws FileNotFoundException {
-		this.alphabet = new Alphabet("абвгдежзийклмнопрстуфхцчшщъыьэюя");
-		this.wordManager = new WordManager();
+	public Game(@NotNull GameField field, @NotNull String player1Name, @NotNull String player2Name,
+				GameDifficult difficult) throws FileNotFoundException {
+		this.gameDifficult = difficult;
 		this.field = field;
+
+		if(difficult == GameDifficult.HARD) {
+			this.alphabet = new BlockedAlphabet("абвгдежзийклмнопрстуфхцчшщъыьэюя");
+			this.listeners.add(((BlockedAlphabet) this.alphabet).getListener());
+			this.listeners.add(((BlockedGameField)this.field).getListener());
+		}
+		else
+			this.alphabet = new Alphabet("абвгдежзийклмнопрстуфхцчшщъыьэюя");
+
+		this.wordManager = new WordManager();
 
 		if(player1Name.equals(player2Name))
 			throw new IllegalArgumentException("Имена игроков одинаковы");
@@ -60,6 +73,13 @@ public class Game {
 	public void changePlayer() {
 		this.currentPlayerIndex = this.currentPlayerIndex == 1 ? 0 : 1;
 		this.currentPlayer = this.players.get(this.currentPlayerIndex);
+		this.fireTurnIsEnded();
+	}
+
+	private void fireTurnIsEnded(){
+		GameStateEvent event = new GameStateEvent(this);
+		event.setDifficult(this.gameDifficult);
+		this.listeners.forEach(elem -> elem.turnIsEnded(event));
 	}
 
 	//test only
