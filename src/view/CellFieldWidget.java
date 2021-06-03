@@ -2,7 +2,6 @@ package view;
 
 import event.PlayerActionFieldEvent;
 import event.PlayerActionFieldListener;
-import model.BlockedCell;
 import model.Cell;
 import view.helpers.components.CustomActionButton;
 import view.helpers.GlobalStyles;
