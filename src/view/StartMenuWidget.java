@@ -1,8 +1,5 @@
 package view;
-import model.BlockedGameField;
-import model.Game;
-import model.GameField;
-import model.HarderGame;
+import model.*;
 import org.jetbrains.annotations.NotNull;
 import view.helpers.*;
 import view.helpers.components.CustomActionButton;
@@ -14,6 +11,7 @@ import view.helpers.factories.StyledLabelFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 
 public class StartMenuWidget extends JPanel{
     private final MainWindow owner;
@@ -21,7 +19,7 @@ public class StartMenuWidget extends JPanel{
     private final TextInput secondName = new TextInput();
     private final JSpinner widthForm = new JSpinner(new SpinnerNumberModel(3, 3, 15, 1));
     private final JSpinner heightForm = new JSpinner(new SpinnerNumberModel(3, 3, 15, 1));
-    private final JCheckBox isBlockedField = new JCheckBox("Повышенный уровень сложности");
+    private final JComboBox<String> difficultSelect = new JComboBox<>(new String[]{"Легкий", "Сложный"});
 
     public StartMenuWidget(@NotNull MainWindow owner){
         super();
@@ -110,13 +108,14 @@ public class StartMenuWidget extends JPanel{
 
 
         //checkbox
-        constraints.gridwidth = 2;
+        constraints.gridwidth = 21;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridx = 0;
         constraints.gridy = gridCounter++;
-        isBlockedField.setFont(GlobalStyles.MAIN_FONT);
-        isBlockedField.setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
-        add(isBlockedField, constraints);
+        add(StyledLabelFactory.createBasicLabel("уровень сложности"), constraints);
+        constraints.gridx = 1;
+        add(this.difficultSelect, constraints);
+        constraints.gridy = gridCounter++;
 
         //button
         constraints.gridwidth = 2;
@@ -134,12 +133,12 @@ public class StartMenuWidget extends JPanel{
 
     private void handleStart(){
         try{
-            if(isBlockedField.isSelected()){
+            if(Objects.requireNonNull(this.difficultSelect.getSelectedItem()).toString().equals("Сложный")){
                 BlockedGameField field = new BlockedGameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
-                this.owner.runGame(new HarderGame(field, this.firstName.getText(), this.secondName.getText()));
+                this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText(), GameDifficult.HARD));
             }else{
                 GameField field = new GameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
-                this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
+                this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText(), GameDifficult.EASY));
             }
             setVisible(false);
         }catch (IllegalArgumentException arg){
