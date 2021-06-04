@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 public class GameField {
 
-	private final ArrayList<Cell> playFiled = new ArrayList<>(); //игровое поле
-	private Cell letterSettedAtTurn; //буква, которую добавили в текущем поле
+	protected final ArrayList<Cell> playFiled = new ArrayList<>(); //игровое поле
+	protected Cell letterSettedAtTurn; //буква, которую добавили в текущем поле
 
 	/** Конструктор класса
 	 * @param width ширина поля
@@ -28,7 +28,7 @@ public class GameField {
 	 * @param width ширина поля
 	 * @param height высота поля
 	 * */
-	private void generateField(int width, int height){
+	protected void generateField(int width, int height){
 		for(int x = 0; x < height; x++)
 			for(int y = 0; y < width; y++)
 				this.playFiled.add(new Cell(new Point(x,y)));
@@ -156,6 +156,9 @@ public class GameField {
 		if (cell == null)
 			throw new IllegalArgumentException();
 
+		if (cell.getCellState() == CellState.CELL_IS_BLOCKED)
+			return false;
+
 		if ((gameState == GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER
 				|| gameState == GameState.PLAYER_INSERTING_LETTER) && cell.getCellState() != CellState.CELL_IS_BUSY) {
 			for (Cell elem : cell.getNeighbors())
@@ -227,7 +230,7 @@ public class GameField {
 		this.playFiled.forEach(cell -> {
 			if(cell.equals(this.letterSettedAtTurn))
 				cell.resetCell();
-			if(cell.getCellState() != CellState.CELL_IS_BUSY)
+			if(cell.getCellState() != CellState.CELL_IS_BUSY && cell.getCellState() != CellState.CELL_IS_BLOCKED)
 				cell.revertCellState();
 		});
 		this.letterSettedAtTurn = null;

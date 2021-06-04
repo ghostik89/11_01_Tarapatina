@@ -49,7 +49,6 @@ public class Player {
 	 * @param point координата клетки, в которую необходимо вставить букву
 	 * */
 	public void selectCellForInsertLetter(Point point){
-		//todo create update cell by point - done
 		this.gameField.selectCellForInsertLetterByPoint(point);
 	}
 
@@ -67,7 +66,6 @@ public class Player {
 	 * @param point координата клетки, в которую необходимо выбрать
 	 * */
 	public void selectCell(Point point) {
-		// todo select cell by point in select - done
 		this.gameField.selectCellByPoint(point);
 	}
 

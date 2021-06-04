@@ -1,5 +1,7 @@
 package model;
 
+import event.GameStateEvent;
+import event.GameStateListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
@@ -15,6 +17,8 @@ public class Game {
 	private final WordManager wordManager; // менеджер слов
 	private Player currentPlayer; //текущий игрок
 	private final ArrayList<Player> players = new ArrayList<>(); //список игроков
+	private final GameDifficult gameDifficult; //сложность игры
+	private final ArrayList<GameStateListener> listeners = new ArrayList<>();//слушатели состояния игры
 
 	/** Конструктор класса
 	 * @param field игровое поле
@@ -22,11 +26,20 @@ public class Game {
 	 * @param player2Name имя второго игрока
 	 * @throws IllegalArgumentException если имена игроков совпадают
 	 * */
-	public Game(@NotNull GameField field, @NotNull String player1Name, @NotNull String player2Name)
-			throws FileNotFoundException {
-		this.alphabet = new Alphabet("абвгдежзийклмнопрстуфхцчшщъыьэюя");
-		this.wordManager = new WordManager();
+	public Game(@NotNull GameField field, @NotNull String player1Name, @NotNull String player2Name,
+				GameDifficult difficult) throws FileNotFoundException {
+		this.gameDifficult = difficult;
 		this.field = field;
+
+		if(difficult == GameDifficult.HARD) {
+			this.alphabet = new CustomizedAlphabet("абвгдежзийклмнопрстуфхцчшщъыьэюя");
+			this.listeners.add(((CustomizedAlphabet) this.alphabet).getListener());
+			this.listeners.add(((CustomizedGameField)this.field).getListener());
+		}
+		else
+			this.alphabet = new Alphabet("абвгдежзийклмнопрстуфхцчшщъыьэюя");
+
+		this.wordManager = new WordManager();
 
 		if(player1Name.equals(player2Name))
 			throw new IllegalArgumentException("Имена игроков одинаковы");
@@ -60,9 +73,19 @@ public class Game {
 	public void changePlayer() {
 		this.currentPlayerIndex = this.currentPlayerIndex == 1 ? 0 : 1;
 		this.currentPlayer = this.players.get(this.currentPlayerIndex);
+		this.fireTurnIsEnded();
 	}
 
-	//test only
+	/**
+	 * Оповещение о конце хода
+	 * */
+	private void fireTurnIsEnded(){
+		GameStateEvent event = new GameStateEvent(this);
+		event.setDifficult(this.gameDifficult);
+		this.listeners.forEach(elem -> elem.turnIsEnded(event));
+	}
+
+
 	public WordManager getWordManager() {
 		return wordManager;
 	}
@@ -119,6 +142,9 @@ public class Game {
 	public void endGame() {
 		this.wordManager.clearAll();
 		this.field.clearAll();
+
+		if(this.gameDifficult == GameDifficult.HARD)
+			((CustomizedAlphabet) this.alphabet).clearBlockedChars();
 	}
 
 	/** Получить всех игроков, задействованных в игре

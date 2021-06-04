@@ -15,7 +15,7 @@ public class TestingIsAvailableCell {
         this.field.setStartedWord("boo");
         Assertions.assertTrue(this.field.isAvailableCell(this.point, GameState.PLAYER_SELECT_CELL_FOR_INSERT_LETTER));
         Assertions.assertTrue(this.field.isAvailableCell(this.point, GameState.PLAYER_INSERTING_LETTER));
-        Assertions.assertTrue(this.field.isAvailableCell(this.point, GameState.PLAYER_SELECTING_CHARS));
+        Assertions.assertFalse(this.field.isAvailableCell(this.point, GameState.PLAYER_SELECTING_CHARS));
         Assertions.assertFalse(this.field.isAvailableCell(this.point, GameState.PLAYER_SUBMITTED_TURN));
     }
 

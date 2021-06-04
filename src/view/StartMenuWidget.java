@@ -1,6 +1,5 @@
 package view;
-import model.Game;
-import model.GameField;
+import model.*;
 import org.jetbrains.annotations.NotNull;
 import view.helpers.*;
 import view.helpers.components.CustomActionButton;
@@ -12,6 +11,7 @@ import view.helpers.factories.StyledLabelFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 
 public class StartMenuWidget extends JPanel{
     private final MainWindow owner;
@@ -19,6 +19,7 @@ public class StartMenuWidget extends JPanel{
     private final TextInput secondName = new TextInput();
     private final JSpinner widthForm = new JSpinner(new SpinnerNumberModel(3, 3, 15, 1));
     private final JSpinner heightForm = new JSpinner(new SpinnerNumberModel(3, 3, 15, 1));
+    private final JComboBox<String> difficultSelect = new JComboBox<>(new String[]{"Легкий", "Сложный"});
 
     public StartMenuWidget(@NotNull MainWindow owner){
         super();
@@ -105,11 +106,23 @@ public class StartMenuWidget extends JPanel{
         add(this.secondName, constraints);
         constraints.gridy = gridCounter++;
 
+
+        //checkbox
+        constraints.gridwidth = 21;
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.gridx = 0;
+        constraints.gridy = gridCounter++;
+        add(StyledLabelFactory.createBasicLabel("уровень сложности"), constraints);
+        constraints.gridx = 1;
+        add(this.difficultSelect, constraints);
+        constraints.gridy = gridCounter++;
+
         //button
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridx = 0;
         constraints.gridy = gridCounter;
+
 
         CustomActionButton startBtn = CustomActionButtonFactory.createOutlinedButton("Новая игра");
         startBtn.addActionListener(e -> this.handleStart());
@@ -120,8 +133,13 @@ public class StartMenuWidget extends JPanel{
 
     private void handleStart(){
         try{
-            GameField field = new GameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
-            this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText()));
+            if(Objects.requireNonNull(this.difficultSelect.getSelectedItem()).toString().equals("Сложный")){
+                CustomizedGameField field = new CustomizedGameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
+                this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText(), GameDifficult.HARD));
+            }else{
+                GameField field = new GameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
+                this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText(), GameDifficult.EASY));
+            }
             setVisible(false);
         }catch (IllegalArgumentException arg){
             DialogFactory.createBasicInfoSnackbar("Ошибка! " + arg.getMessage() + "!", this.owner)

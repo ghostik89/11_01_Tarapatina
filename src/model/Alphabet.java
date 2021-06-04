@@ -11,7 +11,6 @@ public class Alphabet {
 	/**Конструктор класса
 	 * @param alphabet алфавит, который будет использоваться в игре
 	 * @throws IllegalArgumentException если алфавит состоит из букв разного алфавита или пуст
-	 *                 todo - ограничиение: алфавит - это один язык и только символы - done
 	 * */
 	public Alphabet(@NotNull String alphabet) {
 		if(alphabet.matches("^[a-zA-Z]+$|^[а-яА-Я]+$"))
@@ -30,7 +29,6 @@ public class Alphabet {
 	/** Задать новый алфавит
 	 * @param alphabet новый алфавит
 	 * @throws IllegalArgumentException если алфавит состоит из букв разного алфавита или пуст
-	 *                 todo добавить проверку на ограничение как в конструк. - done
 	 * */
 	public void setCurrentAlphabet(@NotNull String alphabet) {
 		if(alphabet.matches("^[a-zA-Z]+$|^[а-яА-Я]+$"))

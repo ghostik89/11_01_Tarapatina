@@ -2,9 +2,7 @@ package view;
 
 import event.PlayerActionFieldEvent;
 import event.PlayerActionFieldListener;
-import model.Cell;
-import model.Game;
-import model.GameState;
+import model.*;
 import org.jetbrains.annotations.NotNull;
 import view.helpers.*;
 import view.helpers.components.CustomActionButton;
@@ -38,7 +36,7 @@ public class GameWidget extends JPanel {
         removeAll();
         revalidate();
 
-        AlphabetWidget alphabetWidget;
+        AlphabetWidget alphabetWidget ;
         setLayout(new BorderLayout(10,10));
         setPreferredSize(new Dimension(1200, 620));
 

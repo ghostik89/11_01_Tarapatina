@@ -80,6 +80,10 @@ public class CellFieldWidget extends JPanel {
                 charLabel.setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
                 indexLabel.setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
             }
+            case CELL_IS_BLOCKED -> {
+                setBackground(GlobalStyles.CELL_BLOCKED);
+                charLabel.setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
+            }
             default -> {
                 indexLabel.setText("");
                 setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);

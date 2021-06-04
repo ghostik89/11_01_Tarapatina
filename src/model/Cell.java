@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Cell {
 
-	private CellState cellState = CellState.CELL_IS_EMPTY; // текущее состояние клетки
-	private char letter; // текущая буква клетки
+	protected CellState cellState = CellState.CELL_IS_EMPTY; // текущее состояние клетки
+	protected char letter; // текущая буква клетки
 	private final Point cellPosition; // позиция клетки на поле
 	private int selectedIndex; // индекс клетки, после того как она была выбрана
 	private static int index = 0;
@@ -44,12 +44,13 @@ public class Cell {
 	/**Обновление состояния ячейки
 	 * */
 	public void updateCellState() {
-		switch (this.cellState){
-			case CELL_WITH_SETTED_LETTER_AT_TURN, CELL_IS_BUSY -> this.cellState = CellState.CELL_IS_SELECTED;
-			case CELL_SELECTED_FOR_INSERTING -> this.cellState = CellState.CELL_WITH_SETTED_LETTER_AT_TURN;
-			case CELL_IS_EMPTY -> this.cellState = CellState.CELL_SELECTED_FOR_INSERTING;
-			default -> this.cellState = CellState.CELL_IS_BUSY;
-		}
+		this.cellState = switch (this.cellState){
+			case CELL_WITH_SETTED_LETTER_AT_TURN, CELL_IS_BUSY ->  CellState.CELL_IS_SELECTED;
+			case CELL_SELECTED_FOR_INSERTING -> CellState.CELL_WITH_SETTED_LETTER_AT_TURN;
+			case CELL_IS_EMPTY -> CellState.CELL_SELECTED_FOR_INSERTING;
+			case CELL_IS_BLOCKED -> CellState.CELL_IS_BLOCKED;
+			default -> CellState.CELL_IS_BUSY;
+		};
 	}
 
 	/**Установить текущую букву
@@ -88,6 +89,11 @@ public class Cell {
 		this.letter = '\0';
 	}
 
+	public void setToBlocked(){
+		this.cellState = CellState.CELL_IS_BLOCKED;
+		this.resetIndex();
+	}
+
 	/**Откатить состояние у клетки
 	 * */
 	public void revertCellState(){
@@ -98,6 +104,7 @@ public class Cell {
 				this.letter = '\0';
 			}
 			case CELL_IS_BUSY -> this.cellState = CellState.CELL_IS_SELECTED;
+			case CELL_IS_BLOCKED -> {}
 			default -> this.cellState = CellState.CELL_IS_EMPTY;
 		}
 	}
