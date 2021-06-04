@@ -19,7 +19,7 @@ public class StartMenuWidget extends JPanel{
     private final TextInput secondName = new TextInput();
     private final JSpinner widthForm = new JSpinner(new SpinnerNumberModel(3, 3, 15, 1));
     private final JSpinner heightForm = new JSpinner(new SpinnerNumberModel(3, 3, 15, 1));
-    private final JComboBox<String> difficultSelect = new JComboBox<>(new String[]{"Легкий", "Сложный"});
+    private final JComboBox<String> difficultSelect = new JComboBox<>(new String[]{"Легкий", "Сложный", "Экзамен по ООП"});
 
     public StartMenuWidget(@NotNull MainWindow owner){
         super();
@@ -133,12 +133,21 @@ public class StartMenuWidget extends JPanel{
 
     private void handleStart(){
         try{
-            if(Objects.requireNonNull(this.difficultSelect.getSelectedItem()).toString().equals("Сложный")){
-                CustomizedGameField field = new CustomizedGameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
-                this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText(), GameDifficult.HARD));
-            }else{
-                GameField field = new GameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
-                this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText(), GameDifficult.EASY));
+            switch (Objects.requireNonNull(this.difficultSelect.getSelectedItem()).toString()){
+                case "Легкий" -> {
+                    GameField field = new GameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
+                    this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText(), GameDifficult.EASY));
+                }
+                case "Сложный" -> {
+                    CustomizedGameField field = new CustomizedGameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
+                    this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText(), GameDifficult.HARD));
+                }
+                case "Экзамен по ООП" -> {
+                    ExamGameField field = new ExamGameField((Integer) this.widthForm.getValue(), (Integer) this.heightForm.getValue());
+                    this.owner.runGame(new Game(field, this.firstName.getText(), this.secondName.getText(), GameDifficult.HARD));
+                }
+                default -> throw new IllegalArgumentException("Не могу понять уровень сложности");
+
             }
             setVisible(false);
         }catch (IllegalArgumentException arg){

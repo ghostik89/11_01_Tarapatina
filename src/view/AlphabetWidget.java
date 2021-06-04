@@ -15,8 +15,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class AlphabetWidget extends JDialog {
-    //fixme don't swap to normal alphabet!!
-    private final Alphabet alphabet;
+    private Alphabet alphabet;
     private final JPanel alphabetGrid = new JPanel();
     private JFrame owner;
     private char selectedChar;
@@ -94,10 +93,14 @@ public class AlphabetWidget extends JDialog {
     }
 
     public void setSelectedChar(char selectedChar) {
-         if(((CustomizedAlphabet)this.alphabet).getBlockedChars().contains(String.valueOf(selectedChar)))
-            DialogFactory.createBasicInfoSnackbar("Буква заблокирована", this.owner).setVisible(true);
-        else
+        try{
+            if(((CustomizedAlphabet)this.alphabet).getBlockedChars().contains(String.valueOf(selectedChar)))
+                DialogFactory.createBasicInfoSnackbar("Буква заблокирована", this.owner).setVisible(true);
+            else
+                this.selectedChar = selectedChar;
+        }catch (ClassCastException ex){
             this.selectedChar = selectedChar;
+        }
     }
 
     void addListener(PlayerActionFieldListener listener){

@@ -6,7 +6,7 @@ import view.helpers.GlobalStyles;
 import java.awt.*;
 
 public class LetterCellWidget extends CustomActionButton {
-    private final AlphabetWidget owner;
+    private AlphabetWidget owner;
     private final char myChar;
 
     public LetterCellWidget(char text, int fieldSize, AlphabetWidget owner) {
@@ -34,16 +34,26 @@ public class LetterCellWidget extends CustomActionButton {
         super.paintComponent(g);
         setBackground(this.myChar == this.owner.getSelectedChar()?
                 GlobalStyles.SELECTED_CELL : GlobalStyles.PRIMARY_BACKGROUND_COLOR);
-        if(this.myChar == this.owner.getSelectedChar()) {
-            setBackground(GlobalStyles.SELECTED_CELL);
-            setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
-        }
-        else if(((CustomizedAlphabet)this.owner.getAlphabet()).getBlockedChars().contains(String.valueOf(myChar))){
-            setBackground(GlobalStyles.CELL_BLOCKED);
-            setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
-        }else{
-            setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
-            setForeground(GlobalStyles.PRIMARY_TEXT_COLOR);
+        try{
+            if(this.myChar == this.owner.getSelectedChar()) {
+                setBackground(GlobalStyles.SELECTED_CELL);
+                setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
+            }
+            else if(((CustomizedAlphabet)this.owner.getAlphabet()).getBlockedChars().contains(String.valueOf(myChar))){
+                setBackground(GlobalStyles.CELL_BLOCKED);
+                setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
+            }else{
+                setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+                setForeground(GlobalStyles.PRIMARY_TEXT_COLOR);
+            }
+        }catch (ClassCastException ex){
+            if(this.myChar == this.owner.getSelectedChar()) {
+                setBackground(GlobalStyles.SELECTED_CELL);
+                setForeground(GlobalStyles.SECONDARY_TEXT_COLOR);
+            }else{
+                setBackground(GlobalStyles.PRIMARY_BACKGROUND_COLOR);
+                setForeground(GlobalStyles.PRIMARY_TEXT_COLOR);
+            }
         }
     }
 }

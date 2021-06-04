@@ -140,9 +140,9 @@ public class GameWidget extends JPanel {
             case TURN_SUCCESS -> {
                 if (this.game.determinateWinner() != null)
                     this.endGame();
+                this.game.changePlayer();
                 this.game.getField().cleanFieldAfterPlayersTurn();
                 this.game.updateCurrentState();
-                this.game.changePlayer();
                 Cell.resetStaticIndex();
                 repaint();
                 revalidate();
