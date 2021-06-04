@@ -17,8 +17,8 @@ public class Game {
 	private final WordManager wordManager; // менеджер слов
 	private Player currentPlayer; //текущий игрок
 	private final ArrayList<Player> players = new ArrayList<>(); //список игроков
-	private final GameDifficult gameDifficult;
-	private final ArrayList<GameStateListener> listeners = new ArrayList<>();
+	private final GameDifficult gameDifficult; //сложность игры
+	private final ArrayList<GameStateListener> listeners = new ArrayList<>();//слушатели состояния игры
 
 	/** Конструктор класса
 	 * @param field игровое поле
@@ -76,13 +76,16 @@ public class Game {
 		this.fireTurnIsEnded();
 	}
 
+	/**
+	 * Оповещение о конце хода
+	 * */
 	private void fireTurnIsEnded(){
 		GameStateEvent event = new GameStateEvent(this);
 		event.setDifficult(this.gameDifficult);
 		this.listeners.forEach(elem -> elem.turnIsEnded(event));
 	}
 
-	//test only
+
 	public WordManager getWordManager() {
 		return wordManager;
 	}

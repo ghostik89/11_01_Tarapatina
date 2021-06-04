@@ -23,22 +23,38 @@ public class CustomizedGameField extends GameField{
     }
 
 
+    /**
+     * Получить слушателя
+     * */
     public GameStateListener getListener() {
         return listener;
     }
 
+    /**
+     * Посчитать количество вхождений определенной буквы на поле
+     * @param letter буква
+     * @return колчество вхождений данной буквы
+     * */
     protected int countLettersInFields(char letter){
         return this.playFiled.stream()
                 .filter(elem -> elem.getLetter() == letter)
                 .collect(Collectors.toCollection(ArrayList::new)).size();
     }
 
+    /**
+     * Получить все ячейки с данной буквой
+     * @param letter буква
+     * @return все ячейки с данной буквой
+     * */
     protected ArrayList<Cell> getCellsByLetter(char letter){
         return this.playFiled.stream()
                 .filter(elem -> elem.getLetter() == letter)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Заблокировать случайную ячейку на поле
+     * */
     protected void blockCells(){
         int randomX = rand.nextInt(this.getHeight() + 1);
         int randomY = rand.nextInt(this.getWidth() + 1);

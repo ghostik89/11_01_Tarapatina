@@ -20,6 +20,9 @@ public class CustomizedAlphabet extends Alphabet{
         super(alphabet);
     }
 
+    /**
+     * Блокировка ячейки
+     * */
     protected void blockLetter(){
         int blockIndex = random.nextInt(this.getCurrentAlphabet().length());
         if(this.blockedChars.contains(String.valueOf(this.getCurrentAlphabet().charAt(blockIndex))))
@@ -28,14 +31,23 @@ public class CustomizedAlphabet extends Alphabet{
             this.blockedChars += String.valueOf(this.getCurrentAlphabet().charAt(blockIndex));
     }
 
+    /**
+     * Получение всех заблокированных букв
+     * */
     public String getBlockedChars() {
         return blockedChars;
     }
 
+    /**
+     * Получить слушателя
+     * */
     public GameStateListener getListener() {
         return listener;
     }
 
+    /**
+     * Удалить все ранее заблокированных ячеек
+     * */
     public void clearBlockedChars(){
         this.blockedChars = "";
     }
